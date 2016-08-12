@@ -9,7 +9,7 @@ var game = new Phaser.Game(1366, 768, Phaser.AUTO, '', {
 var santaValues = {
     speed: 300,
     jump: 600,
-    gravity: 1000,
+    gravity: 2000,
     bounce: 0.2,
 }
 
@@ -22,8 +22,11 @@ function preload() {
 }
 
 var platforms;
+var presents;
 var santa;
 var cursors;
+var mg;
+var children;
 
 function create() {
     cursors = game.input.keyboard.createCursorKeys();
@@ -42,8 +45,18 @@ function create() {
     ground.body.immovable = true;
     var ledge = platforms.create(400, 400, 'platform');
     ledge.body.immovable = true;
-    ledge = platforms.create(-150, 250, 'platform');
-    ledge.body.immovable = true;
+
+    presents = game.add.group();
+    presents.enableBody = true;
+    var present1 = presents.create(0, 64, 'platform');
+    present1.scale.setTo(0.1, 1);
+
+    mg = game.add.sprite(680, 0, 'mg');
+    mg.scale.setTo(0.5, 0.5);
+
+    children = game.add.group();
+    var girl = children.create(1000, 600, 'girl');
+    girl.scale.setTo(0.2, 0.2);
 }
 
 function update() {
