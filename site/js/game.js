@@ -29,12 +29,21 @@ var bullets;
 var platforms;
 var presents;
 
-var cursors;
+var keycodes = {
+    left : [ 'a', 'ArrowLeft'],
+    up   : [ 'w', 'ArrowUp'], 
+    right: [ 'd', 'ArrowRight'], 
+    down : [ 's', 'ArrowDown']
+};
+
+var movement = {
+    left : false,
+    up   : false,
+    right: false,
+    down : false
+}
 
 function create() {
-    cursors = game.input.keyboard.createCursorKeys();
-    game.input.keyboard.addKey(Phaser.Keyboard.A);
-
     game.stage.backgroundColor = "#ddffdd";
     santa = game.add.sprite(0, 0, 'santa');
     santa.scale.setTo(0.2, 0.2);
@@ -71,8 +80,39 @@ function create() {
     bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
     game.input.keyboard.onDownCallback = function(e) {
-        if(e.key == 'd') {
-            santa.body.velocity.x = santaValues.speed;
+        if(keycodes.left.includes(e.key)) {
+            // ← left
+            movement.left = true;
+        }
+        else if(keycodes.right.includes(e.key)) {
+            // → right
+            movement.right = true;
+        }
+        else if(keycodes.up.includes(e.key)) {
+            // ↑ up
+            movement.up = true;
+        }
+        else if(keycodes.down.includes(e.key)) {
+            // ↓ down
+            movement.down = true;
+        }
+    }
+    game.input.keyboard.onUpCallback = function(e) {
+        if(keycodes.left.includes(e.key)) {
+            // ← left
+            movement.left = false;
+        }
+        else if(keycodes.right.includes(e.key)) {
+            // → right
+            movement.right = false;
+        }
+        else if(keycodes.up.includes(e.key)) {
+            // ↑ up
+            movement.up = false;
+        }
+        else if(keycodes.down.includes(e.key)) {
+            // ↓ down
+            movement.down = false;
         }
     }
 }
@@ -83,25 +123,25 @@ function update() {
     santa.body.velocity.x = 0;
     mg.rotation = game.physics.arcade.angleToPointer(mg);
 
-    if (game.input.activePointer.isDown)
+    if(game.input.activePointer.isDown)
     {
         var bullet = bullets.create(680, 100, 'bullet');
         game.physics.arcade.moveToPointer(bullet, 300);
     }
 
-    if (cursors.left.isDown)
+    if(movement.left)
     {
         //  Move to the left
         santa.body.velocity.x = -santaValues.speed;
     }
-    else if (cursors.right.isDown)
+    else if(movement.right)
     {
         //  Move to the right
         santa.body.velocity.x = santaValues.speed;
     }
 
     //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && santa.body.touching.down)
+    if(movement.up && santa.body.touching.down)
     {
         //santa.kill();
         santa.body.velocity.y = -santaValues.jump;
