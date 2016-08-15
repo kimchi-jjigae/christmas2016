@@ -1,6 +1,9 @@
 'use strict';
 
-var game = new Phaser.Game(1366, 768, Phaser.AUTO, '', {
+var canvasWidth = 1366;
+var canvasHeight = 768;
+
+var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, '', {
     preload: preload,
     create:  create,
     update:  update
@@ -11,7 +14,7 @@ var santaValues = {
     jump: 600,
     gravity: 2000,
     bounce: 0.2,
-}
+};
 
 function preload() {
     game.load.image('mg',       'assets/sprites/mg.png');
@@ -19,29 +22,37 @@ function preload() {
     game.load.image('girl',     'assets/sprites/girl.png');
     game.load.image('platform', 'assets/sprites/platform.png');
     game.load.image('bullet',   'assets/sprites/bullet.png');
-
 }
 
+//var Children = new ChildSpawner();
 var santa;
 var children;
+var childSpawner;
 var mg;
 var bullets;
 var platforms;
 var presents;
 
 var keycodes = {
-    left : [ 'a', 'ArrowLeft'],
-    up   : [ 'w', 'ArrowUp'], 
-    right: [ 'd', 'ArrowRight'], 
-    down : [ 's', 'ArrowDown']
+    left  : [ 'a', 'ArrowLeft'],
+    up    : [ 'w', 'ArrowUp', ' '], 
+    right : [ 'd', 'ArrowRight'], 
+    down  : [ 's', 'ArrowDown'],
+    action: [ 'e']
 };
 
 var movement = {
+    inactive: false,
     left : false,
     up   : false,
     right: false,
     down : false
-}
+};
+
+var mgPos = {
+    x: canvasWidth / 2,
+    y: 100
+};
 
 function create() {
     game.stage.backgroundColor = "#ddffdd";
@@ -69,48 +80,51 @@ function create() {
     mg.scale.setTo(0.5, 0.5);
     mg.anchor.setTo(0.5, 0.5);
 
+    console.log('hi');
     children = game.add.group();
-    var girl = children.create(1000, 600, 'girl');
-    girl.scale.setTo(0.2, 0.2);
-    game.physics.arcade.enable(children);
-    girl.body.velocity.x = -50;
+    childSpawner = new ChildSpawner(children);
+    console.log('hello2');
 
     bullets = game.add.group();
     bullets.enableBody = true;
     bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
-    game.input.keyboard.onDownCallback = function(e) {
-        if(keycodes.left.includes(e.key)) {
+    game.input.keyboard.onDownCallback = function(event) {
+        if(keycodes.left.includes(event.key)) {
             // ← left
             movement.left = true;
         }
-        else if(keycodes.right.includes(e.key)) {
+        else if(keycodes.right.includes(event.key)) {
             // → right
             movement.right = true;
         }
-        else if(keycodes.up.includes(e.key)) {
+        else if(keycodes.up.includes(event.key)) {
             // ↑ up
             movement.up = true;
         }
-        else if(keycodes.down.includes(e.key)) {
+        else if(keycodes.down.includes(event.key)) {
             // ↓ down
             movement.down = true;
         }
     }
-    game.input.keyboard.onUpCallback = function(e) {
-        if(keycodes.left.includes(e.key)) {
+    game.input.keyboard.onUpCallback = function(event) {
+        if(keycodes.action.includes(event.key)) {
+            // E action
+            movement.inactive = !movement.inactive;
+        }
+        else if(keycodes.left.includes(event.key)) {
             // ← left
             movement.left = false;
         }
-        else if(keycodes.right.includes(e.key)) {
+        else if(keycodes.right.includes(event.key)) {
             // → right
             movement.right = false;
         }
-        else if(keycodes.up.includes(e.key)) {
+        else if(keycodes.up.includes(event.key)) {
             // ↑ up
             movement.up = false;
         }
-        else if(keycodes.down.includes(e.key)) {
+        else if(keycodes.down.includes(event.key)) {
             // ↓ down
             movement.down = false;
         }
@@ -118,24 +132,33 @@ function create() {
 }
 
 function update() {
+    childSpawner.update();
     game.physics.arcade.collide(santa, platforms);
 
     santa.body.velocity.x = 0;
     mg.rotation = game.physics.arcade.angleToPointer(mg);
 
-    if(game.input.activePointer.isDown)
-    {
+    if(game.input.activePointer.isDown) {
         var bullet = bullets.create(680, 100, 'bullet');
         game.physics.arcade.moveToPointer(bullet, 300);
     }
 
-    if(movement.left)
-    {
+    if(movement.inactive) {
+        if(game.math.distance(santa.x, santa.y, mgPos.x, mgPos.y) < 50) {
+            santa.x = mgPos.x;
+            santa.y = mgPos.y;
+            santa.body.moves = false;
+        }
+        else {
+            santa.body.moves = true;
+        }
+    }
+
+    if(movement.left) {
         //  Move to the left
         santa.body.velocity.x = -santaValues.speed;
     }
-    else if(movement.right)
-    {
+    else if(movement.right) {
         //  Move to the right
         santa.body.velocity.x = santaValues.speed;
     }
@@ -143,7 +166,6 @@ function update() {
     //  Allow the player to jump if they are touching the ground.
     if(movement.up && santa.body.touching.down)
     {
-        //santa.kill();
         santa.body.velocity.y = -santaValues.jump;
     }
 }
