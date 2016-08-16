@@ -21,6 +21,7 @@
             }
         },
         update: function() {
+            // should also sync the self.children with the ones in the self.childGroup, but I don't know if that is actually necessary :o
             self.spawn();
         }
     };

@@ -32,6 +32,7 @@ var mg;
 var bullets;
 var platforms;
 var presents;
+var machineGun;
 
 var keycodes = {
     left  : [ 'a', 'ArrowLeft'],
@@ -80,14 +81,14 @@ function create() {
     mg.scale.setTo(0.5, 0.5);
     mg.anchor.setTo(0.5, 0.5);
 
-    console.log('hi');
     children = game.add.group();
     childSpawner = new ChildSpawner(children);
-    console.log('hello2');
 
     bullets = game.add.group();
     bullets.enableBody = true;
     bullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+    machineGun = new MachineGun(bullets, mgPos);
 
     game.input.keyboard.onDownCallback = function(event) {
         if(keycodes.left.includes(event.key)) {
@@ -139,8 +140,7 @@ function update() {
     mg.rotation = game.physics.arcade.angleToPointer(mg);
 
     if(game.input.activePointer.isDown) {
-        var bullet = bullets.create(680, 100, 'bullet');
-        game.physics.arcade.moveToPointer(bullet, 300);
+        machineGun.fireBullet();
     }
 
     if(movement.inactive) {
