@@ -28,7 +28,6 @@ function preload() {
 var santa;
 var children;
 var childSpawner;
-var mg;
 var bullets;
 var platforms;
 var presents;
@@ -76,10 +75,6 @@ function create() {
     presents.enableBody = true;
     var present1 = presents.create(0, 64, 'platform');
     present1.scale.setTo(0.1, 1);
-
-    mg = game.add.sprite(680, 100, 'mg');
-    mg.scale.setTo(0.5, 0.5);
-    mg.anchor.setTo(0.5, 0.5);
 
     children = game.add.group();
     childSpawner = new ChildSpawner(children);
@@ -134,10 +129,10 @@ function create() {
 
 function update() {
     childSpawner.update();
+    machineGun.update();
     game.physics.arcade.collide(santa, platforms);
 
     santa.body.velocity.x = 0;
-    mg.rotation = game.physics.arcade.angleToPointer(mg);
 
     if(game.input.activePointer.isDown) {
         machineGun.fireBullet();
