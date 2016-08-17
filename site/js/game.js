@@ -11,9 +11,14 @@ var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, '', {
 
 var santaValues = {
     speed: 300,
-    jump: 600,
+    jump: 900,
     gravity: 2000,
     bounce: 0.2,
+};
+
+var presentPosition = {
+    x: 200,
+    y: 0
 };
 
 function preload() {
@@ -24,10 +29,8 @@ function preload() {
     game.load.image('bullet',   'assets/sprites/bullet.png');
 }
 
-//var Children = new ChildSpawner();
 var santa;
 var children;
-var childSpawner;
 var bullets;
 var platforms;
 var presents;
@@ -76,14 +79,9 @@ function create() {
     var present1 = presents.create(0, 64, 'platform');
     present1.scale.setTo(0.1, 1);
 
-    children = game.add.group();
-    childSpawner = new ChildSpawner(children);
-
-    bullets = game.add.group();
-    bullets.enableBody = true;
-    bullets.physicsBodyType = Phaser.Physics.ARCADE;
-
-    machineGun = new MachineGun(bullets, mgPos);
+    var childGroup = game.add.group();
+    children = new ChildManager(childGroup);
+    machineGun = new MachineGun(mgPos);
 
     game.input.keyboard.onDownCallback = function(event) {
         if(keycodes.left.includes(event.key)) {
@@ -128,9 +126,15 @@ function create() {
 }
 
 function update() {
-    childSpawner.update();
+    children.update();
     machineGun.update();
+    game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
     game.physics.arcade.collide(santa, platforms);
+
+    function killChild(bullet, child) {
+        bullet.kill();
+        child.kill();
+    };
 
     santa.body.velocity.x = 0;
 
@@ -139,6 +143,7 @@ function update() {
     }
 
     if(movement.inactive) {
+        //please get this to work THANKS
         if(game.math.distance(santa.x, santa.y, mgPos.x, mgPos.y) < 50) {
             santa.x = mgPos.x;
             santa.y = mgPos.y;

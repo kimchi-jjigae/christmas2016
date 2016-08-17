@@ -1,10 +1,12 @@
 (function() {
     var self;
-    var MachineGun = function(bulletsGroup, position) {
+    var MachineGun = function(position) {
         self = this;
-        self.bulletsGroup = bulletsGroup;
+        self.bulletsGroup = game.add.group();
+        self.bulletsGroup.enableBody = true;
+        self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
         self.bulletAmount = 0;
-        self.maxBullets = 5;
+        self.maxBullets = 500;
         self.bulletVelocity = 800;
         self.fireRate = 100; // milliseconds
         self.timeLastFired = 0;
