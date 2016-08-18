@@ -19,21 +19,20 @@
                 self.addChild();
             }
         },
-        checkForPresents: function() {
+        checkForPresents: function(presentPile) {
             self.childGroup.forEach(function(child) {
-            /*
-                if(withinPresentsPileBoundaries) {
-                    for(all presents in the pile) {
-                        if(at a present) {
-                            take the present and run; :)
-                        }
+                presentPile.presentGroup.forEach(function(present) {
+                    if(game.math.distance(child.x , 0, present.x, 0) < 10) {
+                        console.log('close to the presents! :)');
+        /*      
+                        take the present and run; :)
+        */
                     }
-                }
-            */
+                });
             });
         },
-        update: function() {
-            self.checkForPresents();
+        update: function(presentPile) {
+            self.checkForPresents(presentPile);
             self.spawn();
         }
     };

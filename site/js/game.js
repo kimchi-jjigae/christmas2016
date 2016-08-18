@@ -121,7 +121,7 @@ function create() {
 }
 
 function update() {
-    children.update();
+    children.update(presents); // maybe children should just hold this presentPile variable instead
     machineGun.update();
     game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
     game.physics.arcade.collide(santa, platforms);

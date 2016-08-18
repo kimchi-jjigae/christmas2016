@@ -14,6 +14,7 @@
             x: 680,
             y: 100
         };
+        self.maxAngle = 0;
         self.direction = DIRECTION.RIGHT;
         self.mgSprite = game.add.sprite(position.x, position.y, 'mg');
         self.mgSprite.scale.setTo(0.5, 0.5);
@@ -34,7 +35,15 @@
         },
         update: function() {
             // check if bullets should disappear here
-            self.mgSprite.rotation = game.physics.arcade.angleToPointer(self.mgSprite);
+            var rotation = game.physics.arcade.angleToPointer(self.mgSprite);
+            // positive angles from -->RIGHT down towards <--LEFT (0 --> PI)
+            // negative angles from -->RIGHT upwards towards <--LEFT (0 --> -PI)
+            if(rotation < 0) {
+                rotation = 0;
+            }
+            // also need to make sure that the machine gun points towards the left :o
+            //else if(rotation > 
+            self.mgSprite.rotation = rotation;
         }
     };
   
