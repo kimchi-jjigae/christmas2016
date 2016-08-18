@@ -36,16 +36,12 @@
         update: function() {
             // check if bullets should disappear here
             var rotation = game.physics.arcade.angleToPointer(self.mgSprite);
-            // positive angles from -->RIGHT down towards <--LEFT (0 --> PI)
-            // negative angles from -->RIGHT upwards towards <--LEFT (0 --> -PI)
             if(rotation < 0 && rotation > -Math.PI / 2) {
                 rotation = 0;
             }
             else if(rotation < 0) {
                 rotation = Math.PI;
             }
-            // also need to make sure that the machine gun points towards the left :o
-            //else if(rotation > 
             self.mgSprite.rotation = rotation;
         }
     };
