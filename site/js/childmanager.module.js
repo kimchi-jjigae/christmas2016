@@ -4,7 +4,7 @@
         self = this;
         self.childGroup = childGroup;
         self.addChild();
-        self.spawnRate = 0.05;
+        self.spawnRate = 0.02;
     };
   
     ChildManager.prototype = {
@@ -20,8 +20,8 @@
             }
         },
         checkForPresents: function() {
+            self.childGroup.forEach(function(child) {
             /*
-            for(all children within the childgroup) {
                 if(withinPresentsPileBoundaries) {
                     for(all presents in the pile) {
                         if(at a present) {
@@ -29,8 +29,8 @@
                         }
                     }
                 }
-            }
             */
+            });
         },
         update: function() {
             self.checkForPresents();

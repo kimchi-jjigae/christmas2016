@@ -16,17 +16,13 @@ var santaValues = {
     bounce: 0.2,
 };
 
-var presentPosition = {
-    x: 200,
-    y: 0
-};
-
 function preload() {
     game.load.image('mg',       'assets/sprites/mg.png');
     game.load.image('santa',    'assets/sprites/santa.png');
     game.load.image('girl',     'assets/sprites/girl.png');
     game.load.image('platform', 'assets/sprites/platform.png');
     game.load.image('bullet',   'assets/sprites/bullet.png');
+    game.load.image('present',   'assets/sprites/platform.png');
 }
 
 var santa;
@@ -74,10 +70,9 @@ function create() {
     var ledge = platforms.create(400, 400, 'platform');
     ledge.body.immovable = true;
 
-    presents = game.add.group();
-    presents.enableBody = true;
-    var present1 = presents.create(0, 64, 'platform');
-    present1.scale.setTo(0.1, 1);
+    var presentGroup = game.add.group();
+    presentGroup.enableBody = true;
+    presents = new PresentPile(presentGroup);
 
     var childGroup = game.add.group();
     children = new ChildManager(childGroup);
@@ -132,6 +127,8 @@ function update() {
     game.physics.arcade.collide(santa, platforms);
 
     function killChild(bullet, child) {
+        machineGun.bulletsGroup.remove(bullet);
+        children.childGroup.remove(child);
         bullet.kill();
         child.kill();
     };
