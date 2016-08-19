@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
     var self;
     var PresentPile = function(presentGroup) {
@@ -20,6 +22,15 @@
         };
 
         self.setUpPresents();
+    };
+
+    PresentPile.prototype = {
+        takePresent: function(present) {
+            // find the specific present in the present group
+            // either kill it and/or move it to rendering on the child somehow
+            self.presentCount--;
+            // check for lack of presents, game over if 0
+        }
     };
     this.PresentPile = PresentPile;
     

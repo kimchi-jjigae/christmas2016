@@ -9,13 +9,6 @@ var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, '', {
     update:  update
 });
 
-var santaValues = {
-    speed: 300,
-    jump: 900,
-    gravity: 2000,
-    bounce: 0.2,
-};
-
 function preload() {
     game.load.image('mg',       'assets/sprites/mg.png');
     game.load.image('santa',    'assets/sprites/santa.png');
@@ -56,13 +49,8 @@ var mgPos = {
 
 function create() {
     points = new PointsManager();
+    santa = new Santa();
     game.stage.backgroundColor = "#ddffdd";
-    santa = game.add.sprite(0, 0, 'santa');
-    santa.scale.setTo(0.2, 0.2);
-    game.physics.arcade.enable(santa);
-    santa.body.bounce.y = santaValues.bounce;
-    santa.body.gravity.y = santaValues.gravity;
-    santa.body.collideWorldBounds = true;
 
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -140,39 +128,4 @@ function update() {
         bullet.kill();
         child.kill();
     };
-
-    //HEJ let's render the amount of points on the screen aye :D
-
-    santa.body.velocity.x = 0;
-
-    if(game.input.activePointer.isDown) {
-        machineGun.fireBullet();
-    }
-
-    if(movement.inactive) {
-        // please get this to work THANKS
-        if(game.math.distance(santa.x, santa.y, mgPos.x, mgPos.y) < 50) {
-            santa.x = mgPos.x;
-            santa.y = mgPos.y;
-            santa.body.moves = false;
-        }
-        else {
-            santa.body.moves = true;
-        }
-    }
-
-    if(movement.left) {
-        //  Move to the left
-        santa.body.velocity.x = -santaValues.speed;
-    }
-    else if(movement.right) {
-        //  Move to the right
-        santa.body.velocity.x = santaValues.speed;
-    }
-
-    //  Allow the player to jump if they are touching the ground.
-    if(movement.up && santa.body.touching.down)
-    {
-        santa.body.velocity.y = -santaValues.jump;
-    }
 }

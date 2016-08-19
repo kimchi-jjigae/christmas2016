@@ -35,6 +35,7 @@
                         child.scale.x *= -1;
                         child.body.velocity.x = child.fromVelocity;
                         child.from = true;
+                        presentPile.takePresent(present);
                     }
                 });
             });
