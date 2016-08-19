@@ -31,6 +31,7 @@ var bullets;
 var platforms;
 var presents;
 var machineGun;
+var points;
 
 var keycodes = {
     left  : [ 'a', 'ArrowLeft'],
@@ -54,6 +55,7 @@ var mgPos = {
 };
 
 function create() {
+    points = new PointsManager();
     game.stage.backgroundColor = "#ddffdd";
     santa = game.add.sprite(0, 0, 'santa');
     santa.scale.setTo(0.2, 0.2);
@@ -123,15 +125,23 @@ function create() {
 function update() {
     children.update(presents); // maybe children should just hold this presentPile variable instead
     machineGun.update();
+    points.update();
     game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
     game.physics.arcade.collide(santa, platforms);
 
     function killChild(bullet, child) {
         machineGun.bulletsGroup.remove(bullet);
         children.childGroup.remove(child);
+        if(child.from) {
+            points.add(child.points.from);
+        }
+        else {
+            points.add(child.points.to);
+        }
         bullet.kill();
         child.kill();
     };
+
 
     santa.body.velocity.x = 0;
 
@@ -140,7 +150,7 @@ function update() {
     }
 
     if(movement.inactive) {
-        //please get this to work THANKS
+        // please get this to work THANKS
         if(game.math.distance(santa.x, santa.y, mgPos.x, mgPos.y) < 50) {
             santa.x = mgPos.x;
             santa.y = mgPos.y;
