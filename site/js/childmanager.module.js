@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
     var self;
     var ChildManager = function(childGroup) {
@@ -16,8 +18,10 @@
             child.fromVelocity = util.randomFloat(80, 140);
             child.anchor.setTo(0.5, 0.5);
             child.from = false;
-            child.points.to = 20;
-            child.points.from = 10;
+            child.points = {
+                to: 20,
+                from: 10
+            };
         },
         spawn: function() {
             if(Math.random() < self.spawnRate) {

@@ -79,7 +79,7 @@ function create() {
     var childGroup = game.add.group();
     children = new ChildManager(childGroup);
     machineGun = new MachineGun(mgPos);
-
+    
     game.input.keyboard.onDownCallback = function(event) {
         if(keycodes.left.includes(event.key)) {
             // ← left
@@ -125,7 +125,6 @@ function create() {
 function update() {
     children.update(presents); // maybe children should just hold this presentPile variable instead
     machineGun.update();
-    points.update();
     game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
     game.physics.arcade.collide(santa, platforms);
 
@@ -142,6 +141,7 @@ function update() {
         child.kill();
     };
 
+    //HEJ let's render the amount of points on the screen aye :D
 
     santa.body.velocity.x = 0;
 
