@@ -6,16 +6,16 @@
         self = this;
         self.childGroup = childGroup;
         self.addChild();
-        self.spawnRate = 0.02;
+        self.spawnRate = 0.005;
     };
   
     ChildManager.prototype = {
         addChild: function() {
-            var child = self.childGroup.create(1000, 600, 'girl');
+            var child = self.childGroup.create(1400, 670, 'girl');
             game.physics.arcade.enable(child);
             child.scale.setTo(0.2, 0.2);
-            child.body.velocity.x = util.randomFloat(-50, -110);
-            child.fromVelocity = util.randomFloat(80, 140);
+            child.body.velocity.x = util.randomFloat(-80, -140);
+            child.fromVelocity = util.randomFloat(120, 180);
             child.anchor.setTo(0.5, 0.5);
             child.from = false;
             child.points = {
@@ -28,21 +28,29 @@
                 self.addChild();
             }
         },
-        checkForPresents: function(presentPile) {
-            self.childGroup.forEach(function(child) {
-                presentPile.presentGroup.forEach(function(present) {
-                    if(game.math.distance(child.x , 0, present.x, 0) < 10 && !child.from) {
-                        child.scale.x *= -1;
-                        child.body.velocity.x = child.fromVelocity;
-                        child.from = true;
-                        presentPile.takePresent(present);
-                    }
-                });
+        checkForPresents: function(child, presentPile) {
+            presentPile.presentGroup.forEach(function(present) {
+                if(game.math.distance(child.x , 0, present.x, 0) < 20 && !child.from) {
+                    child.scale.x *= -1;
+                    child.body.velocity.x = child.fromVelocity;
+                    child.from = true;
+                    presentPile.takePresent(present, child);
+                }
             });
         },
+        checkDespawning: function(child) {
+            if(child.x > 1500 || child.x < -200) {
+                self.childGroup.remove(child);
+                child.kill();
+            }
+        },
         update: function(presentPile) {
-            self.checkForPresents(presentPile);
             self.spawn();
+            self.childGroup.forEach(function(child) {
+                self.checkForPresents(child, presentPile);
+                self.checkDespawning(child);
+            });
+
         }
     };
   

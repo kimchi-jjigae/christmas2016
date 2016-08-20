@@ -2,9 +2,11 @@
 
 (function() {
     var self;
-    var PresentPile = function(presentGroup) {
+    var PresentPile = function() {
         self = this;
-        self.presentGroup = presentGroup;
+        self.presentGroup = game.add.group();
+        self.presentGroup.enableBody = true;
+        self.fromPresentGroup = game.add.group();
         self.presentCount = 20;
         self.position = {
             x: 200,
@@ -17,7 +19,6 @@
                 var x = self.position.x + x_offset;
                 var y = self.position.y + y_offset;
                 var present = self.presentGroup.create(x, y, 'present');
-                present.scale.setTo(0.1, 1.0);
             }
         };
 
@@ -25,11 +26,32 @@
     };
 
     PresentPile.prototype = {
-        takePresent: function(present) {
-            // find the specific present in the present group
-            // either kill it and/or move it to rendering on the child somehow
-            self.presentCount--;
-            // check for lack of presents, game over if 0
+        takePresent: function(present, child) {
+            self.presentGroup.remove(present);
+            self.fromPresentGroup.add(present);
+            present.x = child.x;
+            present.y = child.y - 40;
+            present.child = child;
+            child.present = present;
+        },
+        returnPresent: function(present) {
+            self.fromPresentGroup.remove(present);
+            self.presentGroup.add(present);
+        },
+        update: function() {
+            self.fromPresentGroup.forEach(function(fromPresent) {
+                fromPresent.x = fromPresent.child.x;
+                fromPresent.y = fromPresent.child.y - 40;
+                if(fromPresent.x > 1500) {
+                    self.fromPresentGroup.remove(fromPresent);
+                    fromPresent.kill();
+                    self.presentCount--;
+                }
+            });
+            if(self.presentCount == 0) {
+                console.log('GAME OVER');
+                // game over
+            }
         }
     };
     this.PresentPile = PresentPile;

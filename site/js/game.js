@@ -15,7 +15,7 @@ function preload() {
     game.load.image('girl',     'assets/sprites/girl.png');
     game.load.image('platform', 'assets/sprites/platform.png');
     game.load.image('bullet',   'assets/sprites/bullet.png');
-    game.load.image('present',   'assets/sprites/platform.png');
+    game.load.image('present',  'assets/sprites/present.png');
 }
 
 var santa;
@@ -32,14 +32,6 @@ var keycodes = {
     right : [ 'd', 'ArrowRight'], 
     down  : [ 's', 'ArrowDown'],
     action: [ 'e']
-};
-
-var movement = {
-    inactive: false,
-    left : false,
-    up   : false,
-    right: false,
-    down : false
 };
 
 var mgPos = {
@@ -60,9 +52,7 @@ function create() {
     var ledge = platforms.create(400, 400, 'platform');
     ledge.body.immovable = true;
 
-    var presentGroup = game.add.group();
-    presentGroup.enableBody = true;
-    presents = new PresentPile(presentGroup);
+    presents = new PresentPile();
 
     var childGroup = game.add.group();
     children = new ChildManager(childGroup);
@@ -71,52 +61,64 @@ function create() {
     game.input.keyboard.onDownCallback = function(event) {
         if(keycodes.left.includes(event.key)) {
             // ← left
-            movement.left = true;
+            santa.movement.left = true;
         }
         else if(keycodes.right.includes(event.key)) {
             // → right
-            movement.right = true;
+            santa.movement.right = true;
         }
         else if(keycodes.up.includes(event.key)) {
             // ↑ up
-            movement.up = true;
+            santa.movement.up = true;
         }
         else if(keycodes.down.includes(event.key)) {
             // ↓ down
-            movement.down = true;
+            santa.movement.down = true;
         }
-    }
+    };
     game.input.keyboard.onUpCallback = function(event) {
         if(keycodes.action.includes(event.key)) {
             // E action
-            movement.inactive = !movement.inactive;
+            santa.movement.inactive = !santa.movement.inactive;
         }
         else if(keycodes.left.includes(event.key)) {
             // ← left
-            movement.left = false;
+            santa.movement.left = false;
         }
         else if(keycodes.right.includes(event.key)) {
             // → right
-            movement.right = false;
+            santa.movement.right = false;
         }
         else if(keycodes.up.includes(event.key)) {
             // ↑ up
-            movement.up = false;
+            santa.movement.up = false;
         }
         else if(keycodes.down.includes(event.key)) {
             // ↓ down
-            movement.down = false;
+            santa.movement.down = false;
         }
-    }
+    };
+
 }
 
 function update() {
-    children.update(presents); // maybe children should just hold this presentPile variable instead
-    machineGun.update();
+    // physics goes first, to make sure the updates work properly
+    game.physics.arcade.collide(santa.santa, platforms);
     game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
-    game.physics.arcade.collide(santa, platforms);
+
+    children.update(presents); 
+    machineGun.update();
+    santa.update();
+    presents.update();
+
+    if(game.input.activePointer.isDown) {
+        machineGun.fireBullet();
+    }
 
     function killChild(bullet, child) {
+        if(child.present != undefined) {
+            presents.returnPresent(child.present);
+        }
         machineGun.bulletsGroup.remove(bullet);
         children.childGroup.remove(child);
         if(child.from) {
