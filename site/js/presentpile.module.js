@@ -19,6 +19,7 @@
                 var x = self.position.x + x_offset;
                 var y = self.position.y + y_offset;
                 var present = self.presentGroup.create(x, y, 'present');
+                present.dropped = false;
             }
         };
 
@@ -34,9 +35,19 @@
             present.child = child;
             child.present = present;
         },
-        returnPresent: function(present) {
+        dropPresent: function(present) {
             self.fromPresentGroup.remove(present);
             self.presentGroup.add(present);
+            present.dropped = true;
+        },
+        returnPresent: function(present) {
+            var x_offset = (Math.random() * 250) - 50;
+            var y_offset = -(Math.random() * 250);
+            var x = self.position.x + x_offset;
+            var y = self.position.y + y_offset;
+            present.x = x;
+            present.y = y;
+            present.dropped = false;
         },
         update: function() {
             self.fromPresentGroup.forEach(function(fromPresent) {
@@ -50,6 +61,7 @@
             });
             if(self.presentCount == 0) {
                 console.log('GAME OVER');
+                //self.text = game.add.text(canvasWidth - 200, 0, "score: " + self.totalScore, style);
                 // game over
             }
         }

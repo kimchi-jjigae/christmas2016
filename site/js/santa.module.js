@@ -24,10 +24,11 @@
     };
   
     Santa.prototype = {
-        update: function() {
+        update: function(presentPile) {
             self.santa.body.velocity.x = 0;
             self.move();
             self.use();
+            self.checkForDroppedPresents(presentPile);
         },
         move: function() {
             if(self.movement.left) {
@@ -44,6 +45,15 @@
             {
                 self.santa.body.velocity.y = -self.jump;
             }
+        },
+        checkForDroppedPresents: function(presentPile) {
+            presentPile.presentGroup.forEach(function(present) {
+                if(present.dropped) {
+                    if(game.math.distance(self.santa.x , 0, present.x, 0) < 20) {
+                        presentPile.returnPresent(present);
+                    }
+                }
+            });
         },
         use: function() {
             if(self.movement.inactive) {

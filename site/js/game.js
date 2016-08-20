@@ -108,7 +108,7 @@ function update() {
 
     children.update(presents); 
     machineGun.update();
-    santa.update();
+    santa.update(presents);
     presents.update();
 
     if(game.input.activePointer.isDown) {
@@ -117,7 +117,7 @@ function update() {
 
     function killChild(bullet, child) {
         if(child.present != undefined) {
-            presents.returnPresent(child.present);
+            presents.dropPresent(child.present);
         }
         machineGun.bulletsGroup.remove(bullet);
         children.childGroup.remove(child);
