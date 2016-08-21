@@ -6,7 +6,7 @@
         self = this;
 
         self.speed = 300;
-        self.jump = 900;
+        self.jump = 1500;
         self.santa = game.add.sprite(0, 0, 'santa');
         self.santa.scale.setTo(0.2, 0.2);
         game.physics.arcade.enable(self.santa);
@@ -24,10 +24,9 @@
     };
   
     Santa.prototype = {
-        update: function(presentPile) {
+        update: function(presentPile, mgPosition) {
             self.santa.body.velocity.x = 0;
             self.move();
-            self.use();
             self.checkForDroppedPresents(presentPile);
         },
         move: function() {
@@ -55,19 +54,19 @@
                 }
             });
         },
-        use: function() {
-            if(self.movement.inactive) {
-                // please get this to work THANKS
-                /*
-                if(game.math.distance(santa.x, santa.y, mgPos.x, mgPos.y) < 50) {
-                    santa.x = mgPos.x;
-                    santa.y = mgPos.y;
-                    santa.body.moves = false;
-                }
-                else {
-                    santa.body.moves = true;
-                }
-                */
+        use: function(mg) {
+            if(game.math.distance(self.santa.x, self.santa.y, mg.position.x, mg.position.y) < 100 &&
+               !santa.movement.inactive) {
+                self.santa.body.moves = false;
+                self.santa.x = mgPos.x;
+                self.santa.y = mgPos.y;
+                santa.movement.inactive = true;
+                mg.active = true;
+            }
+            else {
+                santa.movement.inactive = false;
+                self.santa.body.moves = true;
+                mg.active = false;
             }
         }
     };

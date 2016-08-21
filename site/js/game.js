@@ -49,8 +49,8 @@ function create() {
     var ground = platforms.create(0, game.world.height - 64, 'platform');
     ground.scale.setTo(2, 1);
     ground.body.immovable = true;
-    var ledge = platforms.create(400, 400, 'platform');
-    ledge.body.immovable = true;
+    //var ledge = platforms.create(400, 400, 'platform');
+    //ledge.body.immovable = true;
 
     presents = new PresentPile();
 
@@ -79,7 +79,8 @@ function create() {
     game.input.keyboard.onUpCallback = function(event) {
         if(keycodes.action.includes(event.key)) {
             // E action
-            santa.movement.inactive = !santa.movement.inactive;
+            //santa.movement.inactive = !santa.movement.inactive;
+            santa.use(machineGun);
         }
         else if(keycodes.left.includes(event.key)) {
             // ← left

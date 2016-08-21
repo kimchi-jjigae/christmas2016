@@ -7,19 +7,27 @@
         self.presentGroup = game.add.group();
         self.presentGroup.enableBody = true;
         self.fromPresentGroup = game.add.group();
-        self.presentCount = 20;
+        self.presentCount = 0;
         self.position = {
             x: 200,
-            y: 700
+            y: 660
         };
         self.setUpPresents = function() {
-            for(var i = 0; i < self.presentCount; ++i) {
-                var x_offset = (Math.random() * 250) - 50;
-                var y_offset = -(Math.random() * 250);
-                var x = self.position.x + x_offset;
-                var y = self.position.y + y_offset;
-                var present = self.presentGroup.create(x, y, 'present');
-                present.dropped = false;
+            var pyramidArray = [6, 5, 4, 3, 2, 1];
+            var blockSize = 50;
+
+            for(var j = 0; j < pyramidArray.length; ++j){
+                var pyramidRow = pyramidArray[j];
+                for(var k = 0; k < pyramidRow; ++k) {
+                    var row_x_offset = (pyramidArray[0] - pyramidArray[j]) * (blockSize / 2);
+                    var x_offset = (blockSize * k) + row_x_offset;
+                    var y_offset = -(j * blockSize);
+                    var x = self.position.x + x_offset;
+                    var y = self.position.y + y_offset;
+                    var present = self.presentGroup.create(x, y, 'present');
+                    present.dropped = false;
+                    self.presentCount++;
+                }
             }
         };
 

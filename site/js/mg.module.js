@@ -19,30 +19,42 @@
         self.mgSprite = game.add.sprite(position.x, position.y, 'mg');
         self.mgSprite.scale.setTo(0.5, 0.5);
         self.mgSprite.anchor.setTo(0.5, 0.5);
+        self.active = false;
     };
   
     MachineGun.prototype = {
         fireBullet: function() {
-            if(Date.now() - self.timeLastFired >= self.fireRate &&
-               self.bulletAmount < self.maxBullets) {
-                var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
-                game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
-                self.timeLastFired = Date.now();
-                self.bulletAmount++;
+            if(self.active) {
+                if(Date.now() - self.timeLastFired >= self.fireRate &&
+                   self.bulletAmount < self.maxBullets) {
+                    var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
+                    game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
+                    self.timeLastFired = Date.now();
+                    self.bulletAmount++;
+                }
             }
         },
         fireGrenade: function() {
         },
-        update: function() {
-            // check if bullets should disappear here
-            var rotation = game.physics.arcade.angleToPointer(self.mgSprite);
-            if(rotation < 0 && rotation > -Math.PI / 2) {
-                rotation = 0;
+        rotateMachineGun: function() {
+            var rotation;
+            if(self.active) {
+                rotation = game.physics.arcade.angleToPointer(self.mgSprite);
+                if(rotation < 0 && rotation > -Math.PI / 2) {
+                    rotation = 0;
+                }
+                else if(rotation < 0) {
+                    rotation = Math.PI;
+                }
             }
-            else if(rotation < 0) {
-                rotation = Math.PI;
+            else {
+                rotation = Math.PI / 2;
             }
             self.mgSprite.rotation = rotation;
+        },
+        update: function() {
+            // check if bullets should disappear here
+            self.rotateMachineGun();
         }
     };
   
