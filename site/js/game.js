@@ -25,6 +25,7 @@ var platforms;
 var presents;
 var machineGun;
 var points;
+var gameOver;
 
 var keycodes = {
     left  : [ 'a', 'ArrowLeft'],
@@ -42,6 +43,7 @@ function create() {
     mgPos.y = 100;
     points = new PointsManager();
     santa = new Santa();
+    gameOver = new GameOver();
     game.stage.backgroundColor = "#ddffdd";
 
     platforms = game.add.group();
@@ -109,7 +111,8 @@ function update() {
     children.update(presents); 
     machineGun.update();
     santa.update(presents);
-    presents.update();
+    presents.update(gameOver);
+    gameOver.update();
 
     if(game.input.activePointer.isDown) {
         machineGun.fireBullet();
