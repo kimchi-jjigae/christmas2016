@@ -12,8 +12,18 @@
             x: 200,
             y: 660
         };
+        self.gameOverText = {
+            style: {
+                font: 'bold 32px Arial',
+                fill: '#ff9486',
+                boundsAlignH: 'center',
+                boundsAlignV: 'middle'
+            },
+            string: "Game Over!"
+        }
         self.setUpPresents = function() {
-            var pyramidArray = [6, 5, 4, 3, 2, 1];
+            //var pyramidArray = [6, 5, 4, 3, 2, 1];
+            var pyramidArray = [4, 3, 2, 1];
             var blockSize = 50;
 
             for(var j = 0; j < pyramidArray.length; ++j){
@@ -68,9 +78,8 @@
                 }
             });
             if(self.presentCount == 0) {
-                console.log('GAME OVER');
-                //self.text = game.add.text(canvasWidth - 200, 0, "score: " + self.totalScore, style);
-                // game over
+                // this doesn't need to run every frame;
+                game.add.text(game.world.centerX, game.world.centerY, self.gameOverText.string, self.gameOverText.style);
             }
         }
     };

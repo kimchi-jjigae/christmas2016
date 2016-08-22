@@ -7,11 +7,11 @@
         self.totalScore = 0;
         var style = {
             font: 'bold 32px Arial',
-            fill: '#f194dd',
+            fill: '#ff9486',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.text = game.add.text(canvasWidth - 200, 0, "score: " + self.totalScore, style);
+        self.text = game.add.text(game.world.x - 200, 0, "score: " + self.totalScore, style);
     };
   
     PointsManager.prototype = {

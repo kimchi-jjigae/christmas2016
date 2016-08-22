@@ -35,11 +35,11 @@ var keycodes = {
 };
 
 var mgPos = {
-    x: canvasWidth / 2,
-    y: 100
 };
 
 function create() {
+    mgPos.x = game.world.centerX;
+    mgPos.y = 100;
     points = new PointsManager();
     santa = new Santa();
     game.stage.backgroundColor = "#ddffdd";
@@ -79,7 +79,6 @@ function create() {
     game.input.keyboard.onUpCallback = function(event) {
         if(keycodes.action.includes(event.key)) {
             // E action
-            //santa.movement.inactive = !santa.movement.inactive;
             santa.use(machineGun);
         }
         else if(keycodes.left.includes(event.key)) {
@@ -119,6 +118,9 @@ function update() {
     function killChild(bullet, child) {
         if(child.present != undefined) {
             presents.dropPresent(child.present);
+        }
+        else {
+            // drop ammo, but should the children holding presents drop ammo too?
         }
         machineGun.bulletsGroup.remove(bullet);
         children.childGroup.remove(child);

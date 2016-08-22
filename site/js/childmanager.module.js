@@ -15,9 +15,10 @@
             game.physics.arcade.enable(child);
             child.scale.setTo(0.2, 0.2);
             child.body.velocity.x = util.randomFloat(-80, -140);
-            child.fromVelocity = util.randomFloat(120, 180);
+            child.fromVelocity = util.randomFloat(140, 200);
             child.anchor.setTo(0.5, 0.5);
             child.from = false;
+            child.ammo = parseInt(util.randomFloat(3));
             child.points = {
                 to: 20,
                 from: 10
