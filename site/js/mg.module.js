@@ -33,6 +33,7 @@
                 if(Date.now() - self.timeLastFired >= self.fireRate &&
                    self.bulletAmount > 0) {
                     var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
+                    // check here if rotation is >= 0 or Math.PI
                     game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
                     self.timeLastFired = Date.now();
                     self.bulletAmount--;

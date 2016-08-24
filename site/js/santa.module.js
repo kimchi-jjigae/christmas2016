@@ -9,6 +9,7 @@
         self.jump = 1500;
         self.santa = game.add.sprite(0, 0, 'santa');
         self.santa.scale.setTo(0.2, 0.2);
+        self.santa.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(self.santa);
         self.santa.body.bounce.y = 0.2;
         self.santa.body.gravity.y = 2000;
@@ -27,7 +28,20 @@
         update: function(presentPile, mgPosition) {
             self.santa.body.velocity.x = 0;
             self.move();
+            self.rotate();
             self.checkForDroppedPresents(presentPile);
+        },
+        rotate: function() {
+            var angle = game.physics.arcade.angleToPointer(self.santa);
+            // see mg.module.js for a unit circle diagram
+            // if in the TL or BL quadrant
+            if(angle <= -Math.PI / 2 || angle > Math.PI / 2) {
+                self.santa.scale.setTo(-0.2, 0.2);
+            }
+            // if in the TR or BR quadrant
+            else {
+                self.santa.scale.setTo(0.2, 0.2);
+            }
         },
         move: function() {
             if(self.movement.left) {
@@ -62,8 +76,8 @@
             if(game.math.distance(self.santa.x, self.santa.y, mg.position.x, mg.position.y) < 300 &&
                !santa.movement.inactive) {
                 self.santa.body.moves = false;
-                self.santa.x = mg.position.x - mg.mgSprite.width / 3;
-                self.santa.y = mg.position.y - mg.mgSprite.height / 3;
+                self.santa.x = mg.position.x;
+                self.santa.y = mg.position.y;
                 santa.movement.inactive = true;
                 mg.active = true;
             }
