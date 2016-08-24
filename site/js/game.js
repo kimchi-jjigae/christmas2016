@@ -26,13 +26,15 @@ var presents;
 var machineGun;
 var points;
 var gameOver;
+var states;
+var state; 
 
 var keycodes = {
-    left  : [ 'a', 'ArrowLeft'],
-    up    : [ 'w', 'ArrowUp', ' '], 
-    right : [ 'd', 'ArrowRight'], 
-    down  : [ 's', 'ArrowDown'],
-    action: [ 'e']
+    left  : ['a', 'ArrowLeft'],
+    up    : ['w', 'ArrowUp', ' '], 
+    right : ['d', 'ArrowRight'], 
+    down  : ['s', 'ArrowDown'],
+    action: ['e']
 };
 
 function create() {
@@ -40,6 +42,11 @@ function create() {
     santa = new Santa();
     gameOver = new GameOver();
     game.stage.backgroundColor = "#ddffdd";
+    states = Object.freeze({
+        SPLASH: 0,
+        MENU: 1
+    });
+    state = states.SPLASH;
 
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -99,6 +106,8 @@ function create() {
 }
 
 function update() {
+    if(state == states.SPLASH) {
+    }
     // physics goes first, to make sure the updates work properly
     game.physics.arcade.collide(santa.santa, platforms);
     game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
