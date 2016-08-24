@@ -44,6 +44,10 @@
             {
                 self.santa.body.velocity.y = -self.jump;
             }
+
+            // flip santa depending on which way the mg faces
+            if(santa.movement.inactive) {
+            }
         },
         checkForDroppedPresents: function(presentPile) {
             presentPile.presentGroup.forEach(function(present) {
@@ -55,11 +59,11 @@
             });
         },
         use: function(mg) {
-            if(game.math.distance(self.santa.x, self.santa.y, mg.position.x, mg.position.y) < 100 &&
+            if(game.math.distance(self.santa.x, self.santa.y, mg.position.x, mg.position.y) < 300 &&
                !santa.movement.inactive) {
                 self.santa.body.moves = false;
-                self.santa.x = mgPos.x;
-                self.santa.y = mgPos.y;
+                self.santa.x = mg.position.x - mg.mgSprite.width / 3;
+                self.santa.y = mg.position.y - mg.mgSprite.height / 3;
                 santa.movement.inactive = true;
                 mg.active = true;
             }

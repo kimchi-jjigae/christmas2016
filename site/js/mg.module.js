@@ -1,6 +1,6 @@
 (function() {
     var self;
-    var MachineGun = function(position) {
+    var MachineGun = function() {
         self = this;
         self.bulletsGroup = game.add.group();
         self.bulletsGroup.enableBody = true;
@@ -9,13 +9,12 @@
         self.bulletVelocity = 800;
         self.fireRate = 100; // milliseconds
         self.timeLastFired = 0;
-        self.position = position || {
-            x: 680,
+        self.position = {
+            x: game.world.centerX,
             y: 100
         };
         self.maxAngle = 0;
-        self.direction = DIRECTION.RIGHT;
-        self.mgSprite = game.add.sprite(position.x, position.y, 'mg');
+        self.mgSprite = game.add.sprite(self.position.x, self.position.y, 'mg');
         self.mgSprite.scale.setTo(0.5, 0.5);
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
@@ -47,11 +46,31 @@
             var rotation;
             if(self.active) {
                 rotation = game.physics.arcade.angleToPointer(self.mgSprite);
-                if(rotation < 0 && rotation > -Math.PI / 2) {
+                //                 -PI/2
+                //
+                //
+                //
+                //    -PI || PI      +           0
+                //
+                //
+                //
+                //                  PI/2
+                // if in the TL quadrant
+                if(rotation < 0 && rotation < -Math.PI / 2) {
+                    rotation = Math.PI;
+                }
+                // if in the TR quadrant
+                else if(rotation <= 0) {
                     rotation = 0;
                 }
-                else if(rotation < 0) {
-                    rotation = Math.PI;
+                // if in the BL quadrant
+                if(rotation > 0 && rotation > Math.PI / 2) {
+                    rotation = rotation - Math.PI;
+                    self.mgSprite.scale.setTo(-0.5, 0.5);
+                }
+                // if in the BR quadrant
+                else {
+                    self.mgSprite.scale.setTo(0.5, 0.5);
                 }
             }
             else {

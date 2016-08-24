@@ -6,7 +6,7 @@
         self = this;
         self.childGroup = childGroup;
         self.addChild();
-        self.spawnRate = 0.5;
+        self.spawnRate = 0.005;
     };
   
     ChildManager.prototype = {

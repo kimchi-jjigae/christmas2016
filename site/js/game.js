@@ -35,12 +35,7 @@ var keycodes = {
     action: [ 'e']
 };
 
-var mgPos = {
-};
-
 function create() {
-    mgPos.x = game.world.centerX;
-    mgPos.y = 100;
     points = new PointsManager();
     santa = new Santa();
     gameOver = new GameOver();
@@ -58,7 +53,7 @@ function create() {
 
     var childGroup = game.add.group();
     children = new ChildManager(childGroup);
-    machineGun = new MachineGun(mgPos);
+    machineGun = new MachineGun();
     
     game.input.keyboard.onDownCallback = function(event) {
         if(keycodes.left.includes(event.key)) {
