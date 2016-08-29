@@ -1,4 +1,24 @@
 'use strict';
+/*
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+var Main = function() {};
+
+Main.prototype = {
+    preload: function() {
+        game.load.image('stars',    'assets/images/stars.jpg');
+        game.load.image('loading',  'assets/images/loading.png');
+        game.load.image('brand',    'assets/images/logo.png');
+        game.load.script('splash',  'states/splash.js');
+    },
+    create: function() {
+        game.state.add('Splash', Splash);
+        game.state.start('Splash');
+    },
+};
+
+game.state.add('Main', Main);
+game.state.start('Main');
+*/
 
 var canvasWidth = 1366;
 var canvasHeight = 768;
@@ -9,15 +29,21 @@ var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, '', {
     update:  update
 });
 
+game.state.add('SplashState', SplashState);
+game.state.add('GameplayState', GameplayState);
+game.state.start('SplashState');
+
 function preload() {
-    game.load.image('mg',       'assets/sprites/mg.png');
-    game.load.image('santa',    'assets/sprites/santa.png');
-    game.load.image('girl',     'assets/sprites/girl.png');
-    game.load.image('platform', 'assets/sprites/platform.png');
-    game.load.image('bullet',   'assets/sprites/bullet.png');
-    game.load.image('present',  'assets/sprites/present.png');
+    game.load.image('mg',           'assets/sprites/mg.png');
+    game.load.image('santa',        'assets/sprites/santa.png');
+    game.load.image('girl',         'assets/sprites/girl.png');
+    game.load.image('platform',     'assets/sprites/platform.png');
+    game.load.image('bullet',       'assets/sprites/bullet.png');
+    game.load.image('present',      'assets/sprites/present.png');
+    game.load.image('splashscreen', 'assets/sprites/splashscreen.png');
 }
 
+var splash;
 var santa;
 var children;
 var bullets;
@@ -38,6 +64,7 @@ var keycodes = {
 };
 
 function create() {
+    splash = new SplashScreen();
     points = new PointsManager();
     santa = new Santa();
     gameOver = new GameOver();
@@ -74,6 +101,7 @@ function create() {
         else if(keycodes.up.includes(event.key)) {
             // ↑ up
             santa.movement.up = true;
+            splashscreen.next();
         }
         else if(keycodes.down.includes(event.key)) {
             // ↓ down
@@ -107,6 +135,10 @@ function create() {
 
 function update() {
     if(state == states.SPLASH) {
+        splash.update();
+    }
+    else if(state == states.MENU) {
+        splash.update();
     }
     // physics goes first, to make sure the updates work properly
     game.physics.arcade.collide(santa.santa, platforms);
