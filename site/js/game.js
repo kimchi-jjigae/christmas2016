@@ -1,4 +1,8 @@
 'use strict';
+
+// HEJ -- have like, initial splash, then loading, then menu
+
+
 /*
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 var Main = function() {};
@@ -34,13 +38,6 @@ game.state.add('GameplayState', GameplayState);
 game.state.start('SplashState');
 
 function preload() {
-    game.load.image('mg',           'assets/sprites/mg.png');
-    game.load.image('santa',        'assets/sprites/santa.png');
-    game.load.image('girl',         'assets/sprites/girl.png');
-    game.load.image('platform',     'assets/sprites/platform.png');
-    game.load.image('bullet',       'assets/sprites/bullet.png');
-    game.load.image('present',      'assets/sprites/present.png');
-    game.load.image('splashscreen', 'assets/sprites/splashscreen.png');
 }
 
 var splash;
