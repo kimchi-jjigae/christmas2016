@@ -1,6 +1,8 @@
 'use strict';
 
-var GameplayState = function() {};
+var GameplayState = function() {
+    var self = this;
+};
 
 GameplayState.prototype = {
     preload: function() {

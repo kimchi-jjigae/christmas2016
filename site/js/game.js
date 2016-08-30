@@ -33,7 +33,8 @@ var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, '', {
     update:  update
 });
 
-game.state.add('SplashState', SplashState);
+game.state.add('SplashState',   SplashState);
+game.state.add('LoadingState',  LoadingState);
 game.state.add('GameplayState', GameplayState);
 game.state.start('SplashState');
 
