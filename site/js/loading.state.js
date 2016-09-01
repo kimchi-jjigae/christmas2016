@@ -27,6 +27,8 @@ LoadingState.prototype = {
         this.preloadScripts();
     },
     create: function() {
+        game.input.keyboard.onDownCallback = function(event) {
+        };
         game.state.add('GameplayState', GameplayState);
         game.state.add('MenuState', MenuState);
     },
