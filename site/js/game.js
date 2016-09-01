@@ -27,17 +27,6 @@ game.state.start('Main');
 var canvasWidth = 1366;
 var canvasHeight = 768;
 
-var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, '', {
-    preload: preload,
-    create:  create,
-    update:  update
-});
-
-game.state.add('SplashState',   SplashState);
-game.state.add('LoadingState',  LoadingState);
-game.state.add('GameplayState', GameplayState);
-game.state.start('SplashState');
-
 function preload() {
 }
 
@@ -62,7 +51,6 @@ var keycodes = {
 };
 
 function create() {
-    splash = new SplashScreen();
     points = new PointsManager();
     santa = new Santa();
     gameOver = new GameOver();

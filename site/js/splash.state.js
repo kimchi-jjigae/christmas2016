@@ -1,32 +1,24 @@
 'use strict';
 
-var SplashState = function() {
-    var self = this;
-};
+var SplashState = function() {};
 
 SplashState.prototype = {
-
-  /*
-  init: function () {
-    this.loadingBar = game.make.sprite(game.world.centerX-(387/2), 400, "loading");
-    this.logo       = game.make.sprite(game.world.centerX, 200, 'brand');
-    this.status     = game.make.text(game.world.centerX, 380, 'Loading...', {fill: 'white'});
-    utils.centerGameObjects([this.logo, this.status]);
-  },
-  */
     init: function() {
-        // show splashscreen here
+        this.splashscreen = game.make.sprite(0, 0, 'splashscreen');
     },
     preload: function() {
+        game.add.existing(this.splashscreen);
     },
     create: function() {
-        // this is kept isolated to this state by overriding
-        // it in other states -- kinda hacky!
+        // this callback is kept isolated to this state by
+        // overriding it in other states -- kinda hacky!
         game.input.keyboard.onDownCallback = function(event) {
             game.state.start('LoadingState');
         };
     },
     update: function() {
-        console.log('splashinggg');
+        setTimeout(function() {
+            game.state.start("LoadingState");
+        }, 2000);
     }
 };
