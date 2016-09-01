@@ -1,14 +1,5 @@
 'use strict';
 
-var splash;
-var santa;
-var children;
-var bullets;
-var platforms;
-var presents;
-var machineGun;
-var points;
-var gameOver;
 var states;
 var state; 
 
@@ -41,7 +32,6 @@ function create() {
 
     presents = new PresentPile();
 
-    var childGroup = game.add.group();
     children = new ChildManager(childGroup);
     machineGun = new MachineGun();
     

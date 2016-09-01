@@ -18,8 +18,21 @@ LoadingState.prototype = {
         game.load.image('present',  'assets/sprites/present.png');
     },
     preloadScripts: function() {
-        game.load.script('GameplayState', 'js/gameplay.state.js');
-        game.load.script('MenuState',     'js/menu.state.js');
+        // states
+        game.load.script('gameplayStateScript', 'js/gameplay.state.js');
+        game.load.script('menuStateScript',     'js/menu.state.js');
+	    game.load.script('gameoverStateScript', 'js/gameover.module.js');
+
+        // other
+	    game.load.script('utilScript',          'js/util.js');
+	    game.load.script('directionEnumScript', 'js/direction.enum.js');
+
+        // classes
+	    game.load.script('santaScript',        'js/santa.module.js');
+	    game.load.script('pointsScript',       'js/points.module.js');
+	    game.load.script('mgScript',           'js/mg.module.js');
+	    game.load.script('childManagerScript', 'js/childmanager.module.js');
+	    game.load.script('presentPileScript',  'js/presentpile.module.js');
     },
     preload: function() {
         game.add.existing(this.loadingText);

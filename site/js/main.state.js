@@ -8,8 +8,9 @@ var MainState = function() {};
 MainState.prototype = {
     preload: function() {
         // load only the splashscreen and loading state necessaries here
-        game.load.image('splashscreen', 'assets/sprites/splashscreen.png');
-        game.load.script('SplashState', 'js/splash.state.js');
+        game.load.image('splashscreen',  'assets/sprites/splashscreen.png');
+        game.load.script('SplashState',  'js/splash.state.js');
+        game.load.script('LoadingState', 'js/loading.state.js');
     },
     create: function() {
         game.state.add('SplashState', SplashState);
