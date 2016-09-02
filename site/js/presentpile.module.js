@@ -43,6 +43,7 @@
             present.y = child.y - 40;
             present.child = child;
             child.present = present;
+            console.log(self.fromPresentGroup);
         },
         dropPresent: function(present) {
             self.fromPresentGroup.remove(present);
@@ -58,7 +59,11 @@
             present.y = y;
             present.dropped = false;
         },
-        update: function(gameOver) {
+        update: function() {
+            var gameOverFlag;
+            self.presentGroup.forEach(function(present) {
+                console.log('hej');
+            });
             self.fromPresentGroup.forEach(function(fromPresent) {
                 fromPresent.x = fromPresent.child.x;
                 fromPresent.y = fromPresent.child.y - 40;
@@ -70,8 +75,9 @@
             });
             if(self.presentCount == 0) {
                 // this doesn't need to run every frame
-                gameOver.active = true;
+                gameOverFlag = true;
             }
+            return gameOverFlag;
         }
     };
     this.PresentPile = PresentPile;

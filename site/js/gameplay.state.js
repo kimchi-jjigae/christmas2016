@@ -8,6 +8,7 @@ GameplayState.prototype = {
 
     create: function() {
         self = this;
+        self.gameOverFlag = false;
         self.bg = game.add.sprite(0, 0, 'bg');
         self.santa = new Santa();
         self.children = new ChildManager();
@@ -69,6 +70,8 @@ GameplayState.prototype = {
         game.physics.arcade.collide(self.santa.santa, self.platforms);
         game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childGroup, killChild);
 
+        // feels a bit ugly checking for this flag here tbh
+        self.gameOverFlag = self.presents.update(); 
         self.children.update(self.presents); 
         self.machineGun.update();
         self.santa.update(self.presents);
@@ -95,5 +98,9 @@ GameplayState.prototype = {
             bullet.kill();
             child.kill();
         };
+        if(self.gameOverFlag) {
+            console.log("game over");
+            //game.state.start("GameOverState");
+        }
     }
 };
