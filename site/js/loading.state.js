@@ -10,6 +10,7 @@ LoadingState.prototype = {
         // menu sprites //
 
         // gameplay sprites //
+        game.load.image('bg',       'assets/sprites/splashscreen.png');
         game.load.image('mg',       'assets/sprites/mg.png');
         game.load.image('santa',    'assets/sprites/santa.png');
         game.load.image('girl',     'assets/sprites/girl.png');

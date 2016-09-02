@@ -1,5 +1,5 @@
 'use strict';
-
+    
 var GameplayState = function() {
     //this santa = new Santa();
 };
@@ -7,90 +7,90 @@ var GameplayState = function() {
 GameplayState.prototype = {
 
     create: function() {
-        this.santa = new Santa();
-        this.children = new ChildManager();
-        this.points = new PointsManager();
-
-        this.platforms = game.add.group();
+        self = this;
+        self.bg = game.add.sprite(0, 0, 'bg');
+        self.santa = new Santa();
+        self.children = new ChildManager();
+        self.points = new PointsManager();
+        self.platforms = game.add.group();
         // move these platform things to their own class! :)
-        platforms.enableBody = true;
-        var ground = platforms.create(0, game.world.height - 64, 'platform');
+        self.platforms.enableBody = true;
+        var ground = self.platforms.create(0, game.world.height - 64, 'platform');
         ground.scale.setTo(2, 1);
         ground.body.immovable = true;
-        //var ledge = platforms.create(400, 400, 'platform');
+        //var ledge = self.platforms.create(400, 400, 'platform');
         //ledge.body.immovable = true;
 
-        this.presents = new PresentPile();
-        this.machineGun = new MachineGun();
+        self.presents = new PresentPile();
+        self.machineGun = new MachineGun();
         game.input.keyboard.onDownCallback = function(event) {
             if(keycodes.left.includes(event.key)) {
                 // ← left
-                this.santa.movement.left = true;
+                self.santa.movement.left = true;
             }
             else if(keycodes.right.includes(event.key)) {
                 // → right
-                this.santa.movement.right = true;
+                self.santa.movement.right = true;
             }
             else if(keycodes.up.includes(event.key)) {
                 // ↑ up
-                this.santa.movement.up = true;
-                splashscreen.next();
+                self.santa.movement.up = true;
             }
             else if(keycodes.down.includes(event.key)) {
                 // ↓ down
-                this.santa.movement.down = true;
+                self.santa.movement.down = true;
             }
         };
         game.input.keyboard.onUpCallback = function(event) {
             if(keycodes.action.includes(event.key)) {
                 // E action
-                this.santa.use(machineGun);
+                self.santa.use(self.machineGun);
             }
             else if(keycodes.left.includes(event.key)) {
                 // ← left
-                this.santa.movement.left = false;
+                self.santa.movement.left = false;
             }
             else if(keycodes.right.includes(event.key)) {
                 // → right
-                this.santa.movement.right = false;
+                self.santa.movement.right = false;
             }
             else if(keycodes.up.includes(event.key)) {
                 // ↑ up
-                this.santa.movement.up = false;
+                self.santa.movement.up = false;
             }
             else if(keycodes.down.includes(event.key)) {
                 // ↓ down
-                this.santa.movement.down = false;
+                self.santa.movement.down = false;
             }
         };
     },
     update: function() {
         // physics goes first, to make sure the updates work properly
-        game.physics.arcade.collide(this.santa.santa, platforms);
-        game.physics.arcade.collide(machineGun.bulletsGroup, children.childGroup, killChild);
+        game.physics.arcade.collide(self.santa.santa, self.platforms);
+        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childGroup, killChild);
 
-        children.update(presents); 
-        machineGun.update();
-        this.santa.update(presents);
+        self.children.update(self.presents); 
+        self.machineGun.update();
+        self.santa.update(self.presents);
 
         if(game.input.activePointer.isDown) {
-            machineGun.fireBullet();
+            self.machineGun.fireBullet();
         }
 
         function killChild(bullet, child) {
             if(child.present != undefined) {
-                presents.dropPresent(child.present);
+                self.presents.dropPresent(child.present);
             }
             else {
-                // drop ammo, but should the children holding presents drop ammo too?
+                // drop ammo, but should the self.children holding self.presents drop ammo too?
             }
-            machineGun.bulletsGroup.remove(bullet);
-            children.childGroup.remove(child);
+            self.machineGun.bulletsGroup.remove(bullet);
+            self.children.childGroup.remove(child);
             if(child.from) {
-                points.add(child.points.from);
+                self.points.add(child.points.from);
             }
             else {
-                points.add(child.points.to);
+                self.points.add(child.points.to);
             }
             bullet.kill();
             child.kill();
