@@ -26,6 +26,7 @@ LoadingState.prototype = {
         // other
 	    game.load.script('utilScript',          'js/util.js');
 	    game.load.script('directionEnumScript', 'js/direction.enum.js');
+	    game.load.script('keycodesScript',      'js/keycodes.js');
 
         // classes
 	    game.load.script('santaScript',        'js/santa.module.js');

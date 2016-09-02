@@ -2,9 +2,9 @@
 
 (function() {
     var self;
-    var ChildManager = function(childGroup) {
+    var ChildManager = function() {
         self = this;
-        self.childGroup = childGroup;
+        self.childGroup = game.add.group();
         self.addChild();
         self.spawnRate = 0.005;
     };
