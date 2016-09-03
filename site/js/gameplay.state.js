@@ -1,12 +1,10 @@
 'use strict';
     
-var GameplayState = function() {
-    //this santa = new Santa();
-};
+var GameplayState = function() {};
 
 GameplayState.prototype = {
-
     create: function() {
+        console.log('hej');
         self = this;
         self.gameOverFlag = false;
         self.bg = game.add.sprite(0, 0, 'bg');
@@ -99,8 +97,8 @@ GameplayState.prototype = {
             child.kill();
         };
         if(self.gameOverFlag) {
-            console.log("game over");
-            //game.state.start("GameOverState");
+            game.state.states['GameOverState'].score = self.points.totalScore;
+            game.state.start("GameOverState");
         }
     }
 };

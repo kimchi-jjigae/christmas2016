@@ -10,7 +10,7 @@ LoadingState.prototype = {
         // menu sprites //
 
         // gameplay sprites //
-        game.load.image('bg',       'assets/sprites/splashscreen.png');
+        game.load.image('bg',       'assets/sprites/gamebg.png');
         game.load.image('mg',       'assets/sprites/mg.png');
         game.load.image('santa',    'assets/sprites/santa.png');
         game.load.image('girl',     'assets/sprites/girl.png');
@@ -22,7 +22,7 @@ LoadingState.prototype = {
         // states
         game.load.script('gameplayStateScript', 'js/gameplay.state.js');
         game.load.script('menuStateScript',     'js/menu.state.js');
-	    game.load.script('gameoverStateScript', 'js/gameover.module.js');
+	    game.load.script('gameOverStateScript', 'js/gameover.state.js');
 
         // other
 	    game.load.script('utilScript',          'js/util.js');
@@ -44,8 +44,9 @@ LoadingState.prototype = {
     create: function() {
         game.input.keyboard.onDownCallback = function(event) {
         };
-        game.state.add('GameplayState', GameplayState);
         game.state.add('MenuState', MenuState);
+        game.state.add('GameplayState', GameplayState);
+        game.state.add('GameOverState', GameOverState);
     },
     update: function() {
         game.state.start("MenuState");

@@ -11,7 +11,7 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.text = game.add.text(game.world.x - 200, 0, "score: " + self.totalScore, style);
+        self.text = game.add.text(game.width - 200, 0, "score: " + self.totalScore, style);
     };
   
     PointsManager.prototype = {

@@ -14,7 +14,8 @@
         };
         self.setUpPresents = function() {
             //var pyramidArray = [6, 5, 4, 3, 2, 1];
-            var pyramidArray = [4, 3, 2, 1];
+            //var pyramidArray = [4, 3, 2, 1];
+            var pyramidArray = [1];
             var blockSize = 50;
 
             for(var j = 0; j < pyramidArray.length; ++j){
@@ -43,7 +44,6 @@
             present.y = child.y - 40;
             present.child = child;
             child.present = present;
-            console.log(self.fromPresentGroup);
         },
         dropPresent: function(present) {
             self.fromPresentGroup.remove(present);
@@ -61,9 +61,6 @@
         },
         update: function() {
             var gameOverFlag;
-            self.presentGroup.forEach(function(present) {
-                console.log('hej');
-            });
             self.fromPresentGroup.forEach(function(fromPresent) {
                 fromPresent.x = fromPresent.child.x;
                 fromPresent.y = fromPresent.child.y - 40;
