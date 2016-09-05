@@ -4,12 +4,13 @@ var GameplayState = function() {};
 
 GameplayState.prototype = {
     create: function() {
-        console.log('hej');
+        // all this takes too long to load; move some of it into the loading state
         self = this;
+        self.wave = new Wave(0);
         self.gameOverFlag = false;
         self.bg = game.add.sprite(0, 0, 'bg');
         self.santa = new Santa();
-        self.children = new ChildManager();
+        self.children = new ChildManager(wave);
         self.points = new PointsManager();
         self.platforms = game.add.group();
         // move these platform things to their own class! :)
@@ -66,39 +67,43 @@ GameplayState.prototype = {
     update: function() {
         // physics goes first, to make sure the updates work properly
         game.physics.arcade.collide(self.santa.santa, self.platforms);
-        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childGroup, killChild);
+        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childGroup, self.killChild);
 
         // feels a bit ugly checking for this flag here tbh
         self.gameOverFlag = self.presents.update(); 
-        self.children.update(self.presents); 
+        if(self.wave.active) {
+            self.children.update(self.presents); 
+        }
+        else {
+            self.wave.newWaveUpdate();
+        }
         self.machineGun.update();
         self.santa.update(self.presents);
 
         if(game.input.activePointer.isDown) {
             self.machineGun.fireBullet();
         }
-
-        function killChild(bullet, child) {
-            if(child.present != undefined) {
-                self.presents.dropPresent(child.present);
-            }
-            else {
-                // drop ammo, but should the self.children holding self.presents drop ammo too?
-            }
-            self.machineGun.bulletsGroup.remove(bullet);
-            self.children.childGroup.remove(child);
-            if(child.from) {
-                self.points.add(child.points.from);
-            }
-            else {
-                self.points.add(child.points.to);
-            }
-            bullet.kill();
-            child.kill();
-        };
         if(self.gameOverFlag) {
             game.state.states['GameOverState'].score = self.points.totalScore;
             game.state.start("GameOverState");
         }
+    },
+    killChild: function(bullet, child) {
+        if(child.present != undefined) {
+            self.presents.dropPresent(child.present);
+        }
+        else {
+            // drop ammo, but should the self.children holding self.presents drop ammo too?
+        }
+        self.machineGun.bulletsGroup.remove(bullet);
+        self.children.childGroup.remove(child);
+        if(child.from) {
+            self.points.add(child.points.from);
+        }
+        else {
+            self.points.add(child.points.to);
+        }
+        bullet.kill();
+        child.kill();
     }
 };

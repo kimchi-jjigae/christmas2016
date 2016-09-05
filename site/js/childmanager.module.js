@@ -2,11 +2,12 @@
 
 (function() {
     var self;
-    var ChildManager = function() {
+    var ChildManager = function(wave) {
         self = this;
         self.childGroup = game.add.group();
         self.addChild();
         self.spawnRate = 0.005;
+        self.wave = wave;
     };
   
     ChildManager.prototype = {
@@ -48,7 +49,9 @@
             }
         },
         update: function(presentPile) {
-            self.spawn();
+            if(self.wave.childrenLeft > 0) {
+                self.spawn();
+            }
             self.childGroup.forEach(function(child) {
                 self.checkForPresents(child, presentPile);
                 self.checkDespawning(child);
