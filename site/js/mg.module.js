@@ -6,9 +6,12 @@
         self.bulletsGroup.enableBody = true;
         self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
         self.bulletAmount = 99999; // this will(?) be infinite anyway
-        self.bulletVelocity = 3000;
-        self.fireRate = 100; // milliseconds
-        self.timeLastFired = 0;
+        self.bulletVelocity = 2000; // argh, kinda want this really quick but the fps!
+        self.bulletFireRate = 1000; // milliseconds -- I think we want some kind of [re]loading bar for this
+        self.timeLastBulletFired = 0;
+        self.grenadeAmount = 99999; 
+        self.grenadeFireRate = 1000;
+        self.timeLastGrenadeFired = 0;
         self.position = {
             x: game.world.centerX,
             y: 100
@@ -30,12 +33,12 @@
     MachineGun.prototype = {
         fireBullet: function() {
             if(self.active) {
-                if(Date.now() - self.timeLastFired >= self.fireRate &&
+                if(Date.now() - self.timeLastBulletFired >= self.bulletFireRate &&
                    self.bulletAmount > 0) {
                     var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
                     // check here if rotation is >= 0 or Math.PI
                     game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
-                    self.timeLastFired = Date.now();
+                    self.timeLastBulletFired = Date.now();
                     self.bulletAmount--;
                     self.ammoText.text = "ammo: " + self.bulletAmount;
                 }
