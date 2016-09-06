@@ -31,6 +31,7 @@ LoadingState.prototype = {
 
         // classes
 	    game.load.script('santaScript',        'js/santa.module.js');
+	    game.load.script('waveScript',         'js/wave.module.js');
 	    game.load.script('pointsScript',       'js/points.module.js');
 	    game.load.script('mgScript',           'js/mg.module.js');
 	    game.load.script('childManagerScript', 'js/childmanager.module.js');

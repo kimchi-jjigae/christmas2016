@@ -55,7 +55,7 @@ GameOverState.prototype = {
                     "score": "44444",
                 },
                 {
-                    "name": "I suck",
+                    "name": "xX_1337_Xx",
                     "rank": "8",
                     "score": "33333",
                 },

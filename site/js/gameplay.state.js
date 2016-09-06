@@ -6,11 +6,11 @@ GameplayState.prototype = {
     create: function() {
         // all this takes too long to load; move some of it into the loading state
         self = this;
-        self.wave = new Wave(0);
         self.gameOverFlag = false;
         self.bg = game.add.sprite(0, 0, 'bg');
         self.santa = new Santa();
-        self.children = new ChildManager(wave);
+        self.wave = new Wave(1);
+        self.children = new ChildManager(self.wave);
         self.points = new PointsManager();
         self.platforms = game.add.group();
         // move these platform things to their own class! :)

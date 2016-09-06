@@ -13,11 +13,12 @@
             y: 660
         };
         self.setUpPresents = function() {
-            //var pyramidArray = [6, 5, 4, 3, 2, 1];
-            //var pyramidArray = [4, 3, 2, 1];
-            var pyramidArray = [1];
+            var pyramidBaseSize = 4;
             var blockSize = 50;
-
+            var pyramidArray = [];
+            for(var i = pyramidBaseSize; i > 0; --i) {
+                pyramidArray.push(i);
+            }
             for(var j = 0; j < pyramidArray.length; ++j){
                 var pyramidRow = pyramidArray[j];
                 for(var k = 0; k < pyramidRow; ++k) {

@@ -28,8 +28,10 @@
             };
         },
         spawn: function() {
+            // make this randomness more time-based
             if(Math.random() < self.spawnRate) {
                 self.addChild();
+                self.wave.childrenLeft--;
             }
         },
         checkForPresents: function(child, presentPile) {
@@ -51,6 +53,10 @@
         update: function(presentPile) {
             if(self.wave.childrenLeft > 0) {
                 self.spawn();
+            }
+            else if(self.childGroup.children.length == 0) {
+                // uhhh all the new wave checking should probably be somewhere else
+                self.wave.startNewWave();
             }
             self.childGroup.forEach(function(child) {
                 self.checkForPresents(child, presentPile);

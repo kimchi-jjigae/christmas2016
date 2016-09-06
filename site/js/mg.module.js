@@ -5,8 +5,8 @@
         self.bulletsGroup = game.add.group();
         self.bulletsGroup.enableBody = true;
         self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.bulletAmount = 10;
-        self.bulletVelocity = 800;
+        self.bulletAmount = 99999; // this will(?) be infinite anyway
+        self.bulletVelocity = 3000;
         self.fireRate = 100; // milliseconds
         self.timeLastFired = 0;
         self.position = {
@@ -24,7 +24,7 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.text = game.add.text(0, 0, "ammo: " + self.bulletAmount, style);
+        self.ammoText = game.add.text(20, 50, "ammo: " + self.bulletAmount, style);
     };
   
     MachineGun.prototype = {
@@ -37,7 +37,7 @@
                     game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
                     self.timeLastFired = Date.now();
                     self.bulletAmount--;
-                    self.text.text = "ammo: " + self.bulletAmount;
+                    self.ammoText.text = "ammo: " + self.bulletAmount;
                 }
             }
         },
