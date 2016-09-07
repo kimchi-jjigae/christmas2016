@@ -31,12 +31,10 @@
             self.newWaveText.x = game.width / 2;
             self.newWaveText.y = game.height / 2;
             self.newWaveText.text = "Wave " + self.number;
-            self.newWaveText.visible = true;
             self.active = false;
         },
         newWaveUpdate: function() {
             if(Date.now() - self.newWaveStart > self.newWaveTime) {
-                self.newWaveText.visible = false;
                 self.newWaveText.x = 20;
                 self.newWaveText.y = 20;
                 self.active = true;

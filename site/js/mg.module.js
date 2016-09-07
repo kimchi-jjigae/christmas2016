@@ -16,7 +16,7 @@
         self.grenadeAmount = 30; 
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
-        self.timeStartGrenadeFire = 0;
+        self.grenadePower = 0;
         self.startedGrenadeFire = false;
 
         self.position = {
@@ -60,20 +60,20 @@
             }
             else {
                 console.log('powering up grenade!');
-                self.timeStartGrenadeFire++;
+                self.grenadePower++;
             }
         },
         fireGrenade: function() {
             console.log('firing grenade!');
             var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
             game.physics.arcade.enable(grenade);
-            grenade.body.bounce.y = 0.2;
-            grenade.body.gravity.y = 2000;
+            grenade.body.bounce = new Phaser.Point(0.7, 0.7);
+            grenade.body.gravity.y = 1000;
             grenade.body.collideWorldBounds = true;
-            grenade.body.velocity.x = self.timeStartGrenadeFire * 50;
-           // game.physics.arcade.moveToPointer(grenade, 100);
+            var grenadeDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
+            grenade.body.velocity = grenadeDirection.setMagnitude(self.grenadePower * 50);
             self.timeLastGrenadeFired = Date.now();
-            self.timeStartGrenadeFire = 0;
+            self.grenadePower = 0;
             self.grenadeAmount--;
             self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
             self.startedGrenadeFire = false;

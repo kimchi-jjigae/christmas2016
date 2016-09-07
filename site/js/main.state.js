@@ -11,6 +11,8 @@ MainState.prototype = {
         game.load.image('splashscreen',  'assets/sprites/splashscreen.png');
         game.load.script('SplashState',  'js/splash.state.js');
         game.load.script('LoadingState', 'js/loading.state.js');
+        // allow the player to right click without the menu popping up
+        game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
     },
     create: function() {
         game.state.add('SplashState', SplashState);
