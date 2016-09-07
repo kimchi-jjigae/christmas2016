@@ -16,6 +16,7 @@ LoadingState.prototype = {
         game.load.image('girl',     'assets/sprites/girl.png');
         game.load.image('platform', 'assets/sprites/platform.png');
         game.load.image('bullet',   'assets/sprites/bullet.png');
+        game.load.image('grenade',  'assets/sprites/bullet.png');
         game.load.image('present',  'assets/sprites/present.png');
     },
     preloadScripts: function() {

@@ -9,9 +9,22 @@
         self.bulletVelocity = 2000; // argh, kinda want this really quick but the fps!
         self.bulletFireRate = 1000; // milliseconds -- I think we want some kind of [re]loading bar for this
         self.timeLastBulletFired = 0;
-        self.grenadeAmount = 99999; 
+        self.bulletAmountText = game.add.text(20, 50, "ammo: " + self.bulletAmount, style);
+
+        self.grenadeGroup = game.add.group();
+        self.grenadeGroup.enableBody = true;
+        self.grenadeGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        self.grenadeAmount = 3; 
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
+        /*
+        game.physics.arcade.enable(self.grenadeGroup);
+        self.grenadeGroup.body.bounce.y = 0.2;
+        self.grenadeGroup.body.gravity.y = 2000;
+        self.grenadeGroup.body.collideWorldBounds = true;
+        */
+        self.grenadeAmountText = game.add.text(20, 100, "grenades: " + self.grenadeAmount, style);
+
         self.position = {
             x: game.world.centerX,
             y: 100
@@ -27,7 +40,6 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.ammoText = game.add.text(20, 50, "ammo: " + self.bulletAmount, style);
     };
   
     MachineGun.prototype = {
@@ -40,11 +52,22 @@
                     game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
                     self.timeLastBulletFired = Date.now();
                     self.bulletAmount--;
-                    self.ammoText.text = "ammo: " + self.bulletAmount;
+                    self.bulletAmountText.text = "ammo: " + self.bulletAmount;
                 }
             }
         },
         fireGrenade: function() {
+            if(self.active) {
+                if(Date.now() - self.timeLastGrenadeFired >= self.grenadeFireRate &&
+                   self.grenadeAmount > 0) {
+                    var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
+                    // check here if rotation is >= 0 or Math.PI
+                    game.physics.arcade.moveToPointer(grenade, 100);
+                    self.timeLastGrenadeFired = Date.now();
+                    self.grenadeAmount--;
+                    //self.grenadeAmountText.text = "ammo: " + self.bulletAmount;
+                }
+            }
         },
         rotateMachineGun: function() {
             var rotation;

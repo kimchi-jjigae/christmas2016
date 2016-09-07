@@ -81,7 +81,8 @@ GameplayState.prototype = {
         self.santa.update(self.presents);
 
         if(game.input.activePointer.isDown) {
-            self.machineGun.fireBullet();
+            //self.machineGun.fireBullet();
+            self.machineGun.fireGrenade();
         }
         if(self.gameOverFlag) {
             game.state.states['GameOverState'].score = self.points.totalScore;
