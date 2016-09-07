@@ -80,9 +80,17 @@ GameplayState.prototype = {
         self.machineGun.update();
         self.santa.update(self.presents);
 
+        // it would be better with a callback for this method, defined in the create() section
         if(game.input.activePointer.isDown) {
-            //self.machineGun.fireBullet();
-            self.machineGun.fireGrenade();
+            if(self.machineGun.active) {
+                //self.machineGun.fireBullet();
+                self.machineGun.startFiringGrenade();
+            }
+        }
+        else if(game.input.activePointer.isUp) {
+            if(self.machineGun.startedGrenadeFire) {
+                self.machineGun.fireGrenade();
+            }
         }
         if(self.gameOverFlag) {
             game.state.states['GameOverState'].score = self.points.totalScore;

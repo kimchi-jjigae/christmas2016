@@ -5,25 +5,19 @@
         self.bulletsGroup = game.add.group();
         self.bulletsGroup.enableBody = true;
         self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.bulletAmount = 99999; // this will(?) be infinite anyway
+        self.bulletAmount = 9999999999999; // do I need this haha
         self.bulletVelocity = 2000; // argh, kinda want this really quick but the fps!
         self.bulletFireRate = 1000; // milliseconds -- I think we want some kind of [re]loading bar for this
         self.timeLastBulletFired = 0;
-        self.bulletAmountText = game.add.text(20, 50, "ammo: " + self.bulletAmount, style);
 
         self.grenadeGroup = game.add.group();
         self.grenadeGroup.enableBody = true;
         self.grenadeGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.grenadeAmount = 3; 
+        self.grenadeAmount = 30; 
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
-        /*
-        game.physics.arcade.enable(self.grenadeGroup);
-        self.grenadeGroup.body.bounce.y = 0.2;
-        self.grenadeGroup.body.gravity.y = 2000;
-        self.grenadeGroup.body.collideWorldBounds = true;
-        */
-        self.grenadeAmountText = game.add.text(20, 100, "grenades: " + self.grenadeAmount, style);
+        self.timeStartGrenadeFire = 0;
+        self.startedGrenadeFire = false;
 
         self.position = {
             x: game.world.centerX,
@@ -40,34 +34,49 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
+        self.bulletAmountText = game.add.text(20, 50, "ammo: " + self.bulletAmount, style);
+        self.grenadeAmountText = game.add.text(20, 80, "grenades: " + self.grenadeAmount, style);
     };
   
     MachineGun.prototype = {
         fireBullet: function() {
-            if(self.active) {
-                if(Date.now() - self.timeLastBulletFired >= self.bulletFireRate &&
-                   self.bulletAmount > 0) {
-                    var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
-                    // check here if rotation is >= 0 or Math.PI
-                    game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
-                    self.timeLastBulletFired = Date.now();
-                    self.bulletAmount--;
-                    self.bulletAmountText.text = "ammo: " + self.bulletAmount;
+            if(Date.now() - self.timeLastBulletFired >= self.bulletFireRate &&
+               self.bulletAmount > 0) {
+                var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
+                // check here if rotation is >= 0 or Math.PI
+                game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
+                self.timeLastBulletFired = Date.now();
+                self.bulletAmount--;
+                self.bulletAmountText.text = "ammo: " + self.bulletAmount;
+            }
+        },
+        startFiringGrenade: function() {
+            if(self.startedGrenadeFire == false) {
+                console.log('starting fire grenade!');
+                if(Date.now() - self.timeLastGrenadeFired >= self.grenadeFireRate &&
+                   self.grenadeAmount > 0) {
+                    self.startedGrenadeFire = true;
                 }
+            }
+            else {
+                console.log('powering up grenade!');
+                self.timeStartGrenadeFire++;
             }
         },
         fireGrenade: function() {
-            if(self.active) {
-                if(Date.now() - self.timeLastGrenadeFired >= self.grenadeFireRate &&
-                   self.grenadeAmount > 0) {
-                    var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
-                    // check here if rotation is >= 0 or Math.PI
-                    game.physics.arcade.moveToPointer(grenade, 100);
-                    self.timeLastGrenadeFired = Date.now();
-                    self.grenadeAmount--;
-                    //self.grenadeAmountText.text = "ammo: " + self.bulletAmount;
-                }
-            }
+            console.log('firing grenade!');
+            var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
+            game.physics.arcade.enable(grenade);
+            grenade.body.bounce.y = 0.2;
+            grenade.body.gravity.y = 2000;
+            grenade.body.collideWorldBounds = true;
+            grenade.body.velocity.x = self.timeStartGrenadeFire * 50;
+           // game.physics.arcade.moveToPointer(grenade, 100);
+            self.timeLastGrenadeFired = Date.now();
+            self.timeStartGrenadeFire = 0;
+            self.grenadeAmount--;
+            self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
+            self.startedGrenadeFire = false;
         },
         rotateMachineGun: function() {
             var rotation;

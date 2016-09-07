@@ -7,7 +7,7 @@
 
         self.speed = 300;
         self.jump = 1500;
-        self.santa = game.add.sprite(0, 0, 'santa');
+        self.santa = game.add.sprite(640, 0, 'santa');
         self.santa.scale.setTo(0.2, 0.2);
         self.santa.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(self.santa);
