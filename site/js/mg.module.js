@@ -5,7 +5,7 @@
         self.bulletsGroup = game.add.group();
         self.bulletsGroup.enableBody = true;
         self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.bulletAmount = 9999999999999; // do I need this haha
+        self.bulletAmount = 9999999999999; // do I need this lol
         self.bulletVelocity = 2000; // argh, kinda want this really quick but the fps!
         self.bulletFireRate = 1000; // milliseconds -- I think we want some kind of [re]loading bar for this
         self.timeLastBulletFired = 0;
@@ -16,8 +16,11 @@
         self.grenadeAmount = 30; 
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
-        self.grenadePower = 0;
+        self.timeStartedGrenadeFire = 0;
+        self.grenadeFuseTimer = 1000;
+        self.grenadeSpeed = 0;
         self.startedGrenadeFire = false;
+        self.grenadeRadius = 200;
 
         self.position = {
             x: game.world.centerX,
@@ -51,29 +54,42 @@
             }
         },
         startFiringGrenade: function() {
+            // initiate grenade firing
             if(self.startedGrenadeFire == false) {
-                console.log('starting fire grenade!');
                 if(Date.now() - self.timeLastGrenadeFired >= self.grenadeFireRate &&
                    self.grenadeAmount > 0) {
                     self.startedGrenadeFire = true;
+                    self.timeStartedGrenadeFire = Date.now();
                 }
             }
+            // power up grenade firing
             else {
-                console.log('powering up grenade!');
-                self.grenadePower++;
+                self.grenadeSpeed++;
+                // if you've been powering it up for too long, then explode in hand
+                if(Date.now() - self.timeStartedGrenadeFire >= self.grenadeFuseTimer) {
+                    console.log("KABOOM! in hand");
+                    // explode in hand! -- also have a function in the update function to check for grenade explosions
+                    // TODO: remove from the grenade group array thing
+                    self.timeLastGrenadeFired = Date.now();
+                    self.grenadeSpeed = 0;
+                    self.grenadeAmount--;
+                    self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
+                    self.startedGrenadeFire = false;
+                }
             }
         },
         fireGrenade: function() {
-            console.log('firing grenade!');
             var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
             game.physics.arcade.enable(grenade);
             grenade.body.bounce = new Phaser.Point(0.7, 0.7);
             grenade.body.gravity.y = 1000;
             grenade.body.collideWorldBounds = true;
+            grenade.timeFired = Date.now();
+            grenade.fuseTimeLeft = self.grenadeFuseTimer - (Date.now() - self.timeLastGrenadeFired);
             var grenadeDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
-            grenade.body.velocity = grenadeDirection.setMagnitude(self.grenadePower * 50);
+            grenade.body.velocity = grenadeDirection.setMagnitude(self.grenadeSpeed * 50);
             self.timeLastGrenadeFired = Date.now();
-            self.grenadePower = 0;
+            self.grenadeSpeed = 0;
             self.grenadeAmount--;
             self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
             self.startedGrenadeFire = false;
@@ -114,9 +130,25 @@
             }
             self.mgSprite.rotation = rotation;
         },
+        checkGrenadeExplosions: function() {
+            // this type of check also occurs in startFiringGrenade, if powering 
+            // up a grenade explosion (sorry for the subpar code design)
+            self.grenadeGroup.forEach(function(grenade) {
+                if(Date.now() - grenade.timeFired >= grenade.fuseTimeLeft) {
+                    console.log("KABOOM!");
+                    self.grenadeSpeed = 0;
+                    self.grenadeAmount--;
+                    self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
+                    self.grenadeGroup.remove(grenade);
+                    grenade.kill();
+                    // TODO: loop through all the children and check where they are 
+                }
+            });
+        },
         update: function() {
             // check if bullets should disappear here
             self.rotateMachineGun();
+            self.checkGrenadeExplosions();
         }
     };
   
