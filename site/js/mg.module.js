@@ -1,3 +1,4 @@
+// hmm, perhaps it should be changed to something like a bow+arrow to make it more difficult
 (function() {
     var self;
     var MachineGun = function() {
@@ -17,7 +18,7 @@
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
         self.timeStartedGrenadeFire = 0;
-        self.grenadeFuseTimer = 1000;
+        self.grenadeFuseTimer = 2000;
         self.grenadeSpeed = 0;
         self.startedGrenadeFire = false;
         self.grenadeRadius = 200;
@@ -81,11 +82,11 @@
         fireGrenade: function() {
             var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
             game.physics.arcade.enable(grenade);
-            grenade.body.bounce = new Phaser.Point(0.7, 0.7);
+            grenade.body.bounce = new Phaser.Point(0.5, 0.5);
             grenade.body.gravity.y = 1000;
             grenade.body.collideWorldBounds = true;
             grenade.timeFired = Date.now();
-            grenade.fuseTimeLeft = self.grenadeFuseTimer - (Date.now() - self.timeLastGrenadeFired);
+            grenade.fuseTimeLeft = self.grenadeFuseTimer - (Date.now() - self.timeStartedGrenadeFire);
             var grenadeDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
             grenade.body.velocity = grenadeDirection.setMagnitude(self.grenadeSpeed * 50);
             self.timeLastGrenadeFired = Date.now();
