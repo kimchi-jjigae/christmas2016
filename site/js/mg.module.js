@@ -23,6 +23,9 @@
         self.startedGrenadeFire = false;
         self.grenadeRadius = 200;
 
+        self.explosionGroup = game.add.group();
+        self.explosionDuration = 500;
+
         self.position = {
             x: game.world.centerX,
             y: 100
@@ -68,9 +71,9 @@
                 self.grenadeSpeed++;
                 // if you've been powering it up for too long, then explode in hand
                 if(Date.now() - self.timeStartedGrenadeFire >= self.grenadeFuseTimer) {
-                    console.log("KABOOM! in hand");
-                    // explode in hand! -- also have a function in the update function to check for grenade explosions
-                    // TODO: remove from the grenade group array thing
+                    var explosion = self.explosionGroup.create(self.position.x, self.position.y, 'explosion');
+                    explosion.scale.setTo(3.0, 3.0);
+                    explosion.explosionTime = Date.now();
                     self.timeLastGrenadeFired = Date.now();
                     self.grenadeSpeed = 0;
                     self.grenadeAmount--;
@@ -131,25 +134,42 @@
             }
             self.mgSprite.rotation = rotation;
         },
-        checkGrenadeExplosions: function() {
+        checkGrenadeExplosions: function(childGroup) {
             // this type of check also occurs in startFiringGrenade, if powering 
-            // up a grenade explosion (sorry for the subpar code design)
+            // up a grenade explosion to check for explosions in hand
             self.grenadeGroup.forEach(function(grenade) {
                 if(Date.now() - grenade.timeFired >= grenade.fuseTimeLeft) {
-                    console.log("KABOOM!");
                     self.grenadeSpeed = 0;
                     self.grenadeAmount--;
                     self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
                     self.grenadeGroup.remove(grenade);
+                    var explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
+                    explosion.scale.setTo(3.0, 3.0);
+                    explosion.explosionTime = Date.now();
+                    childGroup.forEach(function(child) {
+                        if(Phaser.Point.distance(child, grenade) < 200) {
+                            childGroup.remove(child);
+                            // should look at killChild() in gameplay.state.js
+                            child.kill();
+                        }
+                    });
                     grenade.kill();
-                    // TODO: loop through all the children and check where they are 
                 }
             });
         },
-        update: function() {
+        checkExplosionTimeouts: function() {
+            self.explosionGroup.forEach(function(explosion) {
+                if(Date.now() - explosion.explosionTime > self.explosionDuration) {
+                    self.explosionGroup.remove(explosion);
+                    explosion.kill();
+                }
+            });
+        },
+        update: function(children) {
             // check if bullets should disappear here
             self.rotateMachineGun();
-            self.checkGrenadeExplosions();
+            self.checkGrenadeExplosions(children);
+            self.checkExplosionTimeouts();
         }
     };
   

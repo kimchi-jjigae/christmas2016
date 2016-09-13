@@ -77,7 +77,7 @@ GameplayState.prototype = {
         else {
             self.wave.newWaveUpdate();
         }
-        self.machineGun.update();
+        self.machineGun.update(self.children.childGroup);
         self.santa.update(self.presents);
 
         if(self.machineGun.active) {

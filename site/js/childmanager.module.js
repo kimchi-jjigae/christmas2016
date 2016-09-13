@@ -6,7 +6,7 @@
         self = this;
         self.childGroup = game.add.group();
         self.addChild();
-        self.spawnRate = 0.005;
+        self.spawnRate = 0.05;
         self.wave = wave;
     };
   

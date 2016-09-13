@@ -10,14 +10,15 @@ LoadingState.prototype = {
         // menu sprites //
 
         // gameplay sprites //
-        game.load.image('bg',       'assets/sprites/gamebg.png');
-        game.load.image('mg',       'assets/sprites/mg.png');
-        game.load.image('santa',    'assets/sprites/santa.png');
-        game.load.image('girl',     'assets/sprites/girl.png');
-        game.load.image('platform', 'assets/sprites/platform.png');
-        game.load.image('bullet',   'assets/sprites/bullet.png');
-        game.load.image('grenade',  'assets/sprites/grenade.png');
-        game.load.image('present',  'assets/sprites/present.png');
+        game.load.image('bg',        'assets/sprites/gamebg.png');
+        game.load.image('mg',        'assets/sprites/mg.png');
+        game.load.image('santa',     'assets/sprites/santa.png');
+        game.load.image('girl',      'assets/sprites/girl.png');
+        game.load.image('platform',  'assets/sprites/platform.png');
+        game.load.image('bullet',    'assets/sprites/bullet.png');
+        game.load.image('grenade',   'assets/sprites/grenade.png');
+        game.load.image('present',   'assets/sprites/present.png');
+        game.load.image('explosion', 'assets/sprites/explosion.png');
     },
     preloadScripts: function() {
         // states
