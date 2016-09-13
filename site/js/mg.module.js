@@ -134,7 +134,7 @@
             }
             self.mgSprite.rotation = rotation;
         },
-        checkGrenadeExplosions: function(childGroup) {
+        checkGrenadeExplosions: function(childGroup, presents, points) {
             // this type of check also occurs in startFiringGrenade, if powering 
             // up a grenade explosion to check for explosions in hand
             self.grenadeGroup.forEach(function(grenade) {
@@ -148,8 +148,17 @@
                     explosion.explosionTime = Date.now();
                     childGroup.forEach(function(child) {
                         if(Phaser.Point.distance(child, grenade) < 200) {
+                            // lots of repeated code from killChild() in gameplay.state.js
+                            if(child.present != undefined) {
+                                presents.dropPresent(child.present);
+                            }
+                            if(child.from) {
+                                points.add(child.points.from);
+                            }
+                            else {
+                                points.add(child.points.to);
+                            }
                             childGroup.remove(child);
-                            // should look at killChild() in gameplay.state.js
                             child.kill();
                         }
                     });
@@ -165,10 +174,10 @@
                 }
             });
         },
-        update: function(children) {
+        update: function(children, presents, points) {
             // check if bullets should disappear here
             self.rotateMachineGun();
-            self.checkGrenadeExplosions(children);
+            self.checkGrenadeExplosions(children, presents, points);
             self.checkExplosionTimeouts();
         }
     };
