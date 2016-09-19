@@ -21,7 +21,6 @@
             right: false,
             down : false
         };
-
     };
   
     Santa.prototype = {

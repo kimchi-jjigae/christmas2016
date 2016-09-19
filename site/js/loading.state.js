@@ -11,14 +11,21 @@ LoadingState.prototype = {
 
         // gameplay sprites //
         game.load.image('bg',        'assets/sprites/gamebg.png');
-        game.load.image('mg',        'assets/sprites/mg.png');
-        game.load.image('santa',     'assets/sprites/santa.png');
-        game.load.image('girl',      'assets/sprites/girl.png');
-        game.load.image('platform',  'assets/sprites/platform.png');
         game.load.image('bullet',    'assets/sprites/bullet.png');
-        game.load.image('grenade',   'assets/sprites/grenade.png');
-        game.load.image('present',   'assets/sprites/present.png');
         game.load.image('explosion', 'assets/sprites/explosion.png');
+        game.load.image('girl',      'assets/sprites/girl.png');
+        game.load.image('girl_body', 'assets/sprites/girl_body.png');
+        game.load.image('girl_head', 'assets/sprites/girl_head.png');
+        game.load.image('grenade',   'assets/sprites/grenade.png');
+        game.load.image('mg',        'assets/sprites/mg.png');
+        game.load.image('platform',  'assets/sprites/platform.png');
+        game.load.image('present',   'assets/sprites/present.png');
+        game.load.image('santa',     'assets/sprites/santa.png');
+        game.load.image('button_play',       'assets/sprites/button_play.png');
+        game.load.image('button_options',    'assets/sprites/button_options.png');
+        game.load.image('button_highscores', 'assets/sprites/button_highscores.png');
+        game.load.image('button_credits',    'assets/sprites/button_credits.png');
+        game.load.image('button_back',       'assets/sprites/button_back.png');
     },
     preloadScripts: function() {
         // states
@@ -39,6 +46,10 @@ LoadingState.prototype = {
 	    game.load.script('childManagerScript', 'js/childmanager.module.js');
 	    game.load.script('presentPileScript',  'js/presentpile.module.js');
     },
+    createGameplayStateAssets: function() {
+        // this doesn't work, please fix it
+        //game.state.states['GameplayState'].santa = new Santa();
+    },
     preload: function() {
         game.add.existing(this.loadingText);
         this.preloadSprites();
@@ -50,6 +61,7 @@ LoadingState.prototype = {
         game.state.add('MenuState', MenuState);
         game.state.add('GameplayState', GameplayState);
         game.state.add('GameOverState', GameOverState);
+        this.createGameplayStateAssets();
     },
     update: function() {
         game.state.start("MenuState");
