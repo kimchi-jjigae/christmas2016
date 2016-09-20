@@ -44,6 +44,7 @@ LoadingState.prototype = {
 	    game.load.script('waveScript',         'js/wave.module.js');
 	    game.load.script('pointsScript',       'js/points.module.js');
 	    game.load.script('mgScript',           'js/mg.module.js');
+	    game.load.script('hoversledScript',    'js/hoversled.module.js');
 	    game.load.script('childManagerScript', 'js/childmanager.module.js');
 	    game.load.script('presentPileScript',  'js/presentpile.module.js');
     },

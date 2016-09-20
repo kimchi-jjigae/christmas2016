@@ -23,6 +23,7 @@ GameplayState.prototype = {
 
         self.presents = new PresentPile();
         self.machineGun = new MachineGun();
+        self.hoversled = new Hoversled();
         game.input.keyboard.onDownCallback = function(event) {
             if(keycodes.left.includes(event.key)) {
                 // ← left

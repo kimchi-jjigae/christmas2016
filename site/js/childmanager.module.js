@@ -15,6 +15,8 @@
   
     ChildManager.prototype = {
         addChild: function() {
+            // may be possible to add heads as a sprite child, then check for collisions separately
+            // have them in separate sprite groups!
             var child = self.childGroup.create(self.spawnPoint.x, self.spawnPoint.y, 'girl_body');
             var head = game.add.sprite(self.spawnPoint.x, self.spawnPoint.y - 64, 'girl_head');
             game.physics.arcade.enable(child);

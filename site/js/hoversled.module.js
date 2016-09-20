@@ -8,7 +8,7 @@
             x: 300,
             y: 300
         };
-        self.hoversprite = game.add.sprite(self.position.x, self.position.y, 'mg');
+        self.hoversprite = game.add.sprite(self.position.x, self.position.y, 'hoversled');
     };
   
     Hoversled.prototype = {
