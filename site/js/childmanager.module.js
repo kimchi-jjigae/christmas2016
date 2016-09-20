@@ -16,17 +16,19 @@
     ChildManager.prototype = {
         addChild: function() {
             var child = self.childGroup.create(self.spawnPoint.x, self.spawnPoint.y, 'girl_body');
-            var head = game.add.sprite(self.spawnPoint.x - 320, self.spawnPoint.y - 420, 'girl_head');
+            var head = game.add.sprite(self.spawnPoint.x, self.spawnPoint.y - 64, 'girl_head');
             game.physics.arcade.enable(child);
             game.physics.arcade.enable(head);
             child.scale.setTo(0.2, 0.2);
-            child.body.velocity.x = util.randomFloat(-200, -260);
-            child.fromVelocity = util.randomFloat(240, 300);
+            var leftVelocity = util.randomFloat(-200, -260);
+            var rightVelocity = util.randomFloat(240, 300);
+            child.body.velocity.x = leftVelocity;
+            child.fromVelocity = rightVelocity;
             child.anchor.setTo(0.5, 0.5);
             child.from = false;
             head.scale.setTo(0.2, 0.2);
-            head.body.velocity.x = util.randomFloat(-200, -260);
-            head.fromVelocity = util.randomFloat(240, 300);
+            head.body.velocity.x = leftVelocity;
+            head.fromVelocity = rightVelocity;
             head.anchor.setTo(0.5, 0.5);
             head.from = false;
             child.ammo = parseInt(util.randomFloat(3));
