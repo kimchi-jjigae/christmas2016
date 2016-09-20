@@ -1,3 +1,4 @@
+'use strict';
 // hmm, perhaps it should be changed to something like a bow+arrow to make it more difficult
 (function() {
     var self;

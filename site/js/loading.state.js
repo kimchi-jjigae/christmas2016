@@ -21,6 +21,7 @@ LoadingState.prototype = {
         game.load.image('platform',  'assets/sprites/platform.png');
         game.load.image('present',   'assets/sprites/present.png');
         game.load.image('santa',     'assets/sprites/santa.png');
+        game.load.image('hoversled', 'assets/sprites/platform.png');
         game.load.image('button_play',       'assets/sprites/button_play.png');
         game.load.image('button_options',    'assets/sprites/button_options.png');
         game.load.image('button_highscores', 'assets/sprites/button_highscores.png');
