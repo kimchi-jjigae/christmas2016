@@ -2,7 +2,7 @@
 // hmm, perhaps it should be changed to something like a bow+arrow to make it more difficult
 (function() {
     var self;
-    var MachineGun = function() {
+    var MachineGun = function(position) {
         self = this;
         self.bulletsGroup = game.add.group();
         self.bulletsGroup.enableBody = true;

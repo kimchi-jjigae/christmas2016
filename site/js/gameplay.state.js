@@ -68,7 +68,8 @@ GameplayState.prototype = {
     update: function() {
         // physics goes first, to make sure the updates work properly
         game.physics.arcade.collide(self.santa.santa, self.platforms);
-        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childGroup, self.killChild);
+        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childBodyGroup, self.killChild);
+        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childHeadGroup, self.hitHead);
 
         // feels a bit ugly checking for this flag here tbh
         self.gameOverFlag = self.presents.update(); 
@@ -102,6 +103,9 @@ GameplayState.prototype = {
             game.state.start("GameOverState");
         }
     },
+    hitHead: function(head, child) {
+        console.log("It hit the head");
+    },
     killChild: function(bullet, child) {
         if(child.present != undefined) {
             self.presents.dropPresent(child.present);
@@ -110,7 +114,7 @@ GameplayState.prototype = {
             // drop ammo, but should the self.children holding self.presents drop ammo too?
         }
         self.machineGun.bulletsGroup.remove(bullet);
-        self.children.childGroup.remove(child);
+        self.children.childBodyGroup.remove(child);
         if(child.from) {
             self.points.add(child.points.from);
         }
