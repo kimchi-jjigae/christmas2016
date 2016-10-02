@@ -8,7 +8,6 @@
         self.speed = 300;
         self.jump = 1500;
         self.santa = game.add.sprite(640, 0, 'santa');
-        self.santa.scale.setTo(0.2, 0.2);
         self.santa.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(self.santa);
         self.santa.body.bounce.y = 0.2;
@@ -35,11 +34,11 @@
             // see mg.module.js for a unit circle diagram
             // if in the TL or BL quadrant
             if(angle <= -Math.PI / 2 || angle > Math.PI / 2) {
-                self.santa.scale.setTo(-0.2, 0.2);
+                self.santa.scale.setTo(-1.0, 1.0);
             }
             // if in the TR or BR quadrant
             else {
-                self.santa.scale.setTo(0.2, 0.2);
+                self.santa.scale.setTo(1.0, 1.0);
             }
         },
         move: function() {

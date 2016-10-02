@@ -18,36 +18,48 @@
         },
         addChild: function() {
             var child = new Child(self.spawnPoint);
+            console.log('this is what i be addin');
+            console.log(child);
             self.children.push(child);
         },
         spawn: function() {
             // make this randomness more time-based
             if(Math.random() < self.spawnRate) {
+                console.log('spawninnnnnn mad');
                 self.addChild();
                 self.wave.childrenLeft--;
             }
         },
         checkForPresents: function(child, presentPile) {
             presentPile.presentGroup.forEach(function(present) {
-                if(game.math.distance(child.x , 0, present.x, 0) < 20 && !child.right) {
-                    child.scale.x *= -1;
-                    child.body.velocity.x = child.rightVelocity;
-                    child.right = true;
+                if(game.math.distance(child.body.x, 0, present.x, 0) < 20 && !child.right) {
+                    console.log('-------------------------------------------------');
+                    console.log('the childs rightness is ' + child.right + ' (it should be false)');
+                    console.log('there are ' + self.children.length + ' children in total');
+                    console.log('my index is ' + self.children.indexOf(child));
+                    console.log('running awayyyyy');
+                    console.log(child);
+                    var hej = child.runAway();
+                    console.log(child);
+                    console.log('the childs rightness is ' + child.right + ' (it should now become true!)');
+                    console.log('the childs hej is ' + hej + ' (it should be true!)');
                     presentPile.takePresent(present, child);
                 }
             });
         },
         checkDespawning: function(child) {
-            if(child.x > 1500 || child.x < -200) {
-                self.childBodyGroup.remove(child);
+            if(child.body.x > 1500 || child.body.x < -200) {
+                var index = self.children.indexOf(child);
+                console.log('killin mad');
                 child.kill();
+                self.children.splice(index, 1);
             }
         },
         update: function(presentPile) {
             if(self.wave.childrenLeft > 0) {
                 self.spawn();
             }
-            else if(self.childBodyGroup.children.length == 0) {
+            else if(self.children.length == 0) {
                 // uhhh all the new wave checking should probably be somewhere else
                 self.wave.startNewWave();
             }

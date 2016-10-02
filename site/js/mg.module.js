@@ -147,6 +147,7 @@
                     var explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
                     explosion.scale.setTo(3.0, 3.0);
                     explosion.explosionTime = Date.now();
+                    /* convert this to the new children please
                     childGroup.forEach(function(child) {
                         if(Phaser.Point.distance(child, grenade) < 200) {
                             // lots of repeated code from killChild() in gameplay.state.js
@@ -163,6 +164,7 @@
                             child.kill();
                         }
                     });
+                    */
                     grenade.kill();
                 }
             });

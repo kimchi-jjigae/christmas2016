@@ -68,8 +68,9 @@ GameplayState.prototype = {
     update: function() {
         // physics goes first, to make sure the updates work properly
         game.physics.arcade.collide(self.santa.santa, self.platforms);
-        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childBodyGroup, self.killChild);
-        game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childHeadGroup, self.hitHead);
+        // need to reimplement this more manually
+        //game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childBodyGroup, self.killChild);
+        //game.physics.arcade.collide(self.machineGun.bulletsGroup, self.children.childHeadGroup, self.hitHead);
 
         // feels a bit ugly checking for this flag here tbh
         self.gameOverFlag = self.presents.update(); 
