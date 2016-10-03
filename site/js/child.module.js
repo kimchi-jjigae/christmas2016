@@ -30,7 +30,6 @@ Child.prototype = {
         this.body.body.velocity.x = this.rightVelocity;
         this.head.body.velocity.x = this.rightVelocity;
         this.right = true;
-        return this.right;
     },
     kill: function() {
         this.head.kill();

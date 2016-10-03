@@ -135,7 +135,7 @@
             }
             self.mgSprite.rotation = rotation;
         },
-        checkGrenadeExplosions: function(childGroup, presents, points) {
+        checkGrenadeExplosions: function(childManager, presents, points) {
             // this type of check also occurs in startFiringGrenade, if powering 
             // up a grenade explosion to check for explosions in hand
             self.grenadeGroup.forEach(function(grenade) {
@@ -145,26 +145,24 @@
                     self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
                     self.grenadeGroup.remove(grenade);
                     var explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
+                    explosion.anchor.setTo(0.5, 0.5);
                     explosion.scale.setTo(3.0, 3.0);
                     explosion.explosionTime = Date.now();
-                    /* convert this to the new children please
-                    childGroup.forEach(function(child) {
-                        if(Phaser.Point.distance(child, grenade) < 200) {
+                    childManager.children.forEach(function(child) {
+                        if(Phaser.Point.distance(child.body, grenade) < 200) {
                             // lots of repeated code from killChild() in gameplay.state.js
                             if(child.present != undefined) {
                                 presents.dropPresent(child.present);
                             }
-                            if(child.from) {
+                            if(child.right) {
                                 points.add(child.points.from);
                             }
                             else {
                                 points.add(child.points.to);
                             }
-                            childGroup.remove(child);
-                            child.kill();
+                            childManager.removeChild(child);
                         }
                     });
-                    */
                     grenade.kill();
                 }
             });
@@ -177,10 +175,10 @@
                 }
             });
         },
-        update: function(children, presents, points) {
+        update: function(childManager, presents, points) {
             // check if bullets should disappear here
             self.rotateMachineGun();
-            self.checkGrenadeExplosions(children, presents, points);
+            self.checkGrenadeExplosions(childManager, presents, points);
             self.checkExplosionTimeouts();
         }
     };
