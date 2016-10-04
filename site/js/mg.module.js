@@ -135,6 +135,40 @@
             }
             self.mgSprite.rotation = rotation;
         },
+        checkBulletCollisions: function(childManager, presents, points) {
+            self.bulletsGroup.forEach(function(bullet) {
+                // this type of for loop required to break; out of it
+                for(var i = 0; i < childManager.children.length; ++i) {
+                    var child = childManager.children[i];
+                    var collision = false;
+                    // need to make some kind of proper collision function here
+                    if(Phaser.Point.distance(child.head, bullet) < 20) {
+                        console.log('HEADSHOT');
+                        collision = true;
+                    }
+                    else if(Phaser.Point.distance(child.body, bullet) < 80) {
+                        console.log('kid died');
+                        collision = true;
+                    }
+
+                    if(collision) {
+                        if(child.present != undefined) {
+                            presents.dropPresent(child.present);
+                        }
+                        if(child.right) {
+                            points.add(child.points.from);
+                        }
+                        else {
+                            points.add(child.points.to);
+                        }
+                        childManager.removeChild(child);
+                        self.bulletsGroup.remove(bullet);
+                        bullet.kill();
+                        break; 
+                    }
+                }
+            });
+        },
         checkGrenadeExplosions: function(childManager, presents, points) {
             // this type of check also occurs in startFiringGrenade, if powering 
             // up a grenade explosion to check for explosions in hand
@@ -150,7 +184,8 @@
                     explosion.explosionTime = Date.now();
                     childManager.children.forEach(function(child) {
                         if(Phaser.Point.distance(child.body, grenade) < 200) {
-                            // lots of repeated code from killChild() in gameplay.state.js
+                            // lots of repeated code from checkBulletCollisions(); make a general
+                            // child destruction function
                             if(child.present != undefined) {
                                 presents.dropPresent(child.present);
                             }
@@ -178,6 +213,7 @@
         update: function(childManager, presents, points) {
             // check if bullets should disappear here
             self.rotateMachineGun();
+            self.checkBulletCollisions(childManager, presents, points);
             self.checkGrenadeExplosions(childManager, presents, points);
             self.checkExplosionTimeouts();
         }
