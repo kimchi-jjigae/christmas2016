@@ -142,11 +142,18 @@
                     var child = childManager.children[i];
                     var collision = false;
                     // need to make some kind of proper collision function here
+                    /*
                     if(Phaser.Point.distance(child.head, bullet) < 20) {
                         console.log('HEADSHOT');
                         collision = true;
                     }
                     else if(Phaser.Point.distance(child.body, bullet) < 80) {
+                        console.log('kid died');
+                        collision = true;
+                    }
+                    */
+                    if(util.circleBoxCollision(bullet, new Phaser.Point(bullet.width, bullet.height),
+                       child.body, new Phaser.Point(child.body.width, child.body.height))) {
                         console.log('kid died');
                         collision = true;
                     }
@@ -210,12 +217,22 @@
                 }
             });
         },
+        checkBulletDecay: function() {
+            self.bulletsGroup.forEach(function(bullet) {
+                if(bullet.x < -200 || bullet.x > 1500 ||
+                   bullet.y < -200 || bullet.y > 1000) {
+                    console.log('byebye bullet');
+                    self.bulletsGroup.remove(bullet);
+                    bullet.kill();
+                }
+            });
+        },
         update: function(childManager, presents, points) {
-            // check if bullets should disappear here
             self.rotateMachineGun();
             self.checkBulletCollisions(childManager, presents, points);
             self.checkGrenadeExplosions(childManager, presents, points);
             self.checkExplosionTimeouts();
+            self.checkBulletDecay();
         }
     };
   

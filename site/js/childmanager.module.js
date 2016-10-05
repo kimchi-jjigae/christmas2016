@@ -12,10 +12,6 @@
     };
   
     ChildManager.prototype = {
-        checkForCollisions: function() {
-            // check collisions of bullets or grenades or whatever against all the objects in the children
-            // then do whatever depending on what part of the child was affected
-        },
         addChild: function() {
             var child = new Child(self.spawnPoint);
             self.children.push(child);
