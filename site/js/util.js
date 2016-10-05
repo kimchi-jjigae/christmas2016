@@ -13,12 +13,16 @@ var util = {
         number = number + a;
         return number;
     },
-    circleBoxCollision: function(circleTL, circleRadius, boxTL, boxWH) {
+    circleBoxCollision: function(circleCentre, circleRadius, boxTL, boxWH) {
         var collision = false;
-        var circleCentre = Phaser.Point.add(circleTL, circleRadius);
+        var boxBR = Phaser.Point.add(boxTL, boxWH);
+        console.log(circleCentre);
+        console.log(circleRadius);
+        console.log(boxTL);
+        console.log(boxBR);
         // either the circle's centre is inside the rectangle
-        if(circleCentre.x >= boxTL.x && circleCentre.x <= (boxTL + boxWH) &&
-           circleCentre.y >= boxTL.y && circleCentre.y <= (boxTL + boxWH)) {
+        if(circleCentre.x >= boxTL.x && circleCentre.x <= boxBR.x &&
+           circleCentre.y >= boxTL.y && circleCentre.y <= boxBR.y) {
             collision = true;
             console.log('omg collision');
         }

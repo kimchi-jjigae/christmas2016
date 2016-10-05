@@ -152,8 +152,8 @@
                         collision = true;
                     }
                     */
-                    if(util.circleBoxCollision(bullet, new Phaser.Point(bullet.width, bullet.height),
-                       child.body, new Phaser.Point(child.body.width, child.body.height))) {
+                    var bulletCentre = Phaser.Point.add(bullet, new Phaser.Point(bullet.width, bullet.height));
+                    if(util.circleBoxCollision(bulletCentre, bullet.width, child.body, new Phaser.Point(child.body.width, child.body.height))) {
                         console.log('kid died');
                         collision = true;
                     }
