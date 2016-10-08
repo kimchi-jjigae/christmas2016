@@ -16,28 +16,28 @@ var util = {
     circleBoxCollision: function(circleCentre, circleRadius, boxTL, boxWH) {
         var collision = false;
         var boxBR = Phaser.Point.add(boxTL, boxWH);
-        console.log(circleCentre);
-        console.log(circleRadius);
-        console.log(boxTL);
-        console.log(boxBR);
+
         // either the circle's centre is inside the rectangle
-        if(circleCentre.x >= boxTL.x && circleCentre.x <= boxBR.x &&
-           circleCentre.y >= boxTL.y && circleCentre.y <= boxBR.y) {
+        if((circleCentre.x >= boxTL.x && circleCentre.x <= boxBR.x &&
+            circleCentre.y >= boxTL.y && circleCentre.y <= boxBR.y) 
+        || // the top line is within the circle
+        (Math.abs(circleCentre.y - boxTL.y)      <= circleRadius &&
+                 (circleCentre.x + circleRadius) >  boxTL.x &&
+                 (circleCentre.x - circleRadius) <  boxBR.x)
+        || // the left line is within the circle
+        (Math.abs(circleCentre.x - boxTL.x)      <= circleRadius &&
+                 (circleCentre.y + circleRadius) >  boxTL.y &&
+                 (circleCentre.y - circleRadius) <  boxBR.y)
+        || // the right line is within the circle
+        (Math.abs(circleCentre.x - boxBR.x)      <= circleRadius &&
+                 (circleCentre.y + circleRadius) >  boxTL.y &&
+                 (circleCentre.y - circleRadius) <  boxBR.y)
+        || // the bottom line is within the circle
+        (Math.abs(circleCentre.y - boxBR.y)      <= circleRadius &&
+                 (circleCentre.x + circleRadius) >  boxTL.x &&
+                 (circleCentre.x - circleRadius) <  boxBR.x)) {
             collision = true;
-            console.log('omg collision');
         }
-        else {
-            console.log('nah no collision');
-        }
-        /*
-        // or a rectangle edge is inside the circle
-        // if rect.x is within circle radius && circle.y is between rect.y??
-        // and the other way around
-        else if(boxTL.x
-        else if(circleCentre.x >= boxTL.x && circleCentre.x <= (boxTL + boxWH) &&
-           circleCentre.y >= boxTL.y && circleCentre.y <= (boxTL + boxWH)) {
-        }
-        */
         return collision;
     }
 };

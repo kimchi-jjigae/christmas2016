@@ -21,6 +21,20 @@
             self.children.splice(index, 1);
             child.kill();
         },
+        killChild: function(child, headshot) {
+            // runs when shot or exploded
+            if(child.present != undefined) {
+                presents.dropPresent(child.present);
+            }
+            if(child.right) {
+                points.add(child.points.from);
+            }
+            else {
+                points.add(child.points.to);
+            }
+            childManager.removeChild(child);
+            
+        },
         spawn: function() {
             // make this randomness more time-based
             if(Math.random() < self.spawnRate) {

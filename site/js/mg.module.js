@@ -8,7 +8,7 @@
         self.bulletsGroup.enableBody = true;
         self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
         self.bulletAmount = 9999999999999; // do I need this lol
-        self.bulletVelocity = 2000; // argh, kinda want this really quick but the fps!
+        self.bulletVelocity = 700; // argh, kinda want this really quick but the fps!
         self.bulletFireRate = 1000; // milliseconds -- I think we want some kind of [re]loading bar for this
         self.timeLastBulletFired = 0;
 
@@ -141,34 +141,25 @@
                 for(var i = 0; i < childManager.children.length; ++i) {
                     var child = childManager.children[i];
                     var collision = false;
-                    // need to make some kind of proper collision function here
-                    /*
-                    if(Phaser.Point.distance(child.head, bullet) < 20) {
+                    var headshot = false;
+
+                    var bulletCentre = Phaser.Point.add(bullet, new Phaser.Point(bullet.width, bullet.height));
+                    var childHeadWH = new Phaser.Point(child.head.width, child.head.height);
+                    if(util.circleBoxCollision(bulletCentre, bullet.width,
+                                               child.head, childHeadWH)) {
                         console.log('HEADSHOT');
                         collision = true;
+                        headshot = true;
                     }
-                    else if(Phaser.Point.distance(child.body, bullet) < 80) {
-                        console.log('kid died');
-                        collision = true;
-                    }
-                    */
-                    var bulletCentre = Phaser.Point.add(bullet, new Phaser.Point(bullet.width, bullet.height));
-                    if(util.circleBoxCollision(bulletCentre, bullet.width, child.body, new Phaser.Point(child.body.width, child.body.height))) {
+                    var childBodyWH = new Phaser.Point(child.body.width, child.body.height);
+                    else if(util.circleBoxCollision(bulletCentre, bullet.width,
+                                                    child.body, childBodyWH)) {
                         console.log('kid died');
                         collision = true;
                     }
 
                     if(collision) {
-                        if(child.present != undefined) {
-                            presents.dropPresent(child.present);
-                        }
-                        if(child.right) {
-                            points.add(child.points.from);
-                        }
-                        else {
-                            points.add(child.points.to);
-                        }
-                        childManager.removeChild(child);
+                        childManager.killChild(child, headshot);
                         self.bulletsGroup.remove(bullet);
                         bullet.kill();
                         break; 
@@ -193,16 +184,7 @@
                         if(Phaser.Point.distance(child.body, grenade) < 200) {
                             // lots of repeated code from checkBulletCollisions(); make a general
                             // child destruction function
-                            if(child.present != undefined) {
-                                presents.dropPresent(child.present);
-                            }
-                            if(child.right) {
-                                points.add(child.points.from);
-                            }
-                            else {
-                                points.add(child.points.to);
-                            }
-                            childManager.removeChild(child);
+                            childManager.killChild();
                         }
                     });
                     grenade.kill();
@@ -221,7 +203,6 @@
             self.bulletsGroup.forEach(function(bullet) {
                 if(bullet.x < -200 || bullet.x > 1500 ||
                    bullet.y < -200 || bullet.y > 1000) {
-                    console.log('byebye bullet');
                     self.bulletsGroup.remove(bullet);
                     bullet.kill();
                 }
