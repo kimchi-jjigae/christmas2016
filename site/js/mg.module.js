@@ -159,6 +159,10 @@
                     }
 
                     if(collision) {
+                        // repeated code in grenade explosions
+                        points.addChildPoints(child);
+                        deathAnimations.killChild(child, headshot);
+                        presents.dropPresent(child);
                         childManager.killChild(child, headshot);
                         self.bulletsGroup.remove(bullet);
                         bullet.kill();
@@ -181,10 +185,12 @@
                     explosion.scale.setTo(3.0, 3.0);
                     explosion.explosionTime = Date.now();
                     childManager.children.forEach(function(child) {
-                        if(Phaser.Point.distance(child.body, grenade) < 200) {
-                            // lots of repeated code from checkBulletCollisions(); make a general
-                            // child destruction function
-                            childManager.killChild();
+                        if(Phaser.Point.distance(child.body, grenade) < 200 ||
+                           Phaser.Point.distance(child.head, grenade) < 200) {
+                            points.addChildPoints(child);
+                            deathAnimations.killChild(child, headshot);
+                            presents.dropPresent(child);
+                            childManager.removeChild(child);
                         }
                     });
                     grenade.kill();

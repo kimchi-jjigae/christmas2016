@@ -15,6 +15,21 @@
     };
   
     PointsManager.prototype = {
+        addChildPoints: function(child, headshot) {
+            var points = 0;
+            if(child.right) {
+                points = child.points.right;
+            }
+            else {
+                points = child.points.left;
+            }
+            if(headshot) {
+                // crit
+                points = points * 2;
+            }
+
+            points.add(points);
+        },
         add: function(points) {
             self.totalScore += points;
             self.text.text = "score: " + self.totalScore;

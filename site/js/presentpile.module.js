@@ -46,10 +46,13 @@
             present.child = child;
             child.present = present;
         },
-        dropPresent: function(present) {
-            self.fromPresentGroup.remove(present);
-            self.presentGroup.add(present);
-            present.dropped = true;
+        dropPresent: function(child) {
+            if(child.present != undefined) {
+                var present = child.present;
+                self.fromPresentGroup.remove(present);
+                self.presentGroup.add(present);
+                present.dropped = true;
+            }
         },
         returnPresent: function(present) {
             var x_offset = (Math.random() * 250) - 50;

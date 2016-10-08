@@ -18,8 +18,8 @@ var Child = function(position) {
     this.right = false;
     this.ammo = parseInt(util.randomFloat(3));
     this.points = {
-        to: 20,
-        from: 10
+        left: 20,
+        right: 10
     };
 };
 
