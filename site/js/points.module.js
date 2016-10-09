@@ -28,7 +28,7 @@
                 points = points * 2;
             }
 
-            points.add(points);
+            self.add(points);
         },
         add: function(points) {
             self.totalScore += points;

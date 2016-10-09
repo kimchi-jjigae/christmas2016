@@ -1,4 +1,5 @@
 'use strict';
+
 // hmm, perhaps it should be changed to something like a bow+arrow to make it more difficult
 (function() {
     var self;
@@ -135,7 +136,13 @@
             }
             self.mgSprite.rotation = rotation;
         },
-        checkBulletCollisions: function(childManager, presents, points) {
+        collideWithChild: function(child, headshot, points, presents, childManager, deathAnimations) {
+            points.addChildPoints(child);
+            deathAnimations.killChild(child, headshot);
+            presents.dropPresent(child);
+            childManager.removeChild(child);
+        },
+        checkBulletCollisions: function(childManager, presents, points, deathAnimations) {
             self.bulletsGroup.forEach(function(bullet) {
                 // this type of for loop required to break; out of it
                 for(var i = 0; i < childManager.children.length; ++i) {
@@ -145,25 +152,17 @@
 
                     var bulletCentre = Phaser.Point.add(bullet, new Phaser.Point(bullet.width, bullet.height));
                     var childHeadWH = new Phaser.Point(child.head.width, child.head.height);
-                    if(util.circleBoxCollision(bulletCentre, bullet.width,
-                                               child.head, childHeadWH)) {
-                        console.log('HEADSHOT');
+                    var childBodyWH = new Phaser.Point(child.body.width, child.body.height);
+                    if(util.circleBoxCollision(bulletCentre, bullet.width, child.head, childHeadWH)) {
                         collision = true;
                         headshot = true;
                     }
-                    var childBodyWH = new Phaser.Point(child.body.width, child.body.height);
-                    else if(util.circleBoxCollision(bulletCentre, bullet.width,
-                                                    child.body, childBodyWH)) {
-                        console.log('kid died');
+                    else if(util.circleBoxCollision(bulletCentre, bullet.width, child.body, childBodyWH)) {
                         collision = true;
                     }
 
                     if(collision) {
-                        // repeated code in grenade explosions
-                        points.addChildPoints(child);
-                        deathAnimations.killChild(child, headshot);
-                        presents.dropPresent(child);
-                        childManager.killChild(child, headshot);
+                        self.collideWithChild(child, headshot, points, presents, childManager, deathAnimations);
                         self.bulletsGroup.remove(bullet);
                         bullet.kill();
                         break; 
@@ -171,7 +170,7 @@
                 }
             });
         },
-        checkGrenadeExplosions: function(childManager, presents, points) {
+        checkGrenadeExplosions: function(childManager, presents, points, deathAnimations) {
             // this type of check also occurs in startFiringGrenade, if powering 
             // up a grenade explosion to check for explosions in hand
             self.grenadeGroup.forEach(function(grenade) {
@@ -187,10 +186,7 @@
                     childManager.children.forEach(function(child) {
                         if(Phaser.Point.distance(child.body, grenade) < 200 ||
                            Phaser.Point.distance(child.head, grenade) < 200) {
-                            points.addChildPoints(child);
-                            deathAnimations.killChild(child, headshot);
-                            presents.dropPresent(child);
-                            childManager.removeChild(child);
+                            self.collideWithChild(child, false, points, presents, childManager, deathAnimations);
                         }
                     });
                     grenade.kill();
@@ -214,10 +210,10 @@
                 }
             });
         },
-        update: function(childManager, presents, points) {
+        update: function(childManager, presents, points, deathAnimations) {
             self.rotateMachineGun();
-            self.checkBulletCollisions(childManager, presents, points);
-            self.checkGrenadeExplosions(childManager, presents, points);
+            self.checkBulletCollisions(childManager, presents, points, deathAnimations);
+            self.checkGrenadeExplosions(childManager, presents, points, deathAnimations);
             self.checkExplosionTimeouts();
             self.checkBulletDecay();
         }

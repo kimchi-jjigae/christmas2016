@@ -24,6 +24,7 @@ GameplayState.prototype = {
         self.presents = new PresentPile();
         self.machineGun = new MachineGun();
         self.hoversled = new Hoversled();
+        self.deathAnimations = new DeathAnimations();
         game.input.keyboard.onDownCallback = function(event) {
             if(keycodes.left.includes(event.key)) {
                 // ← left
@@ -75,7 +76,7 @@ GameplayState.prototype = {
         else {
             self.wave.newWaveUpdate();
         }
-        self.machineGun.update(self.children, self.presents, self.points);
+        self.machineGun.update(self.children, self.presents, self.points, self.deathAnimations);
         self.santa.update(self.presents);
 
         if(self.machineGun.active) {
