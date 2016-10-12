@@ -22,12 +22,18 @@ LoadingState.prototype = {
         game.load.image('present',       'assets/sprites/present.png');
         game.load.image('santa',         'assets/sprites/santa.png');
         game.load.image('hoversled',     'assets/sprites/platform.png');
-        game.load.image('blood_particle', 'assets/sprites/blood_particle.png');
+        game.load.image('blood_particle1', 'assets/sprites/blood_particle1.png');
+        game.load.image('blood_particle2', 'assets/sprites/blood_particle2.png');
+        game.load.image('blood_particle3', 'assets/sprites/blood_particle3.png');
+        game.load.image('blood_particle4', 'assets/sprites/blood_particle4.png');
+        game.load.image('blood_particle5', 'assets/sprites/blood_particle5.png');
         game.load.image('button_play',       'assets/sprites/button_play.png');
         game.load.image('button_options',    'assets/sprites/button_options.png');
         game.load.image('button_highscores', 'assets/sprites/button_highscores.png');
         game.load.image('button_credits',    'assets/sprites/button_credits.png');
         game.load.image('button_back',       'assets/sprites/button_back.png');
+
+        game.load.spritesheet('girl_death', 'assets/spritesheets/girl_death.png', 96, 128, 4);
     },
     preloadScripts: function() {
         // states
