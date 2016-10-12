@@ -9,10 +9,13 @@
         //self.spawnRate = 0.05;
         self.spawnRate = 0.005;
         self.wave = wave;
+        self.spawnTimeRate = 3000; // milliseconds
+        self.spawnTimeLastAdded = Date.now();
     };
   
     ChildManager.prototype = {
         addChild: function() {
+            self.spawnTimeLastAdded = Date.now();
             var child = new Child(self.spawnPoint);
             self.children.push(child);
         },
@@ -22,8 +25,8 @@
             child.kill();
         },
         spawn: function() {
-            // make this randomness more time-based
-            if(Math.random() < self.spawnRate) {
+            if(Date.now() - self.spawnTimeLastAdded >= self.spawnTimeRate &&
+               Math.random() < self.spawnRate) {
                 self.addChild();
                 self.wave.childrenLeft--;
             }

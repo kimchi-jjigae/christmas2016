@@ -23,6 +23,7 @@
                     self.bloodEmitters.splice(index, 1);
                     emitter.destroy();
                     console.log("destroying emitter");
+                    self.girlDeathSprite.visible = false;
                 }
             });
         },
@@ -35,7 +36,6 @@
                 bloodEmitter.start(true, 0, null, 100);
                 bloodEmitter.emitStartTime = Date.now();
                 bloodEmitters.push(bloodEmitter);
-                self.girlDeathSprite.animations.play('deathAnimation', 4, false); // 4 fps lol, false means no repeat
             }
             else {
                 console.log("Animating child death");
@@ -43,6 +43,7 @@
             self.girlDeathSprite.visible = true;
             self.girlDeathSprite.x = child.head.x;
             self.girlDeathSprite.y = child.head.y;
+            self.girlDeathSprite.animations.play('deathAnimation', 4, false); // 4 fps lol, false means no repeat
         },
         destroyEmitter: function() {
             //console.log(self.emitter);
