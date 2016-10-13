@@ -23,7 +23,7 @@ GameplayState.prototype = {
 
         self.presents = new PresentPile();
         self.machineGun = new MachineGun();
-        self.hoversled = new Hoversled();
+        self.sleigh = new Sleigh();
         self.deathAnimations = new DeathAnimations();
         game.input.keyboard.onDownCallback = function(event) {
             if(keycodes.left.includes(event.key)) {
@@ -79,6 +79,7 @@ GameplayState.prototype = {
         }
         self.machineGun.update(self.children, self.presents, self.points, self.deathAnimations);
         self.santa.update(self.presents);
+        self.sleigh.update();
 
         if(self.machineGun.active) {
             if(game.input.activePointer.leftButton.isDown) {
