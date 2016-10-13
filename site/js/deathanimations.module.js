@@ -5,14 +5,9 @@
 (function() {
     var self = this;
     var DeathAnimations = function() {
-        self.deathAnimations = [];
+        self.deathSprites = [];
         self.bloodEmitters = [];
         self.animationDuration = 2000;
-        self.girlDeathSprite = game.add.sprite(300, 300, 'girl_death');
-        self.girlDeathAnimation = self.girlDeathSprite.animations.add('deathAnimation');
-        // have various different ones for the sake of variation
-        // maybe even different ones depending on headshot or not
-        self.girlDeathSprite.visible = false;
     };
   
     DeathAnimations.prototype = {
@@ -23,31 +18,45 @@
                     self.bloodEmitters.splice(index, 1);
                     emitter.destroy();
                     console.log("destroying emitter");
-                    self.girlDeathSprite.visible = false;
+                }
+            });
+            self.deathSprites.forEach(function(sprite) {
+                if(Date.now() - sprite.startTime > self.animationDuration) {
+                    var index = self.deathSprites.indexOf(sprite);
+                    self.deathSprites.splice(index, 1);
+                    sprite.destroy();
+                    console.log("destroying sprite");
                 }
             });
         },
         killChild: function(child, headshot) {
             if(headshot) {
-                console.log("Animating HEDADSHOT!!!");
+                // particle effects
                 var bloodEmitter = game.add.emitter(child.head.x, child.head.y, 100);
-                bloodEmitter.makeParticles(['blood_particle1', 'blood_particle2', 'blood_particle3', 'blood_particle4', 'blood_particle5']);
+                bloodEmitter.makeParticles([
+                    'blood_particle1',
+                    'blood_particle2',
+                    'blood_particle3',
+                    'blood_particle4',
+                    'blood_particle5'
+                ]);
                 bloodEmitter.gravity = 800;
                 bloodEmitter.start(true, 0, null, 100);
                 bloodEmitter.emitStartTime = Date.now();
-                bloodEmitters.push(bloodEmitter);
+                self.bloodEmitters.push(bloodEmitter);
+
             }
-            else {
-                console.log("Animating child death");
+            // death animation
+            var sprite = game.add.sprite(child.head.x, child.head.y, 'girl_death');
+            sprite.animations.add('deathAnimation');
+            sprite.x = child.head.x;
+            sprite.y = child.head.y;
+            if(child.right == true) {
+                sprite.scale.x = -1;
             }
-            self.girlDeathSprite.visible = true;
-            self.girlDeathSprite.x = child.head.x;
-            self.girlDeathSprite.y = child.head.y;
-            self.girlDeathSprite.animations.play('deathAnimation', 4, false); // 4 fps lol, false means no repeat
-        },
-        destroyEmitter: function() {
-            //console.log(self.emitter);
-            //self.emitter.destroy();
+            sprite.animations.play('deathAnimation', 4, false); // 4 fps lol, false means no repeat
+            sprite.startTime = Date.now();
+            self.deathSprites.push(sprite);
         }
     };
   

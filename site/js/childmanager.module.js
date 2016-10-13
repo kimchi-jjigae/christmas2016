@@ -6,8 +6,8 @@
         self = this;
         self.children = [];
         self.spawnPoint = new Phaser.Point(1400, 670);
-        //self.spawnRate = 0.05;
-        self.spawnRate = 0.005;
+        self.spawnRate = 0.05;
+        //self.spawnRate = 0.005;
         self.wave = wave;
         self.spawnTimeRate = 3000; // milliseconds
         self.spawnTimeLastAdded = Date.now();
@@ -25,7 +25,7 @@
             child.kill();
         },
         spawn: function() {
-            if(Date.now() - self.spawnTimeLastAdded >= self.spawnTimeRate &&
+            if(Date.now() - self.spawnTimeLastAdded >= self.spawnTimeRate ||
                Math.random() < self.spawnRate) {
                 self.addChild();
                 self.wave.childrenLeft--;
