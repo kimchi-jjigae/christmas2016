@@ -69,6 +69,7 @@ GameplayState.prototype = {
     update: function() {
         // physics goes first, to make sure the updates work properly
         game.physics.arcade.collide(self.santa.santa, self.platforms);
+        game.physics.arcade.collide(self.santa.santa, self.sleigh.sleighSprite);
 
         self.deathAnimations.update();
         if(self.wave.active) {

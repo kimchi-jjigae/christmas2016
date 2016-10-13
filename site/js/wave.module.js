@@ -11,7 +11,7 @@
             self.childrenLeft = self.number * 3;
         };
         self.updateParameters();
-        self.newWaveTime = 1000; // milliseconds
+        self.newWaveTime = 3000; // milliseconds
         self.newWaveStart;
         var style = {
             font: 'bold 32px Arial',

@@ -29,11 +29,19 @@
         self.explosionDuration = 500;
 
         self.position = {
-            x: game.world.centerX,
-            y: 100
+            x: 150,
+            y: 300
         };
+        self.velocity = {
+            x: 0,
+            y: 2
+        };
+        self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
+        self.sleighSprite.scale.setTo(0.3, 0.3);
+        self.sleighSprite.enableBody = true;
+
         self.maxAngle = 0;
-        self.mgSprite = game.add.sprite(self.position.x, self.position.y, 'mg');
+        self.mgSprite = game.add.sprite(self.position.x + 190, self.position.y, 'mg');
         self.mgSprite.scale.setTo(0.5, 0.5);
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
@@ -216,6 +224,16 @@
             self.checkGrenadeExplosions(childManager, presents, points, deathAnimations);
             self.checkExplosionTimeouts();
             self.checkBulletDecay();
+
+            // hovering should be some kind of sin/cos-ish function over time
+            // maybe look up simple harmonic motion again
+            self.sleighSprite.x += self.velocity.x;
+            self.sleighSprite.y += self.velocity.y;
+            self.mgSprite.x += self.velocity.x;
+            self.mgSprite.y += self.velocity.y;
+            if(self.sleighSprite.y >= 400 || self.sleighSprite.y <= 200) {
+                self.velocity.y *= -1;
+            }
         }
     };
   
