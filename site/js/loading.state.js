@@ -21,7 +21,7 @@ LoadingState.prototype = {
         game.load.image('platform',      'assets/sprites/platform.png');
         game.load.image('present',       'assets/sprites/present.png');
         game.load.image('santa',         'assets/sprites/santa.png');
-        game.load.image('hoversled',     'assets/sprites/platform.png');
+        game.load.image('sleigh',        'assets/sprites/platform.png');
         game.load.image('blood_particle1', 'assets/sprites/blood_particle1.png');
         game.load.image('blood_particle2', 'assets/sprites/blood_particle2.png');
         game.load.image('blood_particle3', 'assets/sprites/blood_particle3.png');
@@ -52,7 +52,7 @@ LoadingState.prototype = {
 	    game.load.script('waveScript',            'js/wave.module.js');
 	    game.load.script('pointsScript',          'js/points.module.js');
 	    game.load.script('mgScript',              'js/mg.module.js');
-	    game.load.script('hoversledScript',       'js/hoversled.module.js');
+	    game.load.script('sleighScript',          'js/sleigh.module.js');
 	    game.load.script('childManagerScript',    'js/childmanager.module.js');
 	    game.load.script('presentPileScript',     'js/presentpile.module.js');
 	    game.load.script('deathAnimationsScript', 'js/deathanimations.module.js');
