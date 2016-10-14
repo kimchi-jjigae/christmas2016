@@ -11,7 +11,6 @@
         //self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
         //self.sleighSprite.scale.setTo(0.3, 0.3);
         //self.sleighSprite.enableBody = true;
-        console.log(self.sleighSprite);
         //self.sleighSprite.body.immovable = true;
     };
   

@@ -17,7 +17,6 @@
                     var index = self.bloodEmitters.indexOf(emitter);
                     self.bloodEmitters.splice(index, 1);
                     emitter.destroy();
-                    console.log("destroying emitter");
                 }
             });
             self.deathSprites.forEach(function(sprite) {
@@ -25,7 +24,6 @@
                     var index = self.deathSprites.indexOf(sprite);
                     self.deathSprites.splice(index, 1);
                     sprite.destroy();
-                    console.log("destroying sprite");
                 }
             });
         },

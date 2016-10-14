@@ -25,7 +25,13 @@
     Santa.prototype = {
         update: function(presentPile, mgPosition) {
             self.santa.body.velocity.x = 0;
-            self.move();
+            if(self.movement.inactive) {
+                self.santa.x = mgPosition.x;
+                self.santa.y = mgPosition.y;
+            }
+            else {
+                self.move();
+            }
             self.rotate();
             self.checkForDroppedPresents(presentPile);
         },
@@ -42,7 +48,10 @@
             }
         },
         move: function() {
-            if(self.movement.left) {
+            if(self.movement.left && self.movement.right) {
+                self.santa.body.velocity.x = 0;
+            }
+            else if(self.movement.left) {
                 //  Move to the left
                 self.santa.body.velocity.x = -self.speed;
             }
@@ -57,9 +66,6 @@
                 self.santa.body.velocity.y = -self.jump;
             }
 
-            // flip santa depending on which way the mg faces
-            if(self.movement.inactive) {
-            }
         },
         checkForDroppedPresents: function(presentPile) {
             presentPile.presentGroup.forEach(function(present) {

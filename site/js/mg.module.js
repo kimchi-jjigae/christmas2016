@@ -227,6 +227,8 @@
 
             // hovering should be some kind of sin/cos-ish function over time
             // maybe look up simple harmonic motion again
+            self.position.x += self.velocity.x;
+            self.position.y += self.velocity.y;
             self.sleighSprite.x += self.velocity.x;
             self.sleighSprite.y += self.velocity.y;
             self.mgSprite.x += self.velocity.x;
