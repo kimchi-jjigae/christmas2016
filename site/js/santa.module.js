@@ -6,12 +6,12 @@
         self = this;
 
         self.speed = 300;
-        self.jump = 1500;
+        self.jump = 600;
         self.santa = game.add.sprite(640, 0, 'santa');
         self.santa.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(self.santa);
         self.santa.body.bounce.y = 0.2;
-        self.santa.body.gravity.y = 2000;
+        self.santa.body.gravity.y = 1000;
         self.santa.body.collideWorldBounds = true;
         self.movement = {
             inactive: false,

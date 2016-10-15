@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 (function() {
     var self = this;
     var DeathAnimations = function() {

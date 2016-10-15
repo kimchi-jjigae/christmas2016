@@ -28,9 +28,13 @@
         self.explosionGroup = game.add.group();
         self.explosionDuration = 500;
 
+        self.initialPosition = {
+            x: 50,
+            y: 500
+        };
         self.position = {
-            x: 150,
-            y: 300
+            x: self.initialPosition.x,
+            y: self.initialPosition.y
         };
         self.velocity = {
             x: 0,
@@ -233,7 +237,8 @@
             self.sleighSprite.y += self.velocity.y;
             self.mgSprite.x += self.velocity.x;
             self.mgSprite.y += self.velocity.y;
-            if(self.sleighSprite.y >= 400 || self.sleighSprite.y <= 200) {
+            if(self.sleighSprite.y >= self.initialPosition.y + 100 ||
+               self.sleighSprite.y <= self.initialPosition.y - 100) {
                 self.velocity.y *= -1;
             }
         }

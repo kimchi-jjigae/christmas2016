@@ -16,6 +16,7 @@ var Child = function(position) {
     this.body.anchor.setTo(0.5, 0.5);
     this.head.anchor.setTo(0.5, 0.5);
     this.right = false;
+    this.jumping = false;
     this.ammo = parseInt(util.randomFloat(3));
     this.points = {
         left: 20,
@@ -36,6 +37,25 @@ Child.prototype = {
         this.body.kill();
     },
     update: function() {
-        // check for collisions and physics here
+        if(this.jumping) {
+            if(this.body.y >= this.position.y) {
+                this.body.y = this.position.y;
+                this.head.y = this.position.y - 60;
+                this.body.body.velocity.y = 0;
+                this.head.body.velocity.y = 0;
+                this.body.body.gravity.y = 0;
+                this.head.body.gravity.y = 0;
+                this.jumping = false;
+            }
+        }
+        else if(Math.random() < 0.03) {
+            this.jumping = true;
+            this.body.body.velocity.y = -600;
+            this.head.body.velocity.y = -600;
+            this.body.body.gravity.y = 1000;
+            this.head.body.gravity.y = 1000;
+        }
+    },
+    jump: function() {
     }
 }

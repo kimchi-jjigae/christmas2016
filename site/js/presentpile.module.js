@@ -9,7 +9,7 @@
         self.fromPresentGroup = game.add.group();
         self.presentCount = 0;
         self.position = {
-            x: 200,
+            x: 400,
             y: 660
         };
         self.setUpPresents = function() {
