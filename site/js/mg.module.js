@@ -163,13 +163,13 @@
                     var headshot = false;
 
                     var bulletCentre = Phaser.Point.add(bullet, new Phaser.Point(bullet.width, bullet.height));
-                    var childHeadWH = new Phaser.Point(child.head.width, child.head.height);
-                    var childBodyWH = new Phaser.Point(child.body.width, child.body.height);
-                    if(util.circleBoxCollision(bulletCentre, bullet.width, child.head, childHeadWH)) {
+                    var headTL = Phaser.Point.add(child.head, child.head.collisionBox.TL);
+                    var bodyTL = Phaser.Point.add(child.body, child.body.collisionBox.TL);
+                    if(util.circleBoxCollision(bulletCentre, bullet.width, headTL, child.head.collisionBox.WH)) {
                         collision = true;
                         headshot = true;
                     }
-                    else if(util.circleBoxCollision(bulletCentre, bullet.width, child.body, childBodyWH)) {
+                    else if(util.circleBoxCollision(bulletCentre, bullet.width, bodyTL, child.body.collisionBox.WH)) {
                         collision = true;
                     }
 

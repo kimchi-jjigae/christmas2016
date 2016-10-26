@@ -4,8 +4,11 @@
 // check for physics and collisions every frame 
 var Child = function(position) {
     this.position = position;
-    // please resize these
+    // head is at 127, 31 relative to body x/y
+    // body frame is 190 x 196
     this.body = game.add.sprite(position.x, position.y, 'girl_body');
+    this.body.animations.add('runAnimation');
+    this.body.animations.play('runAnimation', 8, true); // 4 fps lol, false means no repeat
     this.head = game.add.sprite(position.x, position.y - 60, 'girl_head');
     game.physics.arcade.enable(this.body);
     game.physics.arcade.enable(this.head);
@@ -13,6 +16,26 @@ var Child = function(position) {
     this.rightVelocity = util.randomFloat( 240,  300);
     this.body.body.velocity.x = this.leftVelocity;
     this.head.body.velocity.x = this.leftVelocity;
+    this.head.collisionBox = {
+        TL: {
+            x: 56, // relative to 0, 0
+            y: 30
+        },
+        WH: {
+            x: 90,
+            y: 140
+        },
+    };
+    this.body.collisionBox = {
+        TL: {
+            x: 56,
+            y: 30
+        },
+        WH: {
+            x: 90,
+            y: 140
+        },
+    };
     this.body.anchor.setTo(0.5, 0.5);
     this.head.anchor.setTo(0.5, 0.5);
     this.right = false;
