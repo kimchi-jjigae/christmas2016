@@ -10,11 +10,6 @@ SplashState.prototype = {
         game.add.existing(this.splashscreen);
     },
     create: function() {
-        // this callback is kept isolated to this state by
-        // overriding it in other states -- kinda hacky!
-        game.input.keyboard.onDownCallback = function(event) {
-            game.state.start('LoadingState');
-        };
     },
     update: function() {
         setTimeout(function() {

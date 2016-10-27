@@ -44,7 +44,7 @@ MenuState.prototype = {
         var backButton =      game.add.button(game.world.centerX - 256, 600, 'button_back',       backCallback,      this, 2, 1, 0);
         backButton.visible = false;
 
-        var optionsText = game.add.text(200, 300, "Jk no options for you.\nSometimes you have to take what you're given in life", {fill: 'white'});
+        var optionsText = game.add.text(200, 300, "Jk no options for you.\nSometimes you have to take what you're given in life!", {fill: 'white'});
         var creditsText = game.add.text(100, 300, 'I am sooooooo talented I made EVERYTHING', {fill: 'white'});
         var highscoreText = game.add.text(500, 300, '1. kim: 9999999999', {fill: 'white'});
         optionsText.visible = false;

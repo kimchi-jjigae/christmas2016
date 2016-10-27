@@ -5,15 +5,6 @@
     var self;
     var MachineGun = function(position) {
         self = this;
-        /*
-        self.bulletsGroup = game.add.group();
-        self.bulletsGroup.enableBody = true;
-        self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.bulletAmount = 9999999999999; // do I need this lol
-        self.bulletVelocity = 700; // argh, kinda want this really quick but the fps!
-        self.bulletFireRate = 200; // milliseconds -- I think we want some kind of [re]loading bar for this
-        self.timeLastBulletFired = 0;
-        */
         self.arrowGroup = game.add.group();
         self.arrowGroup.enableBody = true;
         self.arrowGroup.physicsBodyType = Phaser.Physics.ARCADE;
