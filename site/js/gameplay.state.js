@@ -84,12 +84,15 @@ GameplayState.prototype = {
 
         if(self.machineGun.active) {
             if(game.input.activePointer.leftButton.isDown) {
-                    self.machineGun.fireBullet();
+                self.machineGun.startFiringArrow();
+            }
+            else if(game.input.activePointer.leftButton.isUp) {
+                if(self.machineGun.startedArrowFire) {
+                    self.machineGun.fireArrow();
+                }
             }
             if(game.input.activePointer.rightButton.isDown) {
-                if(self.machineGun.active) {
-                    self.machineGun.startFiringGrenade();
-                }
+                self.machineGun.startFiringGrenade();
             }
             else if(game.input.activePointer.rightButton.isUp) {
                 if(self.machineGun.startedGrenadeFire) {

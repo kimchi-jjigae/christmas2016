@@ -5,6 +5,7 @@
     var self;
     var MachineGun = function(position) {
         self = this;
+        /*
         self.bulletsGroup = game.add.group();
         self.bulletsGroup.enableBody = true;
         self.bulletsGroup.physicsBodyType = Phaser.Physics.ARCADE;
@@ -12,6 +13,13 @@
         self.bulletVelocity = 700; // argh, kinda want this really quick but the fps!
         self.bulletFireRate = 200; // milliseconds -- I think we want some kind of [re]loading bar for this
         self.timeLastBulletFired = 0;
+        */
+        self.arrowGroup = game.add.group();
+        self.arrowGroup.enableBody = true;
+        self.arrowGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        self.arrowSpeed = 0;
+        self.maxArrowSpeed = 50;
+        self.startedArrowFire = false;
 
         self.grenadeGroup = game.add.group();
         self.grenadeGroup.enableBody = true;
@@ -55,11 +63,12 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.bulletAmountText = game.add.text(20, 50, "ammo: " + self.bulletAmount, style);
+        self.bulletAmountText = game.add.text(20, 50, "ammo: INF", style);
         self.grenadeAmountText = game.add.text(20, 80, "grenades: " + self.grenadeAmount, style);
     };
   
     MachineGun.prototype = {
+        /*
         fireBullet: function() {
             if(Date.now() - self.timeLastBulletFired >= self.bulletFireRate &&
                self.bulletAmount > 0) {
@@ -70,6 +79,28 @@
                 self.bulletAmount--;
                 self.bulletAmountText.text = "ammo: " + self.bulletAmount;
             }
+        },
+        */
+        startFiringArrow: function() {
+            // initiate arrow firing
+            if(self.startedArrowFire == false) {
+                self.startedArrowFire = true;
+            }
+            // power up arrow firing
+            else {
+                self.arrowSpeed++;
+                // cap the arrow speed if held in for ages
+                self.arrowSpeed = Math.min(self.arrowSpeed, self.maxArrowSpeed);
+            }
+        },
+        fireArrow: function() {
+            var arrow = self.arrowGroup.create(self.position.x, self.position.y, 'bullet');
+            game.physics.arcade.enable(arrow);
+            arrow.body.gravity.y = 1000;
+            var arrowDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
+            arrow.body.velocity = arrowDirection.setMagnitude(self.arrowSpeed * 50);
+            self.arrowSpeed = 0;
+            self.startedArrowFire = false;
         },
         startFiringGrenade: function() {
             // initiate grenade firing
@@ -154,29 +185,29 @@
             presents.dropPresent(child);
             childManager.removeChild(child);
         },
-        checkBulletCollisions: function(childManager, presents, points, deathAnimations) {
-            self.bulletsGroup.forEach(function(bullet) {
+        checkArrowCollisions: function(childManager, presents, points, deathAnimations) {
+            self.arrowGroup.forEach(function(arrow) {
                 // this type of for loop required to break; out of it
                 for(var i = 0; i < childManager.children.length; ++i) {
                     var child = childManager.children[i];
                     var collision = false;
                     var headshot = false;
 
-                    var bulletCentre = Phaser.Point.add(bullet, new Phaser.Point(bullet.width, bullet.height));
+                    var bulletCentre = Phaser.Point.add(arrow, new Phaser.Point(arrow.width, arrow.height));
                     var headTL = Phaser.Point.add(child.head, child.head.collisionBox.TL);
                     var bodyTL = Phaser.Point.add(child.body, child.body.collisionBox.TL);
-                    if(util.circleBoxCollision(bulletCentre, bullet.width, headTL, child.head.collisionBox.WH)) {
+                    if(util.circleBoxCollision(bulletCentre, arrow.width, headTL, child.head.collisionBox.WH)) {
                         collision = true;
                         headshot = true;
                     }
-                    else if(util.circleBoxCollision(bulletCentre, bullet.width, bodyTL, child.body.collisionBox.WH)) {
+                    else if(util.circleBoxCollision(bulletCentre, arrow.width, bodyTL, child.body.collisionBox.WH)) {
                         collision = true;
                     }
 
                     if(collision) {
                         self.collideWithChild(child, headshot, points, presents, childManager, deathAnimations);
-                        self.bulletsGroup.remove(bullet);
-                        bullet.kill();
+                        self.arrowGroup.remove(arrow);
+                        arrow.kill();
                         break; 
                     }
                 }
@@ -213,21 +244,21 @@
                 }
             });
         },
-        checkBulletDecay: function() {
-            self.bulletsGroup.forEach(function(bullet) {
-                if(bullet.x < -200 || bullet.x > 1500 ||
-                   bullet.y < -200 || bullet.y > 1000) {
-                    self.bulletsGroup.remove(bullet);
-                    bullet.kill();
+        checkArrowDecay: function() {
+            self.arrowGroup.forEach(function(arrow) {
+                if(arrow.x < -200 || arrow.x > 1500 ||
+                   arrow.y < -200 || arrow.y > 1000) {
+                    self.arrowGroup.remove(arrow);
+                    arrow.kill();
                 }
             });
         },
         update: function(childManager, presents, points, deathAnimations) {
             self.rotateMachineGun();
-            self.checkBulletCollisions(childManager, presents, points, deathAnimations);
+            self.checkArrowCollisions(childManager, presents, points, deathAnimations);
             self.checkGrenadeExplosions(childManager, presents, points, deathAnimations);
             self.checkExplosionTimeouts();
-            self.checkBulletDecay();
+            self.checkArrowDecay();
 
             // hovering should be some kind of sin/cos-ish function over time
             // maybe look up simple harmonic motion again
