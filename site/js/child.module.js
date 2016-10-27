@@ -8,8 +8,8 @@ var Child = function(position) {
     // body frame is 190 x 196
     this.body = game.add.sprite(position.x, position.y, 'girl_body');
     this.body.animations.add('runAnimation');
-    this.body.animations.play('runAnimation', 8, true); // 4 fps lol, false means no repeat
-    this.head = game.add.sprite(position.x, position.y - 60, 'girl_head');
+    this.body.animations.play('runAnimation', 8, true); 
+    this.head = game.add.sprite(position.x - 15, position.y - 85, 'girl_head');
     game.physics.arcade.enable(this.body);
     game.physics.arcade.enable(this.head);
     this.leftVelocity  = util.randomFloat(-200, -260);
@@ -63,7 +63,7 @@ Child.prototype = {
         if(this.jumping) {
             if(this.body.y >= this.position.y) {
                 this.body.y = this.position.y;
-                this.head.y = this.position.y - 60;
+                this.head.y = this.position.y - 85;
                 this.body.body.velocity.y = 0;
                 this.head.body.velocity.y = 0;
                 this.body.body.gravity.y = 0;

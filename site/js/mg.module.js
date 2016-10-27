@@ -30,15 +30,15 @@
 
         self.initialPosition = {
             x: 50,
-            y: 500
+            y: 300
         };
         self.position = {
             x: self.initialPosition.x,
             y: self.initialPosition.y
         };
         self.velocity = {
-            x: 0,
-            y: 2
+            x: 0.1,
+            y: 1.0
         };
         self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
         self.sleighSprite.scale.setTo(0.3, 0.3);
@@ -237,9 +237,13 @@
             self.sleighSprite.y += self.velocity.y;
             self.mgSprite.x += self.velocity.x;
             self.mgSprite.y += self.velocity.y;
-            if(self.sleighSprite.y >= self.initialPosition.y + 100 ||
-               self.sleighSprite.y <= self.initialPosition.y - 100) {
+            if(self.sleighSprite.y >= self.initialPosition.y + 200 ||
+               self.sleighSprite.y <= self.initialPosition.y - 200) {
                 self.velocity.y *= -1;
+            }
+            if(self.sleighSprite.x >= self.initialPosition.x + 30 ||
+               self.sleighSprite.x <= self.initialPosition.x - 30) {
+                self.velocity.x *= -1;
             }
         }
     };
