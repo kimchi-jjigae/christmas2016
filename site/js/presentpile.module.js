@@ -41,8 +41,8 @@
         takePresent: function(present, child) {
             self.presentGroup.remove(present);
             self.fromPresentGroup.add(present);
-            present.x = child.body.x;
-            present.y = child.body.y - 40;
+            present.x = child.sprite.x;
+            present.y = child.sprite.y - 40;
             present.child = child;
             child.present = present;
         },
@@ -66,8 +66,8 @@
         update: function() {
             var gameOverFlag;
             self.fromPresentGroup.forEach(function(fromPresent) {
-                fromPresent.x = fromPresent.child.body.x;
-                fromPresent.y = fromPresent.child.body.y - 40;
+                fromPresent.x = fromPresent.child.sprite.x;
+                fromPresent.y = fromPresent.child.sprite.y - 40;
                 if(fromPresent.x > 1500) {
                     self.fromPresentGroup.remove(fromPresent);
                     fromPresent.kill();

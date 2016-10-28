@@ -13,6 +13,8 @@
         self.santa.body.bounce.y = 0.2;
         self.santa.body.gravity.y = 1000;
         self.santa.body.collideWorldBounds = true;
+        self.arrowDrawnPercent = 0;
+        self.grenadeThrownPercent = 0;
         self.movement = {
             inactive: false,
             left : false,
@@ -66,6 +68,18 @@
                 self.santa.body.velocity.y = -self.jump;
             }
 
+        },
+        drawArrow: function() { // these functions are for animation purposes only but should be synced against the gun power values
+            self.arrowDrawnPercent = 0;
+        },
+        releaseArrow: function() {
+            self.arrowDrawnPercent = 0;
+        },
+        throwGrenade: function() {
+            self.grenadeThrownPercent = 0;
+        },
+        releaseGrenade: function() {
+            self.grenadeThrownPercent = 0;
         },
         checkForDroppedPresents: function(presentPile) {
             presentPile.presentGroup.forEach(function(present) {

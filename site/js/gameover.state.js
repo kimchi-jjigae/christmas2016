@@ -102,7 +102,7 @@ GameOverState.prototype = {
                 self.gameOverText.text = "Game Over!\nYour high score: " + self.score + "\nName: " + self.nick;
             }
             else {
-                if(event.key == 'r') {
+                if(event.key == 'r' || event.key == ' ' || event.key == 'Enter') {
                     game.state.start("MenuState");
                 }
             }

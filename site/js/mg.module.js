@@ -28,7 +28,7 @@
         self.explosionDuration = 500;
 
         self.initialPosition = {
-            x: 50,
+            x: 70,
             y: 300
         };
         self.position = {
@@ -36,7 +36,7 @@
             y: self.initialPosition.y
         };
         self.velocity = {
-            x: 0.1,
+            x: 0.3,
             y: 1.0
         };
         self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
@@ -185,13 +185,13 @@
                     var headshot = false;
 
                     var bulletCentre = Phaser.Point.add(arrow, new Phaser.Point(arrow.width, arrow.height));
-                    var headTL = Phaser.Point.add(child.head, child.head.collisionBox.TL);
-                    var bodyTL = Phaser.Point.add(child.body, child.body.collisionBox.TL);
-                    if(util.circleBoxCollision(bulletCentre, arrow.width, headTL, child.head.collisionBox.WH)) {
+                    var headTL = Phaser.Point.add(child.sprite, child.sprite.headCollisionBox.TL);
+                    var bodyTL = Phaser.Point.add(child.sprite, child.sprite.bodyCollisionBox.TL);
+                    if(util.circleBoxCollision(bulletCentre, arrow.width, headTL, child.sprite.headCollisionBox.WH)) {
                         collision = true;
                         headshot = true;
                     }
-                    else if(util.circleBoxCollision(bulletCentre, arrow.width, bodyTL, child.body.collisionBox.WH)) {
+                    else if(util.circleBoxCollision(bulletCentre, arrow.width, bodyTL, child.sprite.bodyCollisionBox.WH)) {
                         collision = true;
                     }
 
@@ -263,8 +263,8 @@
                self.sleighSprite.y <= self.initialPosition.y - 200) {
                 self.velocity.y *= -1;
             }
-            if(self.sleighSprite.x >= self.initialPosition.x + 30 ||
-               self.sleighSprite.x <= self.initialPosition.x - 30) {
+            if(self.sleighSprite.x >= self.initialPosition.x + 50 ||
+               self.sleighSprite.x <= self.initialPosition.x - 50) {
                 self.velocity.x *= -1;
             }
         }

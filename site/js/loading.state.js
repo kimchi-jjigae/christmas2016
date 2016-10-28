@@ -13,7 +13,6 @@ LoadingState.prototype = {
         game.load.image('bg',            'assets/sprites/gamebg.png');
         game.load.image('bullet',        'assets/sprites/bullet.png');
         game.load.image('explosion',     'assets/sprites/explosion.png');
-        game.load.image('girl_head',     'assets/sprites/girl_head.png');
         game.load.image('grenade',       'assets/sprites/grenade.png');
         game.load.image('mg',            'assets/sprites/mg.png');
         game.load.image('platform',      'assets/sprites/platform.png');
@@ -32,7 +31,7 @@ LoadingState.prototype = {
         game.load.image('button_back',       'assets/sprites/button_back.png');
 
         game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png',  96, 128, 4);
-        game.load.spritesheet('girl_body',  'assets/spritesheets/ss_girlbody.png',  190, 196, 8);
+        game.load.spritesheet('girl',       'assets/spritesheets/ss_girl.png',  194, 264, 8);
     },
     preloadScripts: function() {
         // states

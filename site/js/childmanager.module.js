@@ -33,14 +33,14 @@
         },
         checkForPresents: function(child, presentPile) {
             presentPile.presentGroup.forEach(function(present) {
-                if(game.math.distance(child.body.x, 0, present.x, 0) < 20 && !child.right) {
+                if(game.math.distance(child.sprite.x, 0, present.x, 0) < 20 && !child.right) {
                     child.runAway();
                     presentPile.takePresent(present, child);
                 }
             });
         },
         checkDespawning: function(child) {
-            if(child.body.x > 1500 || child.body.x < -200) {
+            if(child.sprite.x > 1500 || child.sprite.x < -200) {
                 self.removeChild(child);
             }
         },

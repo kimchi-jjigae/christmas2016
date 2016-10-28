@@ -28,7 +28,7 @@
         killChild: function(child, headshot) {
             if(headshot) {
                 // particle effects
-                var bloodEmitter = game.add.emitter(child.head.x, child.head.y, 100);
+                var bloodEmitter = game.add.emitter(child.sprite.x, child.sprite.y, 100);
                 bloodEmitter.makeParticles([
                     'blood_particle1',
                     'blood_particle2',
@@ -43,10 +43,10 @@
 
             }
             // death animation
-            var sprite = game.add.sprite(child.head.x, child.head.y, 'girl_death');
+            var sprite = game.add.sprite(child.sprite.x, child.sprite.y, 'girl_death');
             sprite.animations.add('deathAnimation');
-            sprite.x = child.head.x;
-            sprite.y = child.head.y;
+            sprite.x = child.sprite.x;
+            sprite.y = child.sprite.y;
             if(child.right == true) {
                 sprite.scale.x = -1;
             }

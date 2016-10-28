@@ -13,18 +13,16 @@ GameplayState.prototype = {
         self.children = new ChildManager(self.wave);
         self.points = new PointsManager();
         self.platforms = game.add.group();
-        // move these platform things to their own class! :)
         self.platforms.enableBody = true;
         var ground = self.platforms.create(0, game.world.height - 64, 'platform');
         ground.scale.setTo(2, 1);
         ground.body.immovable = true;
-        //var ledge = self.platforms.create(400, 400, 'platform');
-        //ledge.body.immovable = true;
 
         self.presents = new PresentPile();
         self.machineGun = new MachineGun();
         self.sleigh = new Sleigh();
         self.deathAnimations = new DeathAnimations();
+
         game.input.keyboard.onDownCallback = function(event) {
             if(keycodes.left.includes(event.key)) {
                 // ← left
@@ -85,18 +83,22 @@ GameplayState.prototype = {
         if(self.machineGun.active) {
             if(game.input.activePointer.leftButton.isDown) {
                 self.machineGun.startFiringArrow();
+                self.santa.drawArrow();
             }
             else if(game.input.activePointer.leftButton.isUp) {
                 if(self.machineGun.startedArrowFire) {
                     self.machineGun.fireArrow();
+                    self.santa.releaseArrow();
                 }
             }
             if(game.input.activePointer.rightButton.isDown) {
                 self.machineGun.startFiringGrenade();
+                self.santa.throwGrenade();
             }
             else if(game.input.activePointer.rightButton.isUp) {
                 if(self.machineGun.startedGrenadeFire) {
                     self.machineGun.fireGrenade();
+                    self.santa.releaseGrenade();
                 }
             }
         }
