@@ -15,6 +15,7 @@
         self.santa.body.collideWorldBounds = true;
         self.arrowDrawnPercent = 0;
         self.grenadeThrownPercent = 0;
+        self.running = false;
         self.movement = {
             inactive: false,
             left : false,
@@ -28,11 +29,18 @@
         update: function(presentPile, mgPosition) {
             self.santa.body.velocity.x = 0;
             if(self.movement.inactive) {
+                // change to sprite without an arm
                 self.santa.x = mgPosition.x;
                 self.santa.y = mgPosition.y;
             }
             else {
                 self.move();
+                if(self.santa.body.velocity.x == 0) {
+                    // sprite with arm
+                }
+                else {
+                    // running animation
+                }
             }
             self.rotate();
             self.checkForDroppedPresents(presentPile);
@@ -69,14 +77,14 @@
             }
 
         },
-        drawArrow: function() { // these functions are for animation purposes only but should be synced against the gun power values
-            self.arrowDrawnPercent = 0;
+        drawArrow: function(percentage) { 
+            self.arrowDrawnPercent = percentage;
         },
         releaseArrow: function() {
             self.arrowDrawnPercent = 0;
         },
-        throwGrenade: function() {
-            self.grenadeThrownPercent = 0;
+        throwGrenade: function(percentage) {
+            self.grenadeThrownPercent = percentage;
         },
         releaseGrenade: function() {
             self.grenadeThrownPercent = 0;

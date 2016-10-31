@@ -1,6 +1,5 @@
 'use strict';
 
-// hmm, perhaps it should be changed to something like a bow+arrow to make it more difficult
 (function() {
     var self;
     var MachineGun = function(position) {
@@ -21,6 +20,7 @@
         self.timeStartedGrenadeFire = 0;
         self.grenadeFuseTimer = 2000;
         self.grenadeSpeed = 0;
+        self.maxGrenadeSpeed = 50;
         self.startedGrenadeFire = false;
         self.grenadeRadius = 200;
 
@@ -28,7 +28,7 @@
         self.explosionDuration = 500;
 
         self.initialPosition = {
-            x: 70,
+            x: 180,
             y: 300
         };
         self.position = {
@@ -40,12 +40,11 @@
             y: 1.0
         };
         self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
-        self.sleighSprite.scale.setTo(0.3, 0.3);
         self.sleighSprite.enableBody = true;
+        self.sleighSprite.anchor.setTo(0.5, 0.5);
 
         self.maxAngle = 0;
-        self.mgSprite = game.add.sprite(self.position.x + 190, self.position.y, 'mg');
-        self.mgSprite.scale.setTo(0.5, 0.5);
+        self.mgSprite = game.add.sprite(self.position.x + 190, self.position.y, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
         var style = {
@@ -54,7 +53,7 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.bulletAmountText = game.add.text(20, 50, "ammo: INF", style);
+        self.arrowAmountText = game.add.text(20, 50, "ammo: ∞", style);
         self.grenadeAmountText = game.add.text(20, 80, "grenades: " + self.grenadeAmount, style);
     };
   
@@ -85,7 +84,7 @@
             }
         },
         fireArrow: function() {
-            var arrow = self.arrowGroup.create(self.position.x, self.position.y, 'bullet');
+            var arrow = self.arrowGroup.create(self.position.x, self.position.y, 'arrow');
             game.physics.arcade.enable(arrow);
             arrow.body.gravity.y = 1000;
             var arrowDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
@@ -105,6 +104,8 @@
             // power up grenade firing
             else {
                 self.grenadeSpeed++;
+                // cap grenade speed
+                self.grenadeSpeed = Math.min(self.grenadeSpeed, self.maxGrenadeSpeed);
                 // if you've been powering it up for too long, then explode in hand
                 if(Date.now() - self.timeStartedGrenadeFire >= self.grenadeFuseTimer) {
                     var explosion = self.explosionGroup.create(self.position.x, self.position.y, 'explosion');
@@ -158,11 +159,11 @@
                 // if in the BL quadrant
                 if(rotation > 0 && rotation > Math.PI / 2) {
                     rotation = rotation - Math.PI;
-                    self.mgSprite.scale.setTo(-0.5, 0.5);
+                    self.mgSprite.scale.x = -1.0;
                 }
                 // if in the BR quadrant
                 else {
-                    self.mgSprite.scale.setTo(0.5, 0.5);
+                    self.mgSprite.scale.x = 1.0;
                 }
             }
             else {
@@ -175,6 +176,7 @@
             deathAnimations.killChild(child, headshot);
             presents.dropPresent(child);
             childManager.removeChild(child);
+
         },
         checkArrowCollisions: function(childManager, presents, points, deathAnimations) {
             self.arrowGroup.forEach(function(arrow) {
@@ -184,14 +186,14 @@
                     var collision = false;
                     var headshot = false;
 
-                    var bulletCentre = Phaser.Point.add(arrow, new Phaser.Point(arrow.width, arrow.height));
+                    var arrowCentre = Phaser.Point.add(arrow, new Phaser.Point(arrow.width, arrow.height));
                     var headTL = Phaser.Point.add(child.sprite, child.sprite.headCollisionBox.TL);
                     var bodyTL = Phaser.Point.add(child.sprite, child.sprite.bodyCollisionBox.TL);
-                    if(util.circleBoxCollision(bulletCentre, arrow.width, headTL, child.sprite.headCollisionBox.WH)) {
+                    if(util.circleBoxCollision(arrowCentre, arrow.width, headTL, child.sprite.headCollisionBox.WH)) {
                         collision = true;
                         headshot = true;
                     }
-                    else if(util.circleBoxCollision(bulletCentre, arrow.width, bodyTL, child.sprite.bodyCollisionBox.WH)) {
+                    else if(util.circleBoxCollision(arrowCentre, arrow.width, bodyTL, child.sprite.bodyCollisionBox.WH)) {
                         collision = true;
                     }
 

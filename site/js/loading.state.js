@@ -10,15 +10,14 @@ LoadingState.prototype = {
         // menu sprites //
 
         // gameplay sprites //
-        game.load.image('bg',            'assets/sprites/gamebg.png');
-        game.load.image('bullet',        'assets/sprites/bullet.png');
-        game.load.image('explosion',     'assets/sprites/explosion.png');
-        game.load.image('grenade',       'assets/sprites/grenade.png');
-        game.load.image('mg',            'assets/sprites/mg.png');
-        game.load.image('platform',      'assets/sprites/platform.png');
-        game.load.image('present',       'assets/sprites/present.png');
-        game.load.image('santa',         'assets/sprites/santa.png');
-        game.load.image('sleigh',        'assets/sprites/platform.png');
+        game.load.image('bg',        'assets/sprites/gamebg.png');
+        game.load.image('arrow',     'assets/sprites/arrow.png');
+        game.load.image('explosion', 'assets/sprites/explosion.png');
+        game.load.image('grenade',   'assets/sprites/grenade.png');
+        game.load.image('bow',       'assets/sprites/bow.png');
+        game.load.image('platform',  'assets/sprites/platform.png');
+        game.load.image('present',   'assets/sprites/present.png');
+        game.load.image('sleigh',    'assets/sprites/sleigh.png');
         game.load.image('blood_particle1', 'assets/sprites/blood_particle1.png');
         game.load.image('blood_particle2', 'assets/sprites/blood_particle2.png');
         game.load.image('blood_particle3', 'assets/sprites/blood_particle3.png');
@@ -30,8 +29,9 @@ LoadingState.prototype = {
         game.load.image('button_credits',    'assets/sprites/button_credits.png');
         game.load.image('button_back',       'assets/sprites/button_back.png');
 
-        game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png',  96, 128, 4);
+        game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png',  250, 239, 7);
         game.load.spritesheet('girl',       'assets/spritesheets/ss_girl.png',  194, 264, 8);
+        game.load.spritesheet('santa',      'assets/spritesheets/ss_santa.png',  175, 225, 10);
     },
     preloadScripts: function() {
         // states

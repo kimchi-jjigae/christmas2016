@@ -5,7 +5,7 @@
     var DeathAnimations = function() {
         self.deathSprites = [];
         self.bloodEmitters = [];
-        self.animationDuration = 2000;
+        self.animationDuration = 5000;
     };
   
     DeathAnimations.prototype = {
@@ -45,12 +45,14 @@
             // death animation
             var sprite = game.add.sprite(child.sprite.x, child.sprite.y, 'girl_death');
             sprite.animations.add('deathAnimation');
+            sprite.anchor.setTo(0.5, 0.5);
             sprite.x = child.sprite.x;
             sprite.y = child.sprite.y;
+            game.physics.arcade.enable(sprite);
             if(child.right == true) {
                 sprite.scale.x = -1;
             }
-            sprite.animations.play('deathAnimation', 4, false); // 4 fps lol, false means no repeat
+            sprite.animations.play('deathAnimation', 8, false); // 4 fps lol, false means no repeat
             sprite.startTime = Date.now();
             self.deathSprites.push(sprite);
         }

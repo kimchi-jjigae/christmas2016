@@ -83,7 +83,7 @@ GameplayState.prototype = {
         if(self.machineGun.active) {
             if(game.input.activePointer.leftButton.isDown) {
                 self.machineGun.startFiringArrow();
-                self.santa.drawArrow();
+                self.santa.drawArrow(self.arrowSpeed / self.maxArrowSpeed);
             }
             else if(game.input.activePointer.leftButton.isUp) {
                 if(self.machineGun.startedArrowFire) {
@@ -93,7 +93,7 @@ GameplayState.prototype = {
             }
             if(game.input.activePointer.rightButton.isDown) {
                 self.machineGun.startFiringGrenade();
-                self.santa.throwGrenade();
+                self.santa.throwGrenade(self.grenadeSpeed / self.maxGrenadeSpeed);
             }
             else if(game.input.activePointer.rightButton.isUp) {
                 if(self.machineGun.startedGrenadeFire) {
