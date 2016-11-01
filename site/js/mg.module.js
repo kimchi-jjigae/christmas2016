@@ -61,19 +61,6 @@
     };
   
     MachineGun.prototype = {
-        /*
-        fireBullet: function() {
-            if(Date.now() - self.timeLastBulletFired >= self.bulletFireRate &&
-               self.bulletAmount > 0) {
-                var bullet = self.bulletsGroup.create(self.position.x, self.position.y, 'bullet');
-                // check here if rotation is >= 0 or Math.PI
-                game.physics.arcade.moveToPointer(bullet, self.bulletVelocity);
-                self.timeLastBulletFired = Date.now();
-                self.bulletAmount--;
-                self.bulletAmountText.text = "ammo: " + self.bulletAmount;
-            }
-        },
-        */
         startFiringArrow: function() {
             // initiate arrow firing
             if(self.startedArrowFire == false) {
@@ -92,6 +79,7 @@
             arrow.body.gravity.y = 1000;
             var arrowDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
             arrow.body.velocity = arrowDirection.setMagnitude(self.arrowSpeed * 50);
+            self.rotateArrows();
             self.arrowSpeed = 0;
             self.startedArrowFire = false;
         },
@@ -250,9 +238,11 @@
             });
         },
         rotateArrows: function() {
+            // makes sure the arrow sprites are rotated dependant on their velocity
             self.arrowGroup.forEach(function(arrow) {
-                console.log(arrow.body.velocity);
-                //arrow.rotation = rotation;
+                var angle = Phaser.Point.angle(new Phaser.Point(0, 0), arrow.body.velocity);
+                angle = angle + Math.PI;
+                arrow.rotation = angle;
             });
         },
         update: function(childManager, presents, points, deathAnimations) {
