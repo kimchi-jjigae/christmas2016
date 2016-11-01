@@ -77,7 +77,7 @@ GameplayState.prototype = {
             self.wave.newWaveUpdate();
         }
         self.machineGun.update(self.children, self.presents, self.points, self.deathAnimations);
-        self.santa.update(self.presents, self.machineGun.position);
+        self.santa.update(self.presents, self.machineGun.mountPosition);
         self.sleigh.update();
 
         if(self.machineGun.active) {

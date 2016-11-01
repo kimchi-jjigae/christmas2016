@@ -26,12 +26,12 @@
     };
   
     Santa.prototype = {
-        update: function(presentPile, mgPosition) {
+        update: function(presentPile, mgMountPosition) {
             self.santa.body.velocity.x = 0;
             if(self.movement.inactive) {
                 // change to sprite without an arm
-                self.santa.x = mgPosition.x;
-                self.santa.y = mgPosition.y;
+                self.santa.x = mgMountPosition.x;
+                self.santa.y = mgMountPosition.y;
             }
             else {
                 self.move();
@@ -99,11 +99,11 @@
             });
         },
         use: function(mg) {
-            if(game.math.distance(self.santa.x, self.santa.y, mg.position.x, mg.position.y) < 300 &&
+            if(game.math.distance(self.santa.x, self.santa.y, mg.mountPosition.x, mg.mountPosition.y) < 300 &&
                !self.movement.inactive) {
                 self.santa.body.moves = false;
-                self.santa.x = mg.position.x;
-                self.santa.y = mg.position.y;
+                self.santa.x = mg.mountPosition.x;
+                self.santa.y = mg.mountPosition.y;
                 self.movement.inactive = true;
                 mg.active = true;
             }

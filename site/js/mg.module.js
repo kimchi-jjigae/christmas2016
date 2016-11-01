@@ -35,6 +35,10 @@
             x: self.initialPosition.x,
             y: self.initialPosition.y
         };
+        self.mountPosition = { // where santa stands
+            x: self.initialPosition.x + 40,
+            y: self.initialPosition.y - 50
+        };
         self.velocity = {
             x: 0.3,
             y: 1.0
@@ -43,7 +47,7 @@
         self.sleighSprite.enableBody = true;
         self.sleighSprite.anchor.setTo(0.5, 0.5);
 
-        self.mgSprite = game.add.sprite(self.position.x + 130, self.position.y, 'bow');
+        self.mgSprite = game.add.sprite(self.position.x + 130, self.position.y - 40, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
         var style = {
@@ -153,6 +157,7 @@
                 }
                 // if in the TR quadrant
                 else if(rotation <= 0) {
+                    self.mgSprite.scale.x = 1.0;
                 }
                 // if in the BL quadrant
                 if(rotation > 0 && rotation > Math.PI / 2) {
@@ -165,7 +170,7 @@
                 }
             }
             else {
-                rotation = Math.PI / 2;
+                rotation = 0;
             }
             self.mgSprite.rotation = rotation;
         },
@@ -244,17 +249,26 @@
                 }
             });
         },
+        rotateArrows: function() {
+            self.arrowGroup.forEach(function(arrow) {
+                console.log(arrow.body.velocity);
+                //arrow.rotation = rotation;
+            });
+        },
         update: function(childManager, presents, points, deathAnimations) {
             self.rotateMachineGun();
             self.checkArrowCollisions(childManager, presents, points, deathAnimations);
             self.checkGrenadeExplosions(childManager, presents, points, deathAnimations);
             self.checkExplosionTimeouts();
             self.checkArrowDecay();
+            self.rotateArrows();
 
             // hovering should be some kind of sin/cos-ish function over time
             // maybe look up simple harmonic motion again
             self.position.x += self.velocity.x;
             self.position.y += self.velocity.y;
+            self.mountPosition.x += self.velocity.x;
+            self.mountPosition.y += self.velocity.y;
             self.sleighSprite.x += self.velocity.x;
             self.sleighSprite.y += self.velocity.y;
             self.mgSprite.x += self.velocity.x;
