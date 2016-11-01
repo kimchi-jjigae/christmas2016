@@ -5,7 +5,7 @@
     var ChildManager = function(wave) {
         self = this;
         self.children = [];
-        self.spawnPoint = new Phaser.Point(1400, 670);
+        self.spawnPoint = new Phaser.Point(1400, 650);
         //self.spawnRate = 0.05;
         self.spawnRate = 0.005;
         self.wave = wave;

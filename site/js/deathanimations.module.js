@@ -6,6 +6,7 @@
         self.deathSprites = [];
         self.bloodEmitters = [];
         self.animationDuration = 5000;
+        self.groundY = 650;
     };
   
     DeathAnimations.prototype = {
@@ -22,6 +23,12 @@
                     var index = self.deathSprites.indexOf(sprite);
                     self.deathSprites.splice(index, 1);
                     sprite.destroy();
+                }
+                else if(Math.abs(sprite.y - self.groundY) <= 20) {
+                    sprite.y = self.groundY;
+                    sprite.body.velocity.x = 0;
+                    sprite.body.velocity.y = 0;
+                    sprite.body.gravity.y = 0;
                 }
             });
         },
@@ -49,10 +56,12 @@
             sprite.x = child.sprite.x;
             sprite.y = child.sprite.y;
             game.physics.arcade.enable(sprite);
+            sprite.body.gravity = child.sprite.body.gravity;
+            sprite.body.velocity = child.sprite.body.velocity;
             if(child.right == true) {
                 sprite.scale.x = -1;
             }
-            sprite.animations.play('deathAnimation', 8, false); // 4 fps lol, false means no repeat
+            sprite.animations.play('deathAnimation', 8, false); 
             sprite.startTime = Date.now();
             self.deathSprites.push(sprite);
         }

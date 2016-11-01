@@ -1,5 +1,6 @@
 var util = {
     randomFloat: function(a, b) {
+        // returns a random float between a and b
         var number = Math.random();
         if(arguments.length == 0) {
             return number;
@@ -11,6 +12,12 @@ var util = {
         var span = b - a;
         number = number * span;
         number = number + a;
+        return number;
+    },
+    randomInt: function(a, b) {
+        // returns a random int between a and b
+        var number = util.randomFloat(a, b);
+        number = Math.floor(number);
         return number;
     },
     circleBoxCollision: function(circleCentre, circleRadius, boxTL, boxWH) {

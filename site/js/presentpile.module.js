@@ -27,7 +27,8 @@
                     var y_offset = -(j * blockSize);
                     var x = self.position.x + x_offset;
                     var y = self.position.y + y_offset;
-                    var present = self.presentGroup.create(x, y, 'present');
+                    var presentNumber = 'present' + util.randomInt(1, 8);
+                    var present = self.presentGroup.create(x, y, presentNumber);
                     present.dropped = false;
                     self.presentCount++;
                 }

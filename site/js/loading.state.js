@@ -16,7 +16,13 @@ LoadingState.prototype = {
         game.load.image('grenade',   'assets/sprites/grenade.png');
         game.load.image('bow',       'assets/sprites/bow.png');
         game.load.image('platform',  'assets/sprites/platform.png');
-        game.load.image('present',   'assets/sprites/present.png');
+        game.load.image('present1',   'assets/sprites/present1.png');
+        game.load.image('present2',   'assets/sprites/present2.png');
+        game.load.image('present3',   'assets/sprites/present3.png');
+        game.load.image('present4',   'assets/sprites/present4.png');
+        game.load.image('present5',   'assets/sprites/present5.png');
+        game.load.image('present6',   'assets/sprites/present6.png');
+        game.load.image('present7',   'assets/sprites/present7.png');
         game.load.image('sleigh',    'assets/sprites/sleigh.png');
         game.load.image('blood_particle1', 'assets/sprites/blood_particle1.png');
         game.load.image('blood_particle2', 'assets/sprites/blood_particle2.png');
@@ -29,7 +35,7 @@ LoadingState.prototype = {
         game.load.image('button_credits',    'assets/sprites/button_credits.png');
         game.load.image('button_back',       'assets/sprites/button_back.png');
 
-        game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png',  250, 239, 7);
+        game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png',  250, 239, 8);
         game.load.spritesheet('girl',       'assets/spritesheets/ss_girl.png',  194, 264, 8);
         game.load.spritesheet('santa',      'assets/spritesheets/ss_santa.png',  175, 225, 10);
     },
