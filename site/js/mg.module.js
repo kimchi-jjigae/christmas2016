@@ -56,7 +56,7 @@
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.arrowAmountText = game.add.text(20, 50, "ammo: ∞", style);
+        self.arrowAmountText   = game.add.text(20, 50, "arrows: ∞", style);
         self.grenadeAmountText = game.add.text(20, 80, "grenades: " + self.grenadeAmount, style);
     };
   
@@ -105,7 +105,7 @@
                     self.timeLastGrenadeFired = Date.now();
                     self.grenadeSpeed = 0;
                     self.grenadeAmount--;
-                    self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
+                    self.grenadeAmountText.text = "arrows: " + self.grenadeAmount;
                     self.startedGrenadeFire = false;
                 }
             }
@@ -123,7 +123,7 @@
             self.timeLastGrenadeFired = Date.now();
             self.grenadeSpeed = 0;
             self.grenadeAmount--;
-            self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
+            self.grenadeAmountText.text = "grenades: " + self.grenadeAmount;
             self.startedGrenadeFire = false;
         },
         rotateMachineGun: function() {
@@ -204,7 +204,7 @@
                 if(Date.now() - grenade.timeFired >= grenade.fuseTimeLeft) {
                     self.grenadeSpeed = 0;
                     self.grenadeAmount--;
-                    self.grenadeAmountText.text = "ammo: " + self.grenadeAmount;
+                    self.grenadeAmountText.text = "grenades: " + self.grenadeAmount;
                     self.grenadeGroup.remove(grenade);
                     var explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
                     explosion.anchor.setTo(0.5, 0.5);

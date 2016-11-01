@@ -8,6 +8,10 @@
         self.speed = 300;
         self.jump = 600;
         self.santa = game.add.sprite(640, 0, 'santa');
+        self.santa.animations.add('mountAnimation', [0]);
+        self.santa.animations.add('standAnimation', [1]);
+        self.santa.animations.add('runAnimation', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        self.santa.animations.play('runAnimation', 8, true);
         self.santa.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(self.santa);
         self.santa.body.bounce.y = 0.2;
@@ -29,17 +33,17 @@
         update: function(presentPile, mgMountPosition) {
             self.santa.body.velocity.x = 0;
             if(self.movement.inactive) {
-                // change to sprite without an arm
+                self.santa.animations.play('mountAnimation', 1, false);
                 self.santa.x = mgMountPosition.x;
                 self.santa.y = mgMountPosition.y;
             }
             else {
                 self.move();
                 if(self.santa.body.velocity.x == 0) {
-                    // sprite with arm
+                    self.santa.animations.play('standAnimation', 1, false);
                 }
                 else {
-                    // running animation
+                    self.santa.animations.play('runAnimation', 8, true);
                 }
             }
             self.rotate();
