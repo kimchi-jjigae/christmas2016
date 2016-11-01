@@ -43,8 +43,7 @@
         self.sleighSprite.enableBody = true;
         self.sleighSprite.anchor.setTo(0.5, 0.5);
 
-        self.maxAngle = 0;
-        self.mgSprite = game.add.sprite(self.position.x + 190, self.position.y, 'bow');
+        self.mgSprite = game.add.sprite(self.position.x + 130, self.position.y, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
         var style = {
@@ -84,7 +83,7 @@
             }
         },
         fireArrow: function() {
-            var arrow = self.arrowGroup.create(self.position.x, self.position.y, 'arrow');
+            var arrow = self.arrowGroup.create(self.mgSprite.x, self.mgSprite.y, 'arrow');
             game.physics.arcade.enable(arrow);
             arrow.body.gravity.y = 1000;
             var arrowDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
@@ -150,11 +149,10 @@
                 //                  PI/2
                 // if in the TL quadrant
                 if(rotation < 0 && rotation < -Math.PI / 2) {
-                    rotation = Math.PI;
+                    self.mgSprite.scale.x = -1.0;
                 }
                 // if in the TR quadrant
                 else if(rotation <= 0) {
-                    rotation = 0;
                 }
                 // if in the BL quadrant
                 if(rotation > 0 && rotation > Math.PI / 2) {

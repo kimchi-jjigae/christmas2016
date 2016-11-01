@@ -108,7 +108,7 @@ GameOverState.prototype = {
             }
         };
         game.input.keyboard.onUpCallback = function(event) {
-            // these needs to be here to override the gameplay state's callback
+            // this needs to be here to override the gameplay state's callback
         }
         self.flash = true;
         self.cursorNumber = 0;
