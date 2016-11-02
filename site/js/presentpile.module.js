@@ -12,6 +12,7 @@
             x: 400,
             y: 660
         };
+        self.pyramidPositions = [];
         self.setUpPresents = function() {
             var pyramidBaseSize = 4;
             var blockSize = 50;
@@ -27,8 +28,10 @@
                     var y_offset = -(j * blockSize);
                     var x = self.position.x + x_offset;
                     var y = self.position.y + y_offset;
+                    self.pyramidPositions.push(new Phaser.Point(x, y));
                     var presentNumber = 'present' + util.randomInt(1, 8);
                     var present = self.presentGroup.create(x, y, presentNumber);
+                    present.pyramidPosition = self.pyramidPositions.length - 1;
                     present.dropped = false;
                     self.presentCount++;
                 }
@@ -56,12 +59,9 @@
             }
         },
         returnPresent: function(present) {
-            var x_offset = (Math.random() * 250) - 50;
-            var y_offset = -(Math.random() * 250);
-            var x = self.position.x + x_offset;
-            var y = self.position.y + y_offset;
-            present.x = x;
-            present.y = y;
+            present.x = self.pyramidPositions[present.pyramidPosition].x;
+            present.y = self.pyramidPositions[present.pyramidPosition].y;
+            console.log('returning it to: ' + present.x + ", " + present.y);
             present.dropped = false;
         },
         update: function() {

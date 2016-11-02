@@ -106,7 +106,7 @@
         checkForDroppedPresents: function(presentPile) {
             presentPile.presentGroup.forEach(function(present) {
                 if(present.dropped) {
-                    if(game.math.distance(self.santa.x , 0, present.x, 0) < 20) {
+                    if(game.math.distance(self.santa.x , self.santa.y, present.x, present.y) < 40) {
                         presentPile.returnPresent(present);
                     }
                 }

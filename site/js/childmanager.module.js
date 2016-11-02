@@ -40,13 +40,21 @@
         },
         checkForPresents: function(child, presentPile) {
             var presents = presentPile.presentGroup.children;
+            var presentToTake;
             for(var i = 0; i < presents.length; ++i) {
                 var present = presents[i];
                 if(game.math.distance(child.sprite.x, 0, present.x, 0) < 10 && !child.from) {
-                    child.runAway();
-                    presentPile.takePresent(present, child);
-                    break;
+                    if(presentToTake === undefined) {
+                        presentToTake = present;
+                    }
+                    else if(present.pyramidPosition > presentToTake.pyramidPosition) {
+                        presentToTake = present;
+                    }
                 }
+            }
+            if(presentToTake != undefined) {
+                child.runAway();
+                presentPile.takePresent(present, child);
             }
         },
         checkDespawning: function(child) {
