@@ -5,13 +5,15 @@
     var PointsManager = function() {
         self = this;
         self.totalScore = 0;
+        self.multiplier = 1;
         var style = {
             font: 'bold 32px Arial',
             fill: '#ff9486',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.text = game.add.text(game.width - 200, 0, "score: " + self.totalScore, style);
+        self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, style);
+        self.multiplierText = game.add.text(game.width - 200, 50, "multiplier: " + self.multiplier, style);
     };
   
     PointsManager.prototype = {
@@ -25,14 +27,23 @@
             }
             if(headshot) {
                 // crit
-                points = points * 2;
+                points = points * self.multiplier;
+                self.multiplier++;
+                self.multiplierText.text = "multiplier: " + self.multiplier;
+            }
+            else {
+                self.resetMultiplier();
             }
 
             self.add(points);
         },
+        resetMultiplier: function() {
+            self.multiplier = 1;
+            self.multiplierText.text = "multiplier: " + self.multiplier;
+        },
         add: function(points) {
             self.totalScore += points;
-            self.text.text = "score: " + self.totalScore;
+            self.scoreText.text = "score: " + self.totalScore;
         },
     };
   

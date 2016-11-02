@@ -4,6 +4,7 @@
     var self;
     var MachineGun = function(position) {
         self = this;
+        self.graphics = game.add.graphics(0, 0);
         self.arrowGroup = game.add.group();
         self.arrowGroup.enableBody = true;
         self.arrowGroup.physicsBodyType = Phaser.Physics.ARCADE;
@@ -47,7 +48,24 @@
         self.sleighSprite.enableBody = true;
         self.sleighSprite.anchor.setTo(0.5, 0.5);
 
-        self.mgSprite = game.add.sprite(self.position.x + 130, self.position.y - 40, 'bow');
+        self.bowPositionOffset = {
+            x: 130,
+            y: -40
+        };
+        self.stringPosition = {
+            x: self.position.x + self.bowPositionOffset.x,
+            y: self.position.y + self.bowPositionOffset.y
+        };
+        self.string1Offset = {
+            x: 0,
+            y: -40
+        };
+        self.string2Offset = {
+            x: 0,
+            y: 40
+        };
+
+        self.mgSprite = game.add.sprite(self.position.x + self.bowPositionOffset.x, self.position.y + self.bowPositionOffset.y, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
         var style = {
@@ -59,8 +77,31 @@
         self.arrowAmountText   = game.add.text(20, 50, "arrows: ∞", style);
         self.grenadeAmountText = game.add.text(20, 80, "grenades: " + self.grenadeAmount, style);
     };
-  
     MachineGun.prototype = {
+        drawString: function(a, b, c) {
+             // set a fill and line style
+            self.graphics.lineStyle(2, 0x000000, 1);
+            
+            // draw a shape
+            self.graphics.moveTo(a.x, a.y);
+            self.graphics.lineTo(b.x, b.y);
+            self.graphics.lineTo(c.x, c.y);
+        },
+        updateString: function() {
+            /*
+            var a = new Phaser.Point(self.string1Offset.x, self.string1Offset.y);
+            var c = new Phaser.Point(self.string2Offset.x, self.string2Offset.y);
+            a = a.rotate(0, 0, self.mgSprite.rotation);
+            c = c.rotate(0, 0, self.mgSprite.rotation);
+            var b = Phaser.Point.rotate(self.stringPosition, self.mgSprite.x, self.mgSprite.y, self.mgSprite.rotation);
+            a.x = b.x + a.x;
+            a.y = b.y + a.y;
+            c.x = b.x + c.x;
+            c.y = b.y + c.y;
+            self.graphics.clear();
+            self.drawString(a, b, c);
+            */
+        },
         startFiringArrow: function() {
             // initiate arrow firing
             if(self.startedArrowFire == false) {
@@ -162,8 +203,8 @@
             }
             self.mgSprite.rotation = rotation;
         },
-        collideWithChild: function(child, headshot, points, presents, childManager, deathAnimations) {
-            points.addChildPoints(child);
+        collideWithChild: function(child, grenade, headshot, points, presents, childManager, deathAnimations) {
+            points.addChildPoints(child, headshot);
             deathAnimations.killChild(child, headshot);
             presents.dropPresent(child);
             childManager.removeChild(child);
@@ -189,7 +230,7 @@
                     }
 
                     if(collision) {
-                        self.collideWithChild(child, headshot, points, presents, childManager, deathAnimations);
+                        self.collideWithChild(child, false, headshot, points, presents, childManager, deathAnimations);
                         self.arrowGroup.remove(arrow);
                         arrow.kill();
                         break; 
@@ -213,7 +254,7 @@
                     childManager.children.forEach(function(child) {
                         if(Phaser.Point.distance(child.body, grenade) < 200 ||
                            Phaser.Point.distance(child.head, grenade) < 200) {
-                            self.collideWithChild(child, false, points, presents, childManager, deathAnimations);
+                            self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
                         }
                     });
                     grenade.kill();
@@ -228,12 +269,13 @@
                 }
             });
         },
-        checkArrowDecay: function() {
+        checkArrowDecay: function(points) {
             self.arrowGroup.forEach(function(arrow) {
                 if(arrow.x < -200 || arrow.x > 1500 ||
                    arrow.y < -200 || arrow.y > 1000) {
                     self.arrowGroup.remove(arrow);
                     arrow.kill();
+                    points.resetMultiplier();
                 }
             });
         },
@@ -250,8 +292,9 @@
             self.checkArrowCollisions(childManager, presents, points, deathAnimations);
             self.checkGrenadeExplosions(childManager, presents, points, deathAnimations);
             self.checkExplosionTimeouts();
-            self.checkArrowDecay();
+            self.checkArrowDecay(points);
             self.rotateArrows();
+            self.updateString();
 
             // hovering should be some kind of sin/cos-ish function over time
             // maybe look up simple harmonic motion again

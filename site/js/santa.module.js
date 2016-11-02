@@ -17,6 +17,12 @@
         self.santa.body.bounce.y = 0.2;
         self.santa.body.gravity.y = 1000;
         self.santa.body.collideWorldBounds = true;
+        self.santaArmOffset = {
+            x: -20,
+            y: 0
+        }
+        self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santaArm');
+        self.santaArm.visible = false;
         self.arrowDrawnPercent = 0;
         self.grenadeThrownPercent = 0;
         self.running = false;
@@ -33,12 +39,16 @@
         update: function(presentPile, mgMountPosition) {
             self.santa.body.velocity.x = 0;
             if(self.movement.inactive) {
+                self.santaArm.visible = true;
                 self.santa.animations.play('mountAnimation', 1, false);
                 self.santa.x = mgMountPosition.x;
                 self.santa.y = mgMountPosition.y;
+                self.santaArm.x = mgMountPosition.x + self.santaArmOffset.x;
+                self.santaArm.y = mgMountPosition.y;+ self.santaArmOffset.y;
             }
             else {
                 self.move();
+                self.santaArm.visible = false;
                 if(self.santa.body.velocity.x == 0) {
                     self.santa.animations.play('standAnimation', 1, false);
                 }
