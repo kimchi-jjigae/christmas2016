@@ -5,6 +5,7 @@
     var DeathAnimations = function() {
         self.deathSprites = [];
         self.bloodEmitters = [];
+        self.pointsAnimations = [];
         self.animationDuration = 5000;
         self.groundY = 650;
     };
