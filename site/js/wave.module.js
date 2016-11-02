@@ -11,10 +11,10 @@
             self.childrenLeft = self.number * 3;
         };
         self.updateParameters();
-        self.newWaveTime = 3000; // milliseconds
+        self.newWaveTime = 6000; // milliseconds
         self.newWaveStart;
         var style = {
-            font: 'bold 32px Arial',
+            font: 'bold 40px Arial',
             fill: '#ff9486',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'

@@ -58,7 +58,7 @@
             game.physics.arcade.enable(sprite);
             sprite.body.gravity = child.sprite.body.gravity;
             sprite.body.velocity = child.sprite.body.velocity;
-            if(child.right == true) {
+            if(child.sprite.scale.x < 0) {
                 sprite.scale.x = -1;
             }
             sprite.animations.play('deathAnimation', 8, false); 

@@ -19,11 +19,11 @@
     PointsManager.prototype = {
         addChildPoints: function(child, headshot) {
             var points = 0;
-            if(child.right) {
-                points = child.points.right;
+            if(child.from) {
+                points = child.points.from;
             }
             else {
-                points = child.points.left;
+                points = child.points.to;
             }
             if(headshot) {
                 // crit

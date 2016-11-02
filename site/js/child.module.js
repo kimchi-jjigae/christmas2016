@@ -1,14 +1,20 @@
 'use strict';
 
-var Child = function(position) {
+var Child = function(position, leftSide) {
     this.position = position;
     this.sprite = game.add.sprite(position.x, position.y, 'girl');
     this.sprite.animations.add('runAnimation');
     this.sprite.animations.play('runAnimation', 8, true); 
     game.physics.arcade.enable(this.sprite);
-    this.leftVelocity  = util.randomFloat(-200, -260);
-    this.rightVelocity = util.randomFloat( 240,  300);
-    this.sprite.body.velocity.x = this.leftVelocity;
+    this.sprite.anchor.setTo(0.5, 0.5);
+    this.toVelocity  = util.randomFloat(-200, -260);
+    this.fromVelocity = util.randomFloat( 240,  300);
+    if(leftSide) {
+        this.toVelocity *= -1;
+        this.fromVelocity *= -1;
+        this.sprite.scale.x *= -1;
+    }
+    this.sprite.body.velocity.x = this.toVelocity;
     this.sprite.headCollisionBox = {
         TL: {
             x: 102, // relative to 0, 0
@@ -29,21 +35,20 @@ var Child = function(position) {
             y: 140
         },
     };
-    this.sprite.anchor.setTo(0.5, 0.5);
-    this.right = false;
+    this.from = false;
     this.jumping = false;
-    this.ammo = parseInt(util.randomFloat(3));
+    this.ammo = Math.random < 0.05 ? 1 : 0;
     this.points = {
-        left: 20,
-        right: 10
+        to: 20,
+        from: 10
     };
 };
 
 Child.prototype = {
     runAway: function() {
         this.sprite.scale.x *= -1;
-        this.sprite.body.velocity.x = this.rightVelocity;
-        this.right = true;
+        this.sprite.body.velocity.x = this.fromVelocity;
+        this.from = true;
     },
     kill: function() {
         this.sprite.kill();

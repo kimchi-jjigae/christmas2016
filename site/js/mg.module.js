@@ -29,8 +29,8 @@
         self.explosionDuration = 500;
 
         self.initialPosition = {
-            x: 180,
-            y: 300
+            x: 1366 / 2,
+            y: 250
         };
         self.position = {
             x: self.initialPosition.x,
@@ -306,8 +306,8 @@
             self.sleighSprite.y += self.velocity.y;
             self.mgSprite.x += self.velocity.x;
             self.mgSprite.y += self.velocity.y;
-            if(self.sleighSprite.y >= self.initialPosition.y + 200 ||
-               self.sleighSprite.y <= self.initialPosition.y - 200) {
+            if(self.sleighSprite.y >= self.initialPosition.y + 100 ||
+               self.sleighSprite.y <= self.initialPosition.y - 100) {
                 self.velocity.y *= -1;
             }
             if(self.sleighSprite.x >= self.initialPosition.x + 50 ||

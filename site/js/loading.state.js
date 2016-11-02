@@ -4,7 +4,11 @@ var LoadingState = function() {};
 
 LoadingState.prototype = {
     init: function() {
-        this.loadingText = game.make.text(game.world.centerX, 380, 'Loading...', {fill: 'white'});
+        this.loadingText = game.make.text(game.world.centerX, 380, 'Loading...', {
+            fill: 'white',
+            boundsAlignH: 'center',
+            boundsAlignV: 'middle'
+        });
     },
     preloadSprites: function() {
         // menu sprites //

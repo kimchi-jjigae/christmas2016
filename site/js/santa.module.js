@@ -5,8 +5,8 @@
     var Santa = function() {
         self = this;
 
-        self.speed = 300;
-        self.jump = 600;
+        self.speed = 400;
+        self.jump = 700;
         self.santa = game.add.sprite(640, 0, 'santa');
         self.santa.animations.add('mountAnimation', [0]);
         self.santa.animations.add('standAnimation', [1]);

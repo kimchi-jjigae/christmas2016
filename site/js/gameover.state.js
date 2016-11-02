@@ -12,7 +12,9 @@ GameOverState.prototype = {
         self.score;
         var style = {
             font: 'bold 32px Arial',
-            fill: '#ff9486'
+            fill: '#ff9486',
+            boundsAlignH: 'center',
+            boundsAlignV: 'middle'
         };
         // submit score to the server and then retrieve the top 10 high score list
         // server side: insert score in order and then grab the top 10; if score not in top 10

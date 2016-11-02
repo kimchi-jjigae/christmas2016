@@ -5,18 +5,25 @@
     var ChildManager = function(wave) {
         self = this;
         self.children = [];
-        self.spawnPoint = new Phaser.Point(1400, 650);
+        self.spawnPoint1 = new Phaser.Point(1400, 650);
+        self.spawnPoint2 = new Phaser.Point(-50, 650);
         //self.spawnRate = 0.05;
-        self.spawnRate = 0.005;
+        self.spawnRate = 0.003;
         self.wave = wave;
-        self.spawnTimeRate = 3000; // milliseconds
+        self.spawnTimeRate = 4000; // milliseconds
         self.spawnTimeLastAdded = Date.now();
     };
   
     ChildManager.prototype = {
         addChild: function() {
             self.spawnTimeLastAdded = Date.now();
-            var child = new Child(self.spawnPoint);
+            var child;
+            if(Math.random() < 0.5) {
+                child = new Child(self.spawnPoint1);
+            }
+            else {
+                child = new Child(self.spawnPoint2, true);
+            }
             self.children.push(child);
         },
         removeChild: function(child) {
@@ -32,12 +39,15 @@
             }
         },
         checkForPresents: function(child, presentPile) {
-            presentPile.presentGroup.forEach(function(present) {
-                if(game.math.distance(child.sprite.x, 0, present.x, 0) < 20 && !child.right) {
+            var presents = presentPile.presentGroup.children;
+            for(var i = 0; i < presents.length; ++i) {
+                var present = presents[i];
+                if(game.math.distance(child.sprite.x, 0, present.x, 0) < 10 && !child.from) {
                     child.runAway();
                     presentPile.takePresent(present, child);
+                    break;
                 }
-            });
+            }
         },
         checkDespawning: function(child) {
             if(child.sprite.x > 1500 || child.sprite.x < -200) {
