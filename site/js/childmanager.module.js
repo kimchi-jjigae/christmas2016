@@ -50,7 +50,7 @@
             }
         },
         checkDespawning: function(child) {
-            if(child.sprite.x > 1500 || child.sprite.x < -200) {
+            if(child.sprite.x > 1500 || child.sprite.x < -100) {
                 self.removeChild(child);
             }
         },

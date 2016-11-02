@@ -69,14 +69,13 @@
             self.fromPresentGroup.forEach(function(fromPresent) {
                 fromPresent.x = fromPresent.child.sprite.x;
                 fromPresent.y = fromPresent.child.sprite.y - 40;
-                if(fromPresent.x > 1500) {
+                if(fromPresent.x > 1500 || fromPresent.x < -100) {
                     self.fromPresentGroup.remove(fromPresent);
                     fromPresent.kill();
                     self.presentCount--;
                 }
             });
-            if(self.presentCount == 0) {
-                // this doesn't need to run every frame
+            if(self.presentCount <= 0) {
                 gameOverFlag = true;
             }
             return gameOverFlag;
