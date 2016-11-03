@@ -60,6 +60,7 @@ LoadingState.prototype = {
 	    game.load.script('childScript',           'js/child.module.js');
 	    game.load.script('santaScript',           'js/santa.module.js');
 	    game.load.script('waveScript',            'js/wave.module.js');
+	    game.load.script('pointAnimationScript', 'js/pointanimation.module.js');
 	    game.load.script('pointsScript',          'js/points.module.js');
 	    game.load.script('mgScript',              'js/mg.module.js');
 	    game.load.script('sleighScript',          'js/sleigh.module.js');

@@ -79,6 +79,7 @@ GameplayState.prototype = {
         self.machineGun.update(self.children, self.presents, self.points, self.deathAnimations);
         self.santa.update(self.presents, self.machineGun.mountPosition);
         self.sleigh.update();
+        self.points.update();
 
         if(self.machineGun.active) {
             if(game.input.activePointer.leftButton.isDown) {

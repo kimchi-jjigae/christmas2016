@@ -38,10 +38,6 @@ var Child = function(position, leftSide) {
     this.from = false;
     this.jumping = false;
     this.ammo = Math.random < 0.05 ? 1 : 0;
-    this.points = {
-        to: 20,
-        from: 10
-    };
 };
 
 Child.prototype = {
