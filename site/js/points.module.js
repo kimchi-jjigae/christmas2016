@@ -8,14 +8,22 @@
         self.textScore = 0;
         self.multiplier = 1;
         self.pointAnimations = [];
-        var style = {
+        self.style = {
             font: 'bold 32px Arial',
             fill: '#ff9486',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, style);
-        self.multiplierText = game.add.text(game.width - 200, 50, "multiplier: " + self.multiplier, style);
+        self.flashStyle = {
+            font: 'bold 32px Arial',
+            fill: '#ffffff',
+            boundsAlignH: 'center',
+            boundsAlignV: 'middle'
+        };
+        self.scoreTextFlashDuration = 500;
+        self.scoreTextFlashStart;
+        self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, self.style);
+        self.multiplierText = game.add.text(game.width - 200, 50, "multiplier: " + self.multiplier, self.style);
         self.childPoints = {
             normal: 1,
             headshot: 10
@@ -36,7 +44,7 @@
             }
             
             self.add(points);
-            self.pointAnimations.push(new PointAnimation(child.sprite.position, points));
+            self.pointAnimations.push(new PointAnimation(child.sprite.position, points, self.scoreText.position));
         },
         resetMultiplier: function() {
             self.multiplier = 1;
@@ -44,7 +52,12 @@
         },
         add: function(points) {
             self.totalScore += points;
-            self.scoreText.text = "score: " + self.totalScore;
+        },
+        updateScoreText: function(points) {
+            self.scoreTextFlashStart = Date.now();
+            self.scoreText.setStyle(self.flashStyle);
+            self.textScore += points;
+            self.scoreText.text = "score: " + self.textScore;
         },
         update: function() {
             self.pointAnimations.forEach(function(anim) {
@@ -53,8 +66,12 @@
                     var index = self.pointAnimations.indexOf(anim);
                     self.pointAnimations.splice(index, 1);
                     anim.kill();
+                    self.updateScoreText(anim.points);
                 }
             });
+            if((Date.now() - self.scoreTextFlashStart) >= self.scoreTextFlashDuration) {
+                self.scoreText.setStyle(self.style);
+            }
         },
     };
   
