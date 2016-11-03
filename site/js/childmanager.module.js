@@ -78,23 +78,6 @@
                 self.checkForPresents(child, presentPile);
                 self.checkDespawning(child);
                 child.update();
-
-                var head = child.sprite.headCollisionBox;
-                var body = child.sprite.bodyCollisionBox;
-                var headTL;
-                if(child.sprite.scale.x > 0) {
-                    headTL = new Phaser.Point(head.TL.x, head.TL.y);
-                }
-                else {
-                    headTL = new Phaser.Point(head.TL_mirrored.x, head.TL_mirrored.y);
-                }
-                var headWH = new Phaser.Point(head.WH.x, head.WH.y);
-                var bodyTL = new Phaser.Point(body.TL.x, body.TL.y);
-                var bodyWH = new Phaser.Point(body.WH.x, body.WH.y);
-                headTL = headTL.add(child.sprite.position.x, child.sprite.position.y);
-                bodyTL = bodyTL.add(child.sprite.position.x, child.sprite.position.y);
-                self.graphics.drawRect(headTL.x, headTL.y, headWH.x, headWH.y);
-                self.graphics.drawRect(bodyTL.x, bodyTL.y, bodyWH.x, bodyWH.y);
             });
 
         }
