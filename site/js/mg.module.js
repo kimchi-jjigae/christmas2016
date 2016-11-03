@@ -116,6 +116,7 @@
         },
         fireArrow: function() {
             var arrow = self.arrowGroup.create(self.mgSprite.x, self.mgSprite.y, 'arrow');
+            arrow.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(arrow);
             arrow.body.gravity.y = 1000;
             var arrowDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
@@ -218,14 +219,14 @@
                     var collision = false;
                     var headshot = false;
 
-                    var arrowCentre = Phaser.Point.add(arrow, new Phaser.Point(arrow.width, arrow.height));
-                    var headTL = Phaser.Point.add(child.sprite, child.sprite.headCollisionBox.TL);
+                    var arrowCentre = new Phaser.Point(arrow.x, arrow.y);
+                    var headTL = Phaser.Point.add(child.sprite, child.sprite.scale.x > 0 ? child.sprite.headCollisionBox.TL : child.sprite.headCollisionBox.TL_mirrored);
                     var bodyTL = Phaser.Point.add(child.sprite, child.sprite.bodyCollisionBox.TL);
-                    if(util.circleBoxCollision(arrowCentre, arrow.width, headTL, child.sprite.headCollisionBox.WH)) {
+                    if(util.circleBoxCollision(arrowCentre, 5, headTL, child.sprite.headCollisionBox.WH)) {
                         collision = true;
                         headshot = true;
                     }
-                    else if(util.circleBoxCollision(arrowCentre, arrow.width, bodyTL, child.sprite.bodyCollisionBox.WH)) {
+                    else if(util.circleBoxCollision(arrowCentre, 5, bodyTL, child.sprite.bodyCollisionBox.WH)) {
                         collision = true;
                     }
 

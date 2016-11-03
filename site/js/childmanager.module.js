@@ -79,20 +79,22 @@
                 self.checkDespawning(child);
                 child.update();
 
-                //console.log('hi');
-                var a = child.sprite.headCollisionBox;
-                var b = child.sprite.bodyCollisionBox;
-                //console.log(a);
-                //console.log(b);
-                //console.log(child.position);
-                a.TL = Phaser.Point.add(child.position, a.TL);
-                b.TL = Phaser.Point.add(child.position, b.TL);
-                //console.log(a);
-                //console.log(b);
-                //self.graphics.beginFill(0xFF3300);
-                self.graphics.drawRect(a.TL.x, a.TL.y, a.WH.x, a.WH.y);
-                self.graphics.drawRect(b.TL.x, b.TL.y, b.WH.x, b.WH.y);
-                //self.graphics.endFill();
+                var head = child.sprite.headCollisionBox;
+                var body = child.sprite.bodyCollisionBox;
+                var headTL;
+                if(child.sprite.scale.x > 0) {
+                    headTL = new Phaser.Point(head.TL.x, head.TL.y);
+                }
+                else {
+                    headTL = new Phaser.Point(head.TL_mirrored.x, head.TL_mirrored.y);
+                }
+                var headWH = new Phaser.Point(head.WH.x, head.WH.y);
+                var bodyTL = new Phaser.Point(body.TL.x, body.TL.y);
+                var bodyWH = new Phaser.Point(body.WH.x, body.WH.y);
+                headTL = headTL.add(child.sprite.position.x, child.sprite.position.y);
+                bodyTL = bodyTL.add(child.sprite.position.x, child.sprite.position.y);
+                self.graphics.drawRect(headTL.x, headTL.y, headWH.x, headWH.y);
+                self.graphics.drawRect(bodyTL.x, bodyTL.y, bodyWH.x, bodyWH.y);
             });
 
         }
