@@ -7,7 +7,7 @@ var PointAnimation = function(position, points) {
         boundsAlignH: 'center',
         boundsAlignV: 'middle'
     };
-    this.text = game.add.text(position.x, position.y, points, style);
+    this.text = game.add.text(position.x, position.y - 180, points, style);
     this.position = position;
     this.points = points;
     this.hovering = true;
@@ -19,7 +19,7 @@ PointAnimation.prototype = {
     update: function() {
         if(this.hovering) {
             this.text.position.y -= 0.1;
-            if((Date.now() - self.creationTime) >= this.hoverTime) {
+            if((Date.now() - this.creationTime) >= this.hoverTime) {
                 this.hovering = false;
             }
         }

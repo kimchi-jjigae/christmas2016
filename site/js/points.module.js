@@ -36,7 +36,7 @@
             }
             
             self.add(points);
-            self.pointAnimations.push(new PointAnimation(child.position, points));
+            self.pointAnimations.push(new PointAnimation(child.sprite.position, points));
         },
         resetMultiplier: function() {
             self.multiplier = 1;
