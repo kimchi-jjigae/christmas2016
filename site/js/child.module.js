@@ -16,25 +16,15 @@ var Child = function(position, leftSide) {
     }
     this.sprite.body.velocity.x = this.toVelocity;
     this.sprite.headCollisionBox = {
-        TL: {
-            x: 102, // relative to 0, 0
-            y: 22
-        },
-        WH: {
-            x: 83,
-            y: 83
-        },
+        TL: new Phaser.Point(102, 22),
+        WH: new Phaser.Point(83, 83)
     };
     this.sprite.bodyCollisionBox = {
-        TL: {
-            x: 63,
-            y: 94
-        },
-        WH: {
-            x: 80,
-            y: 140
-        },
+        TL: new Phaser.Point(63, 94),
+        WH: new Phaser.Point(80, 140)
     };
+    console.log(this.sprite.headCollisionBox);
+    console.log(this.sprite.bodyCollisionBox);
     this.from = false;
     this.jumping = false;
     this.ammo = Math.random < 0.05 ? 1 : 0;

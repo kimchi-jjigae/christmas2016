@@ -5,6 +5,7 @@
     var ChildManager = function(wave) {
         self = this;
         self.children = [];
+        self.graphics = game.add.graphics(0, 0);
         self.spawnPoint1 = new Phaser.Point(1400, 650);
         self.spawnPoint2 = new Phaser.Point(-50, 650);
         //self.spawnRate = 0.05;
@@ -63,6 +64,9 @@
             }
         },
         update: function(presentPile) {
+            self.graphics.clear();
+            self.graphics.lineStyle(2, 0xFF3300, 1);
+
             if(self.wave.childrenLeft > 0) {
                 self.spawn();
             }
@@ -74,6 +78,21 @@
                 self.checkForPresents(child, presentPile);
                 self.checkDespawning(child);
                 child.update();
+
+                //console.log('hi');
+                var a = child.sprite.headCollisionBox;
+                var b = child.sprite.bodyCollisionBox;
+                //console.log(a);
+                //console.log(b);
+                //console.log(child.position);
+                a.TL = Phaser.Point.add(child.position, a.TL);
+                b.TL = Phaser.Point.add(child.position, b.TL);
+                //console.log(a);
+                //console.log(b);
+                //self.graphics.beginFill(0xFF3300);
+                self.graphics.drawRect(a.TL.x, a.TL.y, a.WH.x, a.WH.y);
+                self.graphics.drawRect(b.TL.x, b.TL.y, b.WH.x, b.WH.y);
+                //self.graphics.endFill();
             });
 
         }
