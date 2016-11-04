@@ -162,6 +162,8 @@
             grenade.fuseTimeLeft = self.grenadeFuseTimer - (Date.now() - self.timeStartedGrenadeFire);
             var grenadeDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
             grenade.body.velocity = grenadeDirection.setMagnitude(self.grenadeSpeed * 50);
+            grenade.anchor.setTo(0.5, 0.5);
+            grenade.rotationSpeed = util.randomFloat(-self.grenadeSpeed * 0.05, self.grenadeSpeed * 0.05)
             self.timeLastGrenadeFired = Date.now();
             self.grenadeSpeed = 0;
             self.grenadeAmount--;
@@ -209,7 +211,6 @@
             deathAnimations.killChild(child, headshot);
             presents.dropPresent(child);
             childManager.removeChild(child);
-
         },
         checkArrowCollisions: function(childManager, presents, points, deathAnimations) {
             self.arrowGroup.forEach(function(arrow) {
@@ -252,11 +253,14 @@
                     explosion.anchor.setTo(0.5, 0.5);
                     explosion.scale.setTo(3.0, 3.0);
                     explosion.explosionTime = Date.now();
+                    var childrenToKill = [];
                     childManager.children.forEach(function(child) {
-                        if(Phaser.Point.distance(child.body, grenade) < 200 ||
-                           Phaser.Point.distance(child.head, grenade) < 200) {
-                            self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
+                        if(Phaser.Point.distance(child.sprite.position, grenade.position) < 500) {
+                            childrenToKill.push(child);
                         }
+                    });
+                    childrenToKill.forEach(function(child) {
+                        self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
                     });
                     grenade.kill();
                 }
@@ -288,6 +292,12 @@
                 arrow.rotation = angle;
             });
         },
+        rotateGrenades: function() {
+            // adds a bit of spin to each grenade
+            self.grenadeGroup.forEach(function(grenade) {
+                grenade.rotation += grenade.rotationSpeed;
+            });
+        },
         update: function(childManager, presents, points, deathAnimations) {
             self.rotateMachineGun();
             self.checkArrowCollisions(childManager, presents, points, deathAnimations);
@@ -295,6 +305,7 @@
             self.checkExplosionTimeouts();
             self.checkArrowDecay(points);
             self.rotateArrows();
+            self.rotateGrenades();
             self.updateString();
 
             // hovering should be some kind of sin/cos-ish function over time

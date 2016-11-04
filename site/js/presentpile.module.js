@@ -61,7 +61,6 @@
         returnPresent: function(present) {
             present.x = self.pyramidPositions[present.pyramidPosition].x;
             present.y = self.pyramidPositions[present.pyramidPosition].y;
-            console.log('returning it to: ' + present.x + ", " + present.y);
             present.dropped = false;
         },
         update: function() {
