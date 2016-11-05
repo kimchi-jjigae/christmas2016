@@ -25,6 +25,8 @@
         self.startedGrenadeFire = false;
         self.grenadeRadius = 200;
 
+        self.grenadeAmmoGroup = game.add.group();
+
         self.explosionGroup = game.add.group();
         self.explosionDuration = 500;
 
@@ -212,7 +214,13 @@
             }
             deathAnimations.killChild(child, headshot);
             presents.dropPresent(child);
+            self.dropGrenades(child);
             childManager.removeChild(child);
+        },
+        dropGrenades: function(child) {
+            if(child.ammo == 1) {
+                self.grenadeAmmoGroup.create(child.sprite.x, 680, 'grenade');
+            }
         },
         checkArrowCollisions: function(childManager, presents, points, deathAnimations) {
             self.arrowGroup.forEach(function(arrow) {
@@ -261,7 +269,7 @@
                             childrenToKill.push(child);
                         }
                     });
-                    points.createGrenadeState(childrenToKill.length);
+                    points.checkGrenadeChildren(childrenToKill.length);
                     childrenToKill.forEach(function(child, i) {
                         self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
                         points.addGrenadePoints(child, i);

@@ -42,6 +42,8 @@
     };
 
     PresentPile.prototype = {
+        hoverDroppedPresents: function() {
+        },
         takePresent: function(present, child) {
             self.presentGroup.remove(present);
             self.fromPresentGroup.add(present);
@@ -55,6 +57,7 @@
                 var present = child.present;
                 self.fromPresentGroup.remove(present);
                 self.presentGroup.add(present);
+                present.position.y = 600;
                 present.dropped = true;
             }
         },
@@ -66,6 +69,7 @@
         update: function() {
             var gameOverFlag;
             self.fromPresentGroup.forEach(function(fromPresent) {
+                // presents that the children are running away with
                 fromPresent.x = fromPresent.child.sprite.x;
                 fromPresent.y = fromPresent.child.sprite.y - 40;
                 if(fromPresent.x > 1500 || fromPresent.x < -100) {
@@ -77,6 +81,7 @@
             if(self.presentCount <= 0) {
                 gameOverFlag = true;
             }
+            self.hoverDroppedPresents();
             return gameOverFlag;
         }
     };
