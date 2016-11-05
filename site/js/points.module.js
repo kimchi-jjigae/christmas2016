@@ -46,6 +46,16 @@
             self.add(points);
             self.pointAnimations.push(new PointAnimation(child.sprite.position, points, self.scoreText.position));
         },
+        addGrenadePoints: function(child, index) {
+            var points = (Math.pow(2, index)) * self.multiplier;
+            self.add(points);
+            self.pointAnimations.push(new PointAnimation(child.sprite.position, points, self.scoreText.position));
+        },
+        checkGrenadeChildren: function(childAmount) {
+            if(childAmount == 0) {
+                self.resetMultiplier();
+            }
+        },
         resetMultiplier: function() {
             self.multiplier = 1;
             self.multiplierText.text = "multiplier: " + self.multiplier;

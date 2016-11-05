@@ -207,7 +207,9 @@
             self.mgSprite.rotation = rotation;
         },
         collideWithChild: function(child, grenade, headshot, points, presents, childManager, deathAnimations) {
-            points.addChildPoints(child, headshot);
+            if(!grenade) {
+                points.addChildPoints(child, headshot);
+            }
             deathAnimations.killChild(child, headshot);
             presents.dropPresent(child);
             childManager.removeChild(child);
@@ -259,8 +261,10 @@
                             childrenToKill.push(child);
                         }
                     });
-                    childrenToKill.forEach(function(child) {
+                    points.createGrenadeState(childrenToKill.length);
+                    childrenToKill.forEach(function(child, i) {
                         self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
+                        points.addGrenadePoints(child, i);
                     });
                     grenade.kill();
                 }
