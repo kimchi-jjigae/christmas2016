@@ -15,7 +15,7 @@
         self.grenadeGroup = game.add.group();
         self.grenadeGroup.enableBody = true;
         self.grenadeGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.grenadeAmount = 30; 
+        self.grenadeAmount = 1; 
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
         self.timeStartedGrenadeFire = 0;
@@ -25,7 +25,7 @@
         self.startedGrenadeFire = false;
         self.grenadeRadius = 200;
 
-        self.grenadeAmmoGroup = game.add.group();
+        self.droppedGrenadesGroup = game.add.group();
 
         self.explosionGroup = game.add.group();
         self.explosionDuration = 500;
@@ -219,8 +219,22 @@
         },
         dropGrenades: function(child) {
             if(child.ammo == 1) {
-                self.grenadeAmmoGroup.create(child.sprite.x, 680, 'grenade');
+                self.droppedGrenadesGroup.create(child.sprite.x, 680, 'grenade');
             }
+        },
+        pickUpGrenades: function(santaPosition) {
+            for(var i = 0; i < self.droppedGrenadesGroup.children.length; ++i) {
+                var grenade = self.droppedGrenadesGroup.children[i];
+                if(game.math.distance(santaPosition.x, santaPosition.y, grenade.x, grenade.y) < 120) {
+                    self.grenadeAmount++;
+                    self.droppedGrenadesGroup.remove(grenade);
+                    grenade.kill();
+                    --i;
+                    self.grenadeAmountText.text = "grenades: " + self.grenadeAmount;
+                }
+            }
+        },
+        hoverDroppedGrenades: function() {
         },
         checkArrowCollisions: function(childManager, presents, points, deathAnimations) {
             self.arrowGroup.forEach(function(arrow) {
@@ -256,8 +270,6 @@
             self.grenadeGroup.forEach(function(grenade) {
                 if(Date.now() - grenade.timeFired >= grenade.fuseTimeLeft) {
                     self.grenadeSpeed = 0;
-                    self.grenadeAmount--;
-                    self.grenadeAmountText.text = "grenades: " + self.grenadeAmount;
                     self.grenadeGroup.remove(grenade);
                     var explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
                     explosion.anchor.setTo(0.5, 0.5);
@@ -310,7 +322,7 @@
                 grenade.rotation += grenade.rotationSpeed;
             });
         },
-        update: function(childManager, presents, points, deathAnimations) {
+        update: function(childManager, presents, points, deathAnimations, santaPosition) {
             self.rotateMachineGun();
             self.checkArrowCollisions(childManager, presents, points, deathAnimations);
             self.checkGrenadeExplosions(childManager, presents, points, deathAnimations);
@@ -319,6 +331,8 @@
             self.rotateArrows();
             self.rotateGrenades();
             self.updateString();
+            self.hoverDroppedGrenades();
+            self.pickUpGrenades(santaPosition);
 
             // hovering should be some kind of sin/cos-ish function over time
             // maybe look up simple harmonic motion again
