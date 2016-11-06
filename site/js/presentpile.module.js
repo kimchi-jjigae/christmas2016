@@ -33,6 +33,7 @@
                     var present = self.presentGroup.create(x, y, presentNumber);
                     present.pyramidPosition = self.pyramidPositions.length - 1;
                     present.dropped = false;
+                    present.hoverSpeed = Math.random() < 0.5? 0.2 : -0.2;
                     self.presentCount++;
                 }
             }
@@ -43,6 +44,21 @@
 
     PresentPile.prototype = {
         hoverDroppedPresents: function() {
+            self.presentGroup.forEach(function(present) {
+                if(present.dropped) {
+                    present.position.y += present.hoverSpeed;
+                    if(present.position.y <= globals.hoverLimits.y1) {
+                        present.position.y = globals.hoverLimits.y1;
+                        present.hoverSpeed *= -1;
+                    }
+                    else if(present.position.y >= globals.hoverLimits.y2) {
+                        present.position.y = globals.hoverLimits.y2;
+                        present.hoverSpeed *= -1;
+                    }
+                }
+            });
+
+            globals.hoverLimits
         },
         takePresent: function(present, child) {
             self.presentGroup.remove(present);
@@ -57,7 +73,13 @@
                 var present = child.present;
                 self.fromPresentGroup.remove(present);
                 self.presentGroup.add(present);
-                present.position.y = 600;
+                if(present.position.x < 10) {
+                    present.position.x = 10;
+                }
+                else if(present.position.x > 1350) {
+                    present.position.x = 1350;
+                }
+                present.position.y = globals.hoverPosition;
                 present.dropped = true;
             }
         },

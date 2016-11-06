@@ -26,7 +26,7 @@ var Child = function(position, leftSide) {
     };
     this.from = false;
     this.jumping = false;
-    this.ammo = Math.random() < 0.9 ? 1 : 0;
+    this.ammo = Math.random() < 0.1 ? 1 : 0;
 };
 
 Child.prototype = {

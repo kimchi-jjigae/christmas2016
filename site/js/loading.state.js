@@ -53,6 +53,7 @@ LoadingState.prototype = {
 
         // other
 	    game.load.script('utilScript',          'js/util.js');
+	    game.load.script('globalsScript',       'js/globals.js');
 	    game.load.script('directionEnumScript', 'js/direction.enum.js');
 	    game.load.script('keycodesScript',      'js/keycodes.js');
 

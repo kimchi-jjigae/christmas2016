@@ -8,7 +8,7 @@
         self.graphics = game.add.graphics(0, 0);
         self.spawnPoint1 = new Phaser.Point(1400, 650);
         self.spawnPoint2 = new Phaser.Point(-50, 650);
-        self.spawnRate = 0.05;
+        self.spawnRate = 0.01;
         self.wave = wave;
         self.spawnTimeRate = 4000; // milliseconds
         self.spawnTimeLastAdded = Date.now();

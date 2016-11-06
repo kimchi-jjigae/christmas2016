@@ -219,7 +219,8 @@
         },
         dropGrenades: function(child) {
             if(child.ammo == 1) {
-                self.droppedGrenadesGroup.create(child.sprite.x, 680, 'grenade');
+                var grenade = self.droppedGrenadesGroup.create(child.sprite.x, globals.hoverPosition, 'grenade');
+                grenade.hoverSpeed = Math.random() < 0.5? 0.2 : -0.2;
             }
         },
         pickUpGrenades: function(santaPosition) {
@@ -235,6 +236,17 @@
             }
         },
         hoverDroppedGrenades: function() {
+            self.droppedGrenadesGroup.forEach(function(grenade) {
+                grenade.position.y += grenade.hoverSpeed;
+                if(grenade.position.y <= globals.hoverLimits.y1) {
+                    grenade.position.y = globals.hoverLimits.y1;
+                    grenade.hoverSpeed *= -1;
+                }
+                else if(grenade.position.y >= globals.hoverLimits.y2) {
+                    grenade.position.y = globals.hoverLimits.y2;
+                    grenade.hoverSpeed *= -1;
+                }
+            });
         },
         checkArrowCollisions: function(childManager, presents, points, deathAnimations) {
             self.arrowGroup.forEach(function(arrow) {
