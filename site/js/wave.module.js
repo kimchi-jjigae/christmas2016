@@ -12,6 +12,7 @@
         };
         self.updateParameters();
         self.newWaveTime = 6000; // milliseconds
+        self.newWavePause = 2000;
         self.newWaveStart;
         var style = {
             font: 'bold 40px Arial',
@@ -37,7 +38,9 @@
             if(Date.now() - self.newWaveStart > self.newWaveTime) {
                 self.newWaveText.x = 20;
                 self.newWaveText.y = 20;
-                self.active = true;
+                if(Date.now() - self.newWaveStart > (self.newWaveTime + self.newWavePause)) {
+                    self.active = true;
+                }
             }
         }
     };

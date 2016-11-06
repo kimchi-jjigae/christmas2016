@@ -32,7 +32,7 @@
 
         self.initialPosition = {
             x: 1366 / 2,
-            y: 250
+            y: 350
         };
         self.position = {
             x: self.initialPosition.x,
