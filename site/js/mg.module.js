@@ -127,7 +127,7 @@
             self.arrowSpeed = 0;
             self.startedArrowFire = false;
         },
-        startFiringGrenade: function() {
+        startFiringGrenade: function(childManager, presents, points, deathAnimations, santaPosition) {
             // initiate grenade firing
             if(self.startedGrenadeFire == false) {
                 if(Date.now() - self.timeLastGrenadeFired >= self.grenadeFireRate &&
@@ -143,26 +143,24 @@
                 self.grenadeSpeed = Math.min(self.grenadeSpeed, self.maxGrenadeSpeed);
                 // if you've been powering it up for too long, then explode in hand
                 if(Date.now() - self.timeStartedGrenadeFire >= self.grenadeFuseTimer) {
-                    var explosion = self.explosionGroup.create(self.position.x, self.position.y, 'explosion');
-                    explosion.scale.setTo(3.0, 3.0);
-                    explosion.explosionTime = Date.now();
                     self.timeLastGrenadeFired = Date.now();
                     self.grenadeSpeed = 0;
                     self.grenadeAmount--;
-                    self.grenadeAmountText.text = "arrows: " + self.grenadeAmount;
+                    self.grenadeAmountText.text = "grenades: " + self.grenadeAmount;
                     self.startedGrenadeFire = false;
+                    self.explodeGrenade(false, childManager, presents, points, deathAnimations, santaPosition);
                 }
             }
         },
-        fireGrenade: function() {
-            var grenade = self.grenadeGroup.create(self.position.x, self.position.y, 'grenade');
+        fireGrenade: function(santaPosition) {
+            var grenade = self.grenadeGroup.create(santaPosition.x, santaPosition.y, 'grenade');
             game.physics.arcade.enable(grenade);
             grenade.body.bounce = new Phaser.Point(0.5, 0.5);
             grenade.body.gravity.y = 1000;
             grenade.body.collideWorldBounds = true;
             grenade.timeFired = Date.now();
             grenade.fuseTimeLeft = self.grenadeFuseTimer - (Date.now() - self.timeStartedGrenadeFire);
-            var grenadeDirection = Phaser.Point.subtract(game.input.mousePointer, self.position);
+            var grenadeDirection = Phaser.Point.subtract(game.input.mousePointer, santaPosition);
             grenade.body.velocity = grenadeDirection.setMagnitude(self.grenadeSpeed * 50);
             grenade.anchor.setTo(0.5, 0.5);
             grenade.rotationSpeed = util.randomFloat(-self.grenadeSpeed * 0.05, self.grenadeSpeed * 0.05)
@@ -276,29 +274,38 @@
                 }
             });
         },
+        explodeGrenade: function(grenade, childManager, presents, points, deathAnimations, santaPosition) {
+            self.grenadeSpeed = 0;
+            var explosion;
+            if(grenade != false) {
+                self.grenadeGroup.remove(grenade);
+                explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
+            }
+            else {
+                explosion = self.explosionGroup.create(santaPosition.x, santaPosition.y, 'explosion');
+            }
+            explosion.anchor.setTo(0.5, 0.5);
+            explosion.scale.setTo(3.0, 3.0);
+            explosion.explosionTime = Date.now();
+            var childrenToKill = [];
+            childManager.children.forEach(function(child) {
+                if(Phaser.Point.distance(child.sprite.position, explosion.position) < 500) {
+                    childrenToKill.push(child);
+                }
+            });
+            points.checkGrenadeChildren(childrenToKill.length);
+            childrenToKill.forEach(function(child, i) {
+                self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
+                points.addGrenadePoints(child, i);
+            });
+            if(grenade != false) {
+                grenade.kill();
+            }
+        },
         checkGrenadeExplosions: function(childManager, presents, points, deathAnimations) {
-            // this type of check also occurs in startFiringGrenade, if powering 
-            // up a grenade explosion to check for explosions in hand
             self.grenadeGroup.forEach(function(grenade) {
                 if(Date.now() - grenade.timeFired >= grenade.fuseTimeLeft) {
-                    self.grenadeSpeed = 0;
-                    self.grenadeGroup.remove(grenade);
-                    var explosion = self.explosionGroup.create(grenade.x, grenade.y, 'explosion');
-                    explosion.anchor.setTo(0.5, 0.5);
-                    explosion.scale.setTo(3.0, 3.0);
-                    explosion.explosionTime = Date.now();
-                    var childrenToKill = [];
-                    childManager.children.forEach(function(child) {
-                        if(Phaser.Point.distance(child.sprite.position, grenade.position) < 500) {
-                            childrenToKill.push(child);
-                        }
-                    });
-                    points.checkGrenadeChildren(childrenToKill.length);
-                    childrenToKill.forEach(function(child, i) {
-                        self.collideWithChild(child, true, false, points, presents, childManager, deathAnimations);
-                        points.addGrenadePoints(child, i);
-                    });
-                    grenade.kill();
+                    self.explodeGrenade(grenade, childManager, presents, points, deathAnimations);
                 }
             });
         },
