@@ -15,7 +15,7 @@
         self.grenadeGroup = game.add.group();
         self.grenadeGroup.enableBody = true;
         self.grenadeGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        self.grenadeAmount = 1; 
+        self.grenadeAmount = 10;
         self.grenadeFireRate = 1000;
         self.timeLastGrenadeFired = 0;
         self.timeStartedGrenadeFire = 0;

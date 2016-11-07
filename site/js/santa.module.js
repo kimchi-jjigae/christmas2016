@@ -17,6 +17,9 @@
         self.santa.body.bounce.y = 0.2;
         self.santa.body.gravity.y = 1000;
         self.santa.body.collideWorldBounds = true;
+        self.santaArmRotationMax = -Math.PI;
+        self.santaArmReturnSpeed = 0.17;
+        self.movingBackArm = false;
         self.santaArmOffset = {
             x: -20,
             y: 0
@@ -24,7 +27,6 @@
         self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santaArm');
         self.santaArm.visible = false;
         self.arrowDrawnPercent = 0;
-        self.grenadeThrownPercent = 0;
         self.running = false;
         self.movement = {
             inactive: false,
@@ -58,6 +60,13 @@
             }
             self.rotate();
             self.checkForDroppedPresents(presentPile);
+            if(self.movingBackArm) {
+                self.santaArm.rotation += self.santaArmReturnSpeed;
+                if(self.santaArm.rotation >= 0) {
+                    self.santaArm.rotation = 0;
+                    self.movingBackArm = false;
+                }
+            }
         },
         rotate: function() {
             var angle = game.physics.arcade.angleToPointer(self.santa);
@@ -98,10 +107,11 @@
             self.arrowDrawnPercent = 0;
         },
         throwGrenade: function(percentage) {
-            self.grenadeThrownPercent = percentage;
+            var rotation = percentage * self.santaArmRotationMax;
+            self.santaArm.rotation = rotation;
         },
         releaseGrenade: function() {
-            self.grenadeThrownPercent = 0;
+            self.movingBackArm = true;
         },
         checkForDroppedPresents: function(presentPile) {
             presentPile.presentGroup.forEach(function(present) {
