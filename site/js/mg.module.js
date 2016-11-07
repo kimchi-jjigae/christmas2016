@@ -39,8 +39,8 @@
             y: self.initialPosition.y
         };
         self.mountPosition = { // where santa stands
-            x: self.initialPosition.x + 40,
-            y: self.initialPosition.y - 50
+            x: self.initialPosition.x + 75,
+            y: self.initialPosition.y - 72
         };
         self.velocity = {
             x: 0.3,
@@ -55,8 +55,8 @@
         self.sleighSprite.anchor.setTo(0.5, 0.5);
 
         self.bowPositionOffset = {
-            x: 130,
-            y: -40
+            x: 145,
+            y: -60
         };
         self.stringPosition = {
             x: self.position.x + self.bowPositionOffset.x,

@@ -20,10 +20,7 @@
         self.santaArmRotationMax = -Math.PI;
         self.santaArmReturnSpeed = 0.17;
         self.movingBackArm = false;
-        self.santaArmOffset = {
-            x: -20,
-            y: 0
-        }
+        self.santaArmOffset = new Phaser.Point(-20, 0);
         self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santaArm');
         self.santaArm.visible = false;
         self.arrowDrawnPercent = 0;
@@ -42,6 +39,7 @@
             self.santa.body.velocity.x = 0;
             if(self.movement.inactive) {
                 self.santaArm.visible = true;
+                self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
                 self.santa.animations.play('mountAnimation', 1, false);
                 self.santa.x = mgMountPosition.x;
                 self.santa.y = mgMountPosition.y;
@@ -51,7 +49,11 @@
             else {
                 self.move();
                 self.santaArm.visible = false;
-                if(self.santa.body.velocity.x == 0) {
+                if(self.movingBackArm) {
+                    self.santa.animations.play('mountAnimation', 1, false);
+                    self.santaArm.visible = true;
+                }
+                else if(self.santa.body.velocity.x == 0) {
                     self.santa.animations.play('standAnimation', 1, false);
                 }
                 else {
@@ -61,10 +63,19 @@
             self.rotate();
             self.checkForDroppedPresents(presentPile);
             if(self.movingBackArm) {
-                self.santaArm.rotation += self.santaArmReturnSpeed;
-                if(self.santaArm.rotation >= 0) {
+                var finishedMovingBack;
+                if(self.santaArm.scale.x < 0) {
+                    self.santaArm.rotation -= self.santaArmReturnSpeed;
+                    finishedMovingBack = self.santaArm.rotation <= 0;
+                }
+                else {
+                    self.santaArm.rotation += self.santaArmReturnSpeed;
+                    finishedMovingBack = self.santaArm.rotation >= 0;
+                }
+                if(finishedMovingBack) {
                     self.santaArm.rotation = 0;
                     self.movingBackArm = false;
+                    self.santaArm.visible = false;
                 }
             }
         },
@@ -74,10 +85,12 @@
             // if in the TL or BL quadrant
             if(angle <= -Math.PI / 2 || angle > Math.PI / 2) {
                 self.santa.scale.setTo(-1.0, 1.0);
+                self.santaArm.scale.setTo(-1.0, 1.0);
             }
             // if in the TR or BR quadrant
             else {
                 self.santa.scale.setTo(1.0, 1.0);
+                self.santaArm.scale.setTo(1.0, 1.0);
             }
         },
         move: function() {
@@ -101,13 +114,25 @@
 
         },
         drawArrow: function(percentage) { 
-            self.arrowDrawnPercent = percentage;
+            self.santaArm.visible = true;
+            self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+            var rotation = percentage * self.santaArmRotationMax;
+            if(self.santaArm.scale.x < 0) {
+                rotation = -rotation;
+            }
+            self.santaArm.rotation = rotation;
         },
         releaseArrow: function() {
-            self.arrowDrawnPercent = 0;
+            self.movingBackArm = true;
         },
         throwGrenade: function(percentage) {
+            self.santaArm.visible = true;
+            self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+            self.santa.animations.play('mountAnimation', [0]);
             var rotation = percentage * self.santaArmRotationMax;
+            if(self.santaArm.scale.x < 0) {
+                rotation = -rotation;
+            }
             self.santaArm.rotation = rotation;
         },
         releaseGrenade: function() {
