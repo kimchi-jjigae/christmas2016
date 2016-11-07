@@ -30,22 +30,12 @@
         self.explosionGroup = game.add.group();
         self.explosionDuration = 500;
 
-        self.initialPosition = {
-            x: 1366 / 2,
-            y: 350
-        };
-        self.position = {
-            x: self.initialPosition.x,
-            y: self.initialPosition.y
-        };
-        self.mountPosition = { // where santa stands
-            x: self.initialPosition.x + 75,
-            y: self.initialPosition.y - 72
-        };
-        self.velocity = {
-            x: 0.3,
-            y: 1.0
-        };
+        self.initialPosition = new Phaser.Point(1366 / 2, 350);
+        self.position = new Phaser.Point(self.initialPosition.x, self.initialPosition.y);
+        // where santa stands
+        self.mountPosition = new Phaser.Point(self.initialPosition.x + 75, self.initialPosition.y - 72);
+        self.velocity = new Phaser.Point(0.3, 1.0);
+
         self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
         self.sleighSprite.animations.add('noHoverAnimation',     [0]);
         self.sleighSprite.animations.add('leftHoverAnimation',   [1]);
@@ -54,10 +44,8 @@
         self.sleighSprite.enableBody = true;
         self.sleighSprite.anchor.setTo(0.5, 0.5);
 
-        self.bowPositionOffset = {
-            x: 145,
-            y: -60
-        };
+        self.bowPositionOffset = new Phaser.Point(145, -60);
+
         self.stringPosition = {
             x: self.position.x + self.bowPositionOffset.x,
             y: self.position.y + self.bowPositionOffset.y

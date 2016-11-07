@@ -51,7 +51,12 @@
             }
             // death animation
             var sprite = game.add.sprite(child.sprite.x, child.sprite.y, 'girl_death');
-            sprite.animations.add('deathAnimation');
+            if(headshot) {
+                sprite.animations.add('deathAnimation', [8, 9, 10, 11, 12, 13, 14, 15]);
+            }
+            else {
+                sprite.animations.add('deathAnimation', [0, 1, 2, 3, 4, 5, 6, 7]);
+            }
             sprite.anchor.setTo(0.5, 0.5);
             sprite.x = child.sprite.x;
             sprite.y = child.sprite.y;

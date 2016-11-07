@@ -20,6 +20,7 @@
         self.santaArmRotationMax = -Math.PI;
         self.santaArmReturnSpeed = 0.17;
         self.movingBackArm = false;
+        self.santaArmOffsetRev = new Phaser.Point(20, 0);
         self.santaArmOffset = new Phaser.Point(-20, 0);
         self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santaArm');
         self.santaArm.visible = false;
@@ -41,10 +42,8 @@
                 self.santaArm.visible = true;
                 self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
                 self.santa.animations.play('mountAnimation', 1, false);
-                self.santa.x = mgMountPosition.x;
-                self.santa.y = mgMountPosition.y;
-                self.santaArm.x = mgMountPosition.x + self.santaArmOffset.x;
-                self.santaArm.y = mgMountPosition.y;+ self.santaArmOffset.y;
+                self.santa.position.x = mgMountPosition.x;
+                self.santa.position.y = mgMountPosition.y;
             }
             else {
                 self.move();
@@ -151,8 +150,8 @@
             if(game.math.distance(self.santa.x, self.santa.y, mg.mountPosition.x, mg.mountPosition.y) < 300 &&
                !self.movement.inactive) {
                 self.santa.body.moves = false;
-                self.santa.x = mg.mountPosition.x;
-                self.santa.y = mg.mountPosition.y;
+                self.santa.position.x = mg.mountPosition.x;
+                self.santa.position.y = mg.mountPosition.y;
                 self.movement.inactive = true;
                 mg.active = true;
             }
