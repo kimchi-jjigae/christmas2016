@@ -40,7 +40,12 @@
             self.santa.body.velocity.x = 0;
             if(self.movement.inactive) {
                 self.santaArm.visible = true;
-                self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+                if(self.santa.scale.x < 0) {
+                    self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffsetRev);
+                }
+                else {
+                    self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+                }
                 self.santa.animations.play('mountAnimation', 1, false);
                 self.santa.position.x = mgMountPosition.x;
                 self.santa.position.y = mgMountPosition.y;
@@ -114,7 +119,12 @@
         },
         drawArrow: function(percentage) { 
             self.santaArm.visible = true;
-            self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+            if(self.santa.scale.x < 0) {
+                self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffsetRev);
+            }
+            else {
+                self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+            }
             var rotation = percentage * self.santaArmRotationMax;
             if(self.santaArm.scale.x < 0) {
                 rotation = -rotation;
@@ -126,7 +136,12 @@
         },
         throwGrenade: function(percentage) {
             self.santaArm.visible = true;
-            self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+            if(self.santa.scale.x < 0) {
+                self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffsetRev);
+            }
+            else {
+                self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffset);
+            }
             self.santa.animations.play('mountAnimation', [0]);
             var rotation = percentage * self.santaArmRotationMax;
             if(self.santaArm.scale.x < 0) {
