@@ -29,7 +29,6 @@ LoadingState.prototype = {
         game.load.image('present5',  'assets/sprites/present5.png');
         game.load.image('present6',  'assets/sprites/present6.png');
         game.load.image('present7',  'assets/sprites/present7.png');
-        game.load.image('sleigh',    'assets/sprites/sleigh.png');
         game.load.image('blood_particle1', 'assets/sprites/blood_particle1.png');
         game.load.image('blood_particle2', 'assets/sprites/blood_particle2.png');
         game.load.image('blood_particle3', 'assets/sprites/blood_particle3.png');
@@ -42,8 +41,9 @@ LoadingState.prototype = {
         game.load.image('button_back',       'assets/sprites/button_back.png');
 
         game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png',  250, 239, 8);
-        game.load.spritesheet('girl',       'assets/spritesheets/ss_girl.png',  194, 264, 8);
-        game.load.spritesheet('santa',      'assets/spritesheets/ss_santa.png',  175, 225, 10);
+        game.load.spritesheet('girl',       'assets/spritesheets/ss_girl.png',       194, 264, 8);
+        game.load.spritesheet('santa',      'assets/spritesheets/ss_santa.png',      175, 225, 10);
+        game.load.spritesheet('sleigh',     'assets/spritesheets/ss_sleigh.png',     390, 300, 4);
     },
     preloadScripts: function() {
         // states

@@ -47,6 +47,10 @@
             y: 1.0
         };
         self.sleighSprite = game.add.sprite(self.position.x, self.position.y, 'sleigh');
+        self.sleighSprite.animations.add('noHoverAnimation',     [0]);
+        self.sleighSprite.animations.add('leftHoverAnimation',   [1]);
+        self.sleighSprite.animations.add('bottomHoverAnimation', [2]);
+        self.sleighSprite.animations.add('bothHoverAnimation',   [3]);
         self.sleighSprite.enableBody = true;
         self.sleighSprite.anchor.setTo(0.5, 0.5);
 
@@ -370,6 +374,19 @@
             if(self.sleighSprite.x >= self.initialPosition.x + 50 ||
                self.sleighSprite.x <= self.initialPosition.x - 50) {
                 self.velocity.x *= -1;
+            }
+
+            if(self.velocity.x > 0 && self.velocity.y < 0) {
+                self.sleighSprite.animations.play('bothHoverAnimation',   1, true);
+            }
+            else if(self.velocity.x > 0) {
+                self.sleighSprite.animations.play('leftHoverAnimation',   1, true);
+            }
+            else if(self.velocity.y < 0) {
+                self.sleighSprite.animations.play('bottomHoverAnimation', 1, true);
+            }
+            else {
+                self.sleighSprite.animations.play('noHoverAnimation',     1, true);
             }
         }
     };
