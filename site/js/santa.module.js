@@ -22,7 +22,7 @@
         self.movingBackArm = false;
         self.santaArmOffsetRev = new Phaser.Point(20, 0);
         self.santaArmOffset = new Phaser.Point(-20, 0);
-        self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santaArm');
+        self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santa_arm');
         self.santaArm.visible = false;
         self.arrowDrawnPercent = 0;
         self.running = false;

@@ -20,7 +20,8 @@ LoadingState.prototype = {
         game.load.image('explosion', 'assets/sprites/explosion.png');
         game.load.image('grenade',   'assets/sprites/grenade.png');
         game.load.image('bow',       'assets/sprites/bow.png');
-        game.load.image('santaArm',  'assets/sprites/santaarm.png');
+        game.load.image('girl_head', 'assets/sprites/girl_head.png');
+        game.load.image('santa_arm', 'assets/sprites/santa_arm.png');
         game.load.image('platform',  'assets/sprites/platform.png');
         game.load.image('present1',  'assets/sprites/present1.png');
         game.load.image('present2',  'assets/sprites/present2.png');

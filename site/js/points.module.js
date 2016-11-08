@@ -63,6 +63,8 @@
         add: function(points) {
             self.totalScore += points;
         },
+        updateMultiplierText: function() {
+        },
         updateScoreText: function(points) {
             self.scoreTextFlashStart = Date.now();
             self.scoreText.setStyle(self.flashStyle);

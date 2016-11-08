@@ -50,14 +50,8 @@
             x: self.position.x + self.bowPositionOffset.x,
             y: self.position.y + self.bowPositionOffset.y
         };
-        self.string1Offset = {
-            x: 0,
-            y: -40
-        };
-        self.string2Offset = {
-            x: 0,
-            y: 40
-        };
+        self.string1Offset = new Phaser.Point(0, -40);
+        self.string2Offset = new Phaser.Point(0, 40);
 
         self.mgSprite = game.add.sprite(self.position.x + self.bowPositionOffset.x, self.position.y + self.bowPositionOffset.y, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
