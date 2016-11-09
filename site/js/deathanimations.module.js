@@ -13,6 +13,12 @@
     DeathAnimations.prototype = {
         update: function() {
             self.bloodEmitters.forEach(function(emitter) {
+                // for each particle in the emitter:
+                    // check its y position
+                    // if(particle.y > globals.ground) {
+                        // var bloodparticle = 'blood_particle' + utils.randomInt(1, 5);
+                        // game.add.sprite(position.x, position.y, bloodparticle);
+                    // }
                 if(Date.now() - emitter.emitStartTime > self.animationDuration) {
                     var index = self.bloodEmitters.indexOf(emitter);
                     self.bloodEmitters.splice(index, 1);
@@ -23,9 +29,26 @@
                 sprite.rotation += sprite.rotationSpeed;
                 sprite.position = Phaser.Point.add(sprite.position, sprite.velocity);
                 sprite.velocity = Phaser.Point.add(sprite.velocity, sprite.acceleration);
+
                 var textPosition = new Phaser.Point(game.width - 200, 50);
-                sprite.acceleration = Phaser.Point.subtract(textPosition, sprite.position);
-                sprite.acceleration.setMagnitude(0.5);
+                var vectorToText = Phaser.Point.subtract(textPosition, sprite.position);
+                console.log(vectorToText);
+                console.log(sprite.velocity);
+                console.log(Phaser.Point.angle(vectorToText, sprite.velocity));
+                /*
+                if(Phaser.Point.angle(vectorToText, sprite.velocity) < 0.1) {
+                    sprite.acceleration = sprite.velocity.rotate(0, 0, 0.01);
+                    sprite.magnitude += 0.2;
+                }
+                else {
+                    */
+                    sprite.acceleration = sprite.velocity.rotate(0, 0, 0.05);
+                    sprite.magnitude += 0.02;
+                sprite.acceleration.setMagnitude(sprite.magnitude);
+                if((sprite.position.x > game.wdith || sprite.position.x < 0) &&
+                   (sprite.position.y > game.height || sprite.position.y < 0)) {
+                    // kill, increase multiplier amount
+                }
             });
             self.deathSprites.forEach(function(sprite) {
                 if(Date.now() - sprite.startTime > self.animationDuration) {
@@ -69,9 +92,15 @@
                 }
                 headSprite.rotationSpeed = util.randomFloat(-0.05, 0.05);
                 var textPosition = new Phaser.Point(game.width - 200, 50);
-                headSprite.acceleration = Phaser.Point.subtract(textPosition, headSprite.position);
-                headSprite.acceleration.setMagnitude(0.5);
-                headSprite.velocity = new Phaser.Point(-1, 1);
+                var vectorToText = Phaser.Point.subtract(textPosition, headSprite.position);
+                vectorToText = vectorToText.setMagnitude(200);
+                headSprite.velocity = vectorToText.rotate(0, 0, Math.PI / 2);
+                //console.log(headSprite.velocity);
+                headSprite.acceleration = headSprite.velocity.rotate(0, 0, 0.1);
+                headSprite.magnitude = 8;
+                headSprite.acceleration.setMagnitude(headSprite.magnitude);
+                //console.log(headSprite.position);
+                //console.log(headSprite.acceleration);
                 self.headSprites.push(headSprite);
             }
             // death animation
