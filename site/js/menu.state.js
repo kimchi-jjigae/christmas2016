@@ -19,6 +19,21 @@ MenuState.prototype = {
             showBackButton();
         };
         var highscoreCallback = function() {
+            /*
+            loadingText.visible = true;
+            makeHttpRequest("server_url")
+                .then(successCallback, failCallback);
+            
+            function successCallback() {
+                highscoreText.text = response.data;
+                loadingText.visible = false;
+                highscoreText.visible = true;
+            }
+            function failCallback() {
+                loadingText.visible = false;;
+                failedLoadingText.visible = true;
+            }
+            */
             highscoreText.visible = true;
             showBackButton();
         };
@@ -36,6 +51,8 @@ MenuState.prototype = {
             optionsText.visible = false;
             creditsText.visible = false;
             highscoreText.visible = false;
+            loadingText.visible = false;
+            failedLoadingText.visible = false;
         };
         var playButton =      game.add.button(game.world.centerX - 256, 300, 'button_play',       playCallback,      this, 2, 1, 0);
         var optionsButton =   game.add.button(game.world.centerX - 256, 400, 'button_options',    optionsCallback,   this, 2, 1, 0);
@@ -47,9 +64,13 @@ MenuState.prototype = {
         var optionsText = game.add.text(200, 300, "Jk no options for you.\nSometimes you have to take what you're given in life!", {fill: 'white'});
         var creditsText = game.add.text(100, 300, 'I am sooooooo talented I made EVERYTHING', {fill: 'white'});
         var highscoreText = game.add.text(500, 300, '1. kim: 9999999999', {fill: 'white'});
+        var loadingText = game.add.text(500, 300, 'Fetching scores...', {fill: 'white'});
+        var failedLoadingText = game.add.text(500, 300, 'Could not retrieve scores.', {fill: 'white'});
         optionsText.visible = false;
         creditsText.visible = false;
         highscoreText.visible = false;
+        loadingText.visible = false;
+        failedLoadingText.visible = false;
 
         var style = {
             font: 'bold 88px Arial',

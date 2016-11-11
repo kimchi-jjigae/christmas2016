@@ -69,7 +69,7 @@ GameplayState.prototype = {
         game.physics.arcade.collide(self.santa.santa, self.platforms);
         game.physics.arcade.collide(self.santa.santa, self.sleigh.sleighSprite);
 
-        self.deathAnimations.update();
+        self.deathAnimations.update(self.points);
         if(self.wave.active) {
             self.children.update(self.presents); 
         }

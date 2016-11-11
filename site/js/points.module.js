@@ -7,6 +7,7 @@
         self.totalScore = 0;
         self.textScore = 0;
         self.multiplier = 1;
+        //self.textMultiplier = 1;
         self.pointAnimations = [];
         self.style = {
             font: 'bold 32px Arial',
@@ -37,7 +38,6 @@
                 // crit
                 points = points * self.multiplier;
                 self.multiplier++;
-                self.multiplierText.text = "multiplier: " + self.multiplier;
             }
             else {
                 self.resetMultiplier();
@@ -58,12 +58,16 @@
         },
         resetMultiplier: function() {
             self.multiplier = 1;
+            self.updateMultiplierText();
             self.multiplierText.text = "multiplier: " + self.multiplier;
         },
         add: function(points) {
             self.totalScore += points;
         },
         updateMultiplierText: function() {
+            self.multiplierTextFlashStart = Date.now();
+            self.multiplierText.setStyle(self.flashStyle);
+            self.multiplierText.text = "multiplier: " + self.multiplier;
         },
         updateScoreText: function(points) {
             self.scoreTextFlashStart = Date.now();
@@ -83,6 +87,9 @@
             });
             if((Date.now() - self.scoreTextFlashStart) >= self.scoreTextFlashDuration) {
                 self.scoreText.setStyle(self.style);
+            }
+            if((Date.now() - self.multiplierTextFlashStart) >= self.scoreTextFlashDuration) {
+                self.multiplierText.setStyle(self.style);
             }
         },
     };

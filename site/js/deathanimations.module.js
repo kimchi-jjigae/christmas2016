@@ -11,20 +11,29 @@
     };
   
     DeathAnimations.prototype = {
-        update: function() {
+        update: function(points) {
             self.bloodEmitters.forEach(function(emitter) {
-                // for each particle in the emitter:
-                    // check its y position
-                    // if(particle.y > globals.ground) {
-                        // var bloodparticle = 'blood_particle' + utils.randomInt(1, 5);
-                        // game.add.sprite(position.x, position.y, bloodparticle);
-                    // }
+                var particlesToDestroy = [];
+                emitter.children.forEach(function(particle) {
+                    if(particle.position.y > globals.ground) {
+                        var bloodparticle = 'blood_particle' + util.randomInt(1, 5);
+                        game.add.sprite(particle.position.x, particle.position.y, bloodparticle);
+                        particlesToDestroy.push(particle);
+                    }
+                });
+                particlesToDestroy.forEach(function(particle) {
+                    var index = emitter.children.indexOf(particle);
+                    emitter.children.splice(index, 1);
+                    particle.kill();
+                });
                 if(Date.now() - emitter.emitStartTime > self.animationDuration) {
                     var index = self.bloodEmitters.indexOf(emitter);
                     self.bloodEmitters.splice(index, 1);
                     emitter.destroy();
                 }
             });
+
+            var headSpritesToKill = [];
             self.headSprites.forEach(function(sprite) {
                 sprite.rotation += sprite.rotationSpeed;
                 sprite.position = Phaser.Point.add(sprite.position, sprite.velocity);
@@ -32,24 +41,30 @@
 
                 var textPosition = new Phaser.Point(game.width - 200, 50);
                 var vectorToText = Phaser.Point.subtract(textPosition, sprite.position);
-                console.log(vectorToText);
-                console.log(sprite.velocity);
-                console.log(Phaser.Point.angle(vectorToText, sprite.velocity));
-                /*
-                if(Phaser.Point.angle(vectorToText, sprite.velocity) < 0.1) {
+                vectorToText = vectorToText.normalize();
+                var velocityVector = sprite.velocity.normalize();
+                var angle = Math.acos(vectorToText.dot(velocityVector));
+                if(angle < 0.3) {
                     sprite.acceleration = sprite.velocity.rotate(0, 0, 0.01);
-                    sprite.magnitude += 0.2;
+                    sprite.magnitude += 0.3;
                 }
                 else {
-                    */
                     sprite.acceleration = sprite.velocity.rotate(0, 0, 0.05);
                     sprite.magnitude += 0.02;
+                }
                 sprite.acceleration.setMagnitude(sprite.magnitude);
-                if((sprite.position.x > game.wdith || sprite.position.x < 0) &&
+                if((sprite.position.x > game.width  || sprite.position.x < 0) &&
                    (sprite.position.y > game.height || sprite.position.y < 0)) {
-                    // kill, increase multiplier amount
+                    headSpritesToKill.push(sprite);
+                    points.updateMultiplierText();
                 }
             });
+            headSpritesToKill.forEach(function(sprite) {
+                var index = self.headSprites.indexOf(sprite);
+                self.headSprites.splice(index, 1);
+                sprite.kill();
+            });
+
             self.deathSprites.forEach(function(sprite) {
                 if(Date.now() - sprite.startTime > self.animationDuration) {
                     var index = self.deathSprites.indexOf(sprite);
@@ -65,7 +80,7 @@
             });
         },
         killChild: function(child, headshot, grenade) {
-            if(true) {
+            if(headshot) {
                 // particle effects
                 var bloodEmitter = game.add.emitter(child.sprite.x, child.sprite.y - 28, 100);
                 bloodEmitter.minParticleSpeed.setTo(-50, -100);

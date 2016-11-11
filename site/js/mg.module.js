@@ -5,6 +5,7 @@
     var MachineGun = function(position) {
         self = this;
         self.graphics = game.add.graphics(0, 0);
+        self.graphics.lineStyle(2, 0x000000, 1);
         self.arrowGroup = game.add.group();
         self.arrowGroup.enableBody = true;
         self.arrowGroup.physicsBodyType = Phaser.Physics.ARCADE;
@@ -46,10 +47,10 @@
 
         self.bowPositionOffset = new Phaser.Point(145, -60);
 
-        self.stringPosition = {
-            x: self.position.x + self.bowPositionOffset.x,
-            y: self.position.y + self.bowPositionOffset.y
-        };
+        self.stringPosition = new Phaser.Point(
+            self.position.x + self.bowPositionOffset.x,
+            self.position.y + self.bowPositionOffset.y
+        );
         self.string1Offset = new Phaser.Point(0, -40);
         self.string2Offset = new Phaser.Point(0, 40);
 
@@ -67,16 +68,12 @@
     };
     MachineGun.prototype = {
         drawString: function(a, b, c) {
-             // set a fill and line style
-            self.graphics.lineStyle(2, 0x000000, 1);
-            
             // draw a shape
             self.graphics.moveTo(a.x, a.y);
             self.graphics.lineTo(b.x, b.y);
             self.graphics.lineTo(c.x, c.y);
         },
         updateString: function() {
-            /*
             var a = new Phaser.Point(self.string1Offset.x, self.string1Offset.y);
             var c = new Phaser.Point(self.string2Offset.x, self.string2Offset.y);
             a = a.rotate(0, 0, self.mgSprite.rotation);
@@ -86,9 +83,12 @@
             a.y = b.y + a.y;
             c.x = b.x + c.x;
             c.y = b.y + c.y;
+            /*
+            a = b.add(a.x, a.y);
+            c = b.add(c.x, c.y);
+            */
             self.graphics.clear();
             self.drawString(a, b, c);
-            */
         },
         startFiringArrow: function() {
             // initiate arrow firing
