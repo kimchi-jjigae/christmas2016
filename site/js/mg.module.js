@@ -51,9 +51,10 @@
             self.position.x + self.bowPositionOffset.x,
             self.position.y + self.bowPositionOffset.y
         );
-        self.string1Offset = new Phaser.Point(0, -45);
-        self.string2Offset = new Phaser.Point(0, 45);
+        self.string1Offset = new Phaser.Point(-9, -45);
+        self.string2Offset = new Phaser.Point(-9, 45);
         self.stringMiddleOffset = new Phaser.Point(-9, 0);
+        self.stringDrawback = -60;
 
         self.mgSprite = game.add.sprite(self.bowPosition.x, self.bowPosition.y, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
@@ -80,14 +81,17 @@
             var a = new Phaser.Point(self.string1Offset.x, self.string1Offset.y);
             var c = new Phaser.Point(self.string2Offset.x, self.string2Offset.y);
 
+            var drawback = (self.arrowSpeed / self.maxArrowSpeed) * self.stringDrawback;
+            b.x = b.x + drawback;
+
             var rotation = game.physics.arcade.angleToPointer(self.mgSprite.position);
             b = b.rotate(0, 0, rotation);
             a = a.rotate(0, 0, rotation);
             c = c.rotate(0, 0, rotation);
 
             b = Phaser.Point.add(self.mgSprite.position, b);
-            a = Phaser.Point.add(b, a);
-            c = Phaser.Point.add(b, c);
+            a = Phaser.Point.add(self.mgSprite.position, a);
+            c = Phaser.Point.add(self.mgSprite.position, c);
 
             self.graphics.clear();
             self.drawString(a, b, c);
