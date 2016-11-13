@@ -84,10 +84,12 @@
             var drawback = (self.arrowSpeed / self.maxArrowSpeed) * self.stringDrawback;
             b.x = b.x + drawback;
 
-            var rotation = game.physics.arcade.angleToPointer(self.mgSprite.position);
-            b = b.rotate(0, 0, rotation);
-            a = a.rotate(0, 0, rotation);
-            c = c.rotate(0, 0, rotation);
+            if(self.active) {
+                var rotation = game.physics.arcade.angleToPointer(self.mgSprite.position);
+                b = b.rotate(0, 0, rotation);
+                a = a.rotate(0, 0, rotation);
+                c = c.rotate(0, 0, rotation);
+            }
 
             b = Phaser.Point.add(self.mgSprite.position, b);
             a = Phaser.Point.add(self.mgSprite.position, a);
