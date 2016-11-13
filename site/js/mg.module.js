@@ -47,14 +47,15 @@
 
         self.bowPositionOffset = new Phaser.Point(145, -60);
 
-        self.stringPosition = new Phaser.Point(
+        self.bowPosition = new Phaser.Point(
             self.position.x + self.bowPositionOffset.x,
             self.position.y + self.bowPositionOffset.y
         );
-        self.string1Offset = new Phaser.Point(0, -40);
-        self.string2Offset = new Phaser.Point(0, 40);
+        self.string1Offset = new Phaser.Point(0, -45);
+        self.string2Offset = new Phaser.Point(0, 45);
+        self.stringMiddleOffset = new Phaser.Point(-9, 0);
 
-        self.mgSprite = game.add.sprite(self.position.x + self.bowPositionOffset.x, self.position.y + self.bowPositionOffset.y, 'bow');
+        self.mgSprite = game.add.sprite(self.bowPosition.x, self.bowPosition.y, 'bow');
         self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
         var style = {
@@ -68,25 +69,26 @@
     };
     MachineGun.prototype = {
         drawString: function(a, b, c) {
-            // draw a shape
+            self.graphics.lineStyle(2, 0x000000, 1);
+
             self.graphics.moveTo(a.x, a.y);
             self.graphics.lineTo(b.x, b.y);
             self.graphics.lineTo(c.x, c.y);
         },
         updateString: function() {
+            var b = new Phaser.Point(self.stringMiddleOffset.x, self.stringMiddleOffset.y);
             var a = new Phaser.Point(self.string1Offset.x, self.string1Offset.y);
             var c = new Phaser.Point(self.string2Offset.x, self.string2Offset.y);
-            a = a.rotate(0, 0, self.mgSprite.rotation);
-            c = c.rotate(0, 0, self.mgSprite.rotation);
-            var b = Phaser.Point.rotate(self.stringPosition, self.mgSprite.x, self.mgSprite.y, self.mgSprite.rotation);
-            a.x = b.x + a.x;
-            a.y = b.y + a.y;
-            c.x = b.x + c.x;
-            c.y = b.y + c.y;
-            /*
-            a = b.add(a.x, a.y);
-            c = b.add(c.x, c.y);
-            */
+
+            var rotation = game.physics.arcade.angleToPointer(self.mgSprite.position);
+            b = b.rotate(0, 0, rotation);
+            a = a.rotate(0, 0, rotation);
+            c = c.rotate(0, 0, rotation);
+
+            b = Phaser.Point.add(self.mgSprite.position, b);
+            a = Phaser.Point.add(b, a);
+            c = Phaser.Point.add(b, c);
+
             self.graphics.clear();
             self.drawString(a, b, c);
         },
@@ -103,7 +105,7 @@
             }
         },
         fireArrow: function() {
-            var arrow = self.arrowGroup.create(self.mgSprite.x, self.mgSprite.y, 'arrow');
+            var arrow = self.arrowGroup.create(self.mgSprite.position.x, self.mgSprite.position.y, 'arrow');
             arrow.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(arrow);
             arrow.body.gravity.y = 1000;
@@ -347,8 +349,8 @@
             self.mountPosition.y += self.velocity.y;
             self.sleighSprite.x += self.velocity.x;
             self.sleighSprite.y += self.velocity.y;
-            self.mgSprite.x += self.velocity.x;
-            self.mgSprite.y += self.velocity.y;
+            self.mgSprite.position.x += self.velocity.x;
+            self.mgSprite.position.y += self.velocity.y;
             if(self.sleighSprite.y >= self.initialPosition.y + 100 ||
                self.sleighSprite.y <= self.initialPosition.y - 100) {
                 self.velocity.y *= -1;
