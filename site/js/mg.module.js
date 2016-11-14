@@ -222,6 +222,7 @@
             }
             else {
                 rotation = 0;
+                self.mgSprite.scale.x = 1.0;
             }
             self.mgSprite.rotation = rotation;
         },
