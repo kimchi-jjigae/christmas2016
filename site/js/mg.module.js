@@ -51,13 +51,16 @@
             self.position.x + self.bowPositionOffset.x,
             self.position.y + self.bowPositionOffset.y
         );
+        self.mgSprite = game.add.sprite(self.bowPosition.x, self.bowPosition.y, 'bow');
+        self.mgSprite.anchor.setTo(0.5, 0.5);
+
         self.string1Offset = new Phaser.Point(-9, -45);
         self.string2Offset = new Phaser.Point(-9, 45);
         self.stringMiddleOffset = new Phaser.Point(-9, 0);
         self.stringDrawback = -60;
+        self.drawnArrow = game.add.sprite(self.mgSprite.position.x, self.mgSprite.position.y, 'arrow');
+        self.drawnArrow.visible = false;
 
-        self.mgSprite = game.add.sprite(self.bowPosition.x, self.bowPosition.y, 'bow');
-        self.mgSprite.anchor.setTo(0.5, 0.5);
         self.active = false;
         var style = {
             font: 'bold 32px Arial',
@@ -102,15 +105,37 @@
             // initiate arrow firing
             if(self.startedArrowFire == false) {
                 self.startedArrowFire = true;
+
+                // make drawn arrow visible
+                var drawback = (self.arrowSpeed / self.maxArrowSpeed) * self.stringDrawback;
+                var b = new Phaser.Point(self.stringMiddleOffset.x, self.stringMiddleOffset.y - 10);
+                b.x = b.x + drawback;
+                var rotation = game.physics.arcade.angleToPointer(self.mgSprite.position);
+                b = b.rotate(0, 0, rotation);
+                b = Phaser.Point.add(self.mgSprite.position, b);
+                self.drawnArrow.rotation = rotation;
+                self.drawnArrow.position = b;
+                self.drawnArrow.visible = true;
             }
             // power up arrow firing
             else {
                 self.arrowSpeed++;
                 // cap the arrow speed if held in for ages
                 self.arrowSpeed = Math.min(self.arrowSpeed, self.maxArrowSpeed);
+
+                // adjust drawn arrow position and rotation
+                var drawback = (self.arrowSpeed / self.maxArrowSpeed) * self.stringDrawback;
+                var b = new Phaser.Point(self.stringMiddleOffset.x, self.stringMiddleOffset.y - 10);
+                b.x = b.x + drawback;
+                var rotation = game.physics.arcade.angleToPointer(self.mgSprite.position);
+                b = b.rotate(0, 0, rotation);
+                b = Phaser.Point.add(self.mgSprite.position, b);
+                self.drawnArrow.rotation = rotation;
+                self.drawnArrow.position = b;
             }
         },
         fireArrow: function() {
+            self.drawnArrow.visible = false;
             var arrow = self.arrowGroup.create(self.mgSprite.position.x, self.mgSprite.position.y, 'arrow');
             arrow.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(arrow);

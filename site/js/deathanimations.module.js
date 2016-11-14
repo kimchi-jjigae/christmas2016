@@ -8,6 +8,7 @@
         self.bloodEmitters = [];
         self.animationDuration = 5000;
         self.groundY = 650;
+        self.bloodParticles = [];
     };
   
     DeathAnimations.prototype = {
@@ -17,7 +18,9 @@
                 emitter.children.forEach(function(particle) {
                     if(particle.position.y > globals.ground) {
                         var bloodparticle = 'blood_particle' + util.randomInt(1, 5);
-                        game.add.sprite(particle.position.x, particle.position.y, bloodparticle);
+                        var blood = game.add.sprite(particle.position.x, particle.position.y, bloodparticle);
+                        self.bloodParticles.push(blood);
+
                         particlesToDestroy.push(particle);
                     }
                 });
@@ -110,12 +113,9 @@
                 var vectorToText = Phaser.Point.subtract(textPosition, headSprite.position);
                 vectorToText = vectorToText.setMagnitude(200);
                 headSprite.velocity = vectorToText.rotate(0, 0, Math.PI / 2);
-                //console.log(headSprite.velocity);
                 headSprite.acceleration = headSprite.velocity.rotate(0, 0, 0.1);
                 headSprite.magnitude = 8;
                 headSprite.acceleration.setMagnitude(headSprite.magnitude);
-                //console.log(headSprite.position);
-                //console.log(headSprite.acceleration);
                 self.headSprites.push(headSprite);
             }
             // death animation
