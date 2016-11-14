@@ -94,8 +94,10 @@ GameplayState.prototype = {
             }
         }
         if(game.input.activePointer.rightButton.isDown) {
-            self.machineGun.startFiringGrenade(self.children, self.presents, self.points, self.deathAnimations, self.santa.santa.position);
-            self.santa.throwGrenade(self.machineGun.grenadeSpeed / self.machineGun.maxGrenadeSpeed);
+            if(self.machineGun.grenadeAmount > 0) {
+                self.machineGun.startFiringGrenade(self.children, self.presents, self.points, self.deathAnimations, self.santa.santa.position);
+                self.santa.throwGrenade(self.machineGun.grenadeSpeed / self.machineGun.maxGrenadeSpeed);
+            }
         }
         else if(game.input.activePointer.rightButton.isUp) {
             if(self.machineGun.startedGrenadeFire) {

@@ -23,6 +23,8 @@
         self.santaArmOffsetRev = new Phaser.Point(20, 0);
         self.santaArmOffset = new Phaser.Point(-20, 0);
         self.santaArm = game.add.sprite(self.santa.x + self.santaArmOffset.x, self.santa.y + self.santaArmOffset.y, 'santa_arm');
+        self.santaArm.animations.add('noGrenade', [0]);
+        self.santaArm.animations.add('withGrenade', [1]);
         self.santaArm.visible = false;
         self.arrowDrawnPercent = 0;
         self.running = false;
@@ -119,6 +121,7 @@
         },
         drawArrow: function(percentage) { 
             self.santaArm.visible = true;
+            self.santaArm.animations.play('noGrenade', 1, true);
             if(self.santa.scale.x < 0) {
                 self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffsetRev);
             }
@@ -136,6 +139,7 @@
         },
         throwGrenade: function(percentage) {
             self.santaArm.visible = true;
+            self.santaArm.animations.play('withGrenade', 1, true);
             if(self.santa.scale.x < 0) {
                 self.santaArm.position = Phaser.Point.add(self.santa.position, self.santaArmOffsetRev);
             }
@@ -150,6 +154,7 @@
             self.santaArm.rotation = rotation;
         },
         releaseGrenade: function() {
+            self.santaArm.animations.play('noGrenade', 1, true);
             self.movingBackArm = true;
         },
         checkForDroppedPresents: function(presentPile) {
