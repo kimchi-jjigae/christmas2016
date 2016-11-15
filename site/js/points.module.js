@@ -47,6 +47,7 @@
             self.pointAnimations.push(new PointAnimation(child.sprite.position, points, self.scoreText.position));
         },
         addGrenadePoints: function(child, index) {
+            index += 2;
             var points = (Math.pow(2, index)) * self.multiplier;
             self.add(points);
             self.pointAnimations.push(new PointAnimation(child.sprite.position, points, self.scoreText.position));
