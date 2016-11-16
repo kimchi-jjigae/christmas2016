@@ -24,7 +24,7 @@
         self.scoreTextFlashDuration = 500;
         self.scoreTextFlashStart;
         self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, self.style);
-        self.multiplierText = game.add.text(game.width - 200, 50, "multiplier: " + self.multiplier, self.style);
+        self.multiplierText = game.add.text(game.width - 250, 50, "multiplier: " + self.multiplier + "x", self.style);
         self.childPoints = {
             normal: 1,
             headshot: 10
@@ -60,7 +60,7 @@
         resetMultiplier: function() {
             self.multiplier = 1;
             self.updateMultiplierText();
-            self.multiplierText.text = "multiplier: " + self.multiplier;
+            self.multiplierText.text = "multiplier: " + self.multiplier + "x";
         },
         add: function(points) {
             self.totalScore += points;
@@ -68,7 +68,7 @@
         updateMultiplierText: function() {
             self.multiplierTextFlashStart = Date.now();
             self.multiplierText.setStyle(self.flashStyle);
-            self.multiplierText.text = "multiplier: " + self.multiplier;
+            self.multiplierText.text = "multiplier: " + self.multiplier + "x";
         },
         updateScoreText: function(points) {
             self.scoreTextFlashStart = Date.now();

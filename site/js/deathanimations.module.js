@@ -9,6 +9,8 @@
         self.animationDuration = 5000;
         self.groundY = 650;
         self.bloodParticles = [];
+        self.bloodTime = 8000;
+        self.bloodMax = 600;
     };
   
     DeathAnimations.prototype = {
@@ -19,6 +21,7 @@
                     if(particle.position.y > globals.ground) {
                         var bloodparticle = 'blood_particle' + util.randomInt(1, 5);
                         var blood = game.add.sprite(particle.position.x, particle.position.y, bloodparticle);
+                        blood.timeCreated = Date.now();
                         self.bloodParticles.push(blood);
 
                         particlesToDestroy.push(particle);
@@ -35,6 +38,21 @@
                     emitter.destroy();
                 }
             });
+
+            var bloodParticlesToDestroy = [];
+            bloodParticles.forEach(function(bloodParticle) {
+                if(Date.now() - bloodParticle.timeCreated > self.bloodTime) {
+                    bloodParticlesToDestroy.push(bloodParticle);
+                }
+            });
+            bloodParticlesToDestroy.forEach(function(bloodParticle) {
+                var index = self.bloodParticles.indexOf(bloodParticle);
+                self.bloodParticles.splice(index, 1);
+                bloodParticle.kill();
+            });
+            while(bloodParticles.length > self.bloodMax) {
+                bloodParticles.splice(-50, 50);
+            }
 
             var headSpritesToKill = [];
             self.headSprites.forEach(function(sprite) {
@@ -85,7 +103,7 @@
         killChild: function(child, headshot, grenade) {
             if(headshot) {
                 // particle effects
-                var bloodEmitter = game.add.emitter(child.sprite.x, child.sprite.y - 28, 100);
+                var bloodEmitter = game.add.emitter(child.sprite.x, child.sprite.y - 28, 50);
                 bloodEmitter.minParticleSpeed.setTo(-50, -100);
                 bloodEmitter.maxParticleSpeed.setTo(50, -500);
                 bloodEmitter.makeParticles([
