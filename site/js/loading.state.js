@@ -4,11 +4,8 @@ var LoadingState = function() {};
 
 LoadingState.prototype = {
     init: function() {
-        this.loadingText = game.make.text(game.world.centerX, 380, 'Loading...', {
-            fill: 'white',
-            boundsAlignH: 'center',
-            boundsAlignV: 'middle'
-        });
+        this.loadingText = game.make.text(game.world.centerX, 380, 'Loading...', globals.fonts.f1);
+        globals.recentreText(this.loadingText);
     },
     preloadSprites: function() {
         // menu sprites //
@@ -54,7 +51,6 @@ LoadingState.prototype = {
 
         // other
 	    game.load.script('utilScript',          'js/util.js');
-	    game.load.script('globalsScript',       'js/globals.js');
 	    game.load.script('directionEnumScript', 'js/direction.enum.js');
 	    game.load.script('keycodesScript',      'js/keycodes.js');
 

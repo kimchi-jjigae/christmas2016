@@ -10,12 +10,6 @@ GameOverState.prototype = {
         window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+0008'||e.keyIdentifier=='Backspace'||e.keyCode==8){if(e.target==document.body){e.preventDefault();return false;}}},true);
         self = this;
         self.score;
-        var style = {
-            font: 'bold 32px Arial',
-            fill: '#ff9486',
-            boundsAlignH: 'center',
-            boundsAlignV: 'middle'
-        };
         // submit score to the server and then retrieve the top 10 high score list
         // server side: insert score in order and then grab the top 10; if score not in top 10
         // then send back as well, separately
@@ -78,9 +72,9 @@ GameOverState.prototype = {
             highScoreString += score.rank + "    " + score.name + "    " + score.score + "\n";
         }
         self.enterNick = true;
-        self.highScoreText = game.make.text(game.width / 2, 100, highScoreString, style);
+        self.highScoreText = game.make.text(game.world.centerX, 100, highScoreString, globals.fonts.f2);
         self.nick = "______";
-        self.gameOverText = game.add.text(game.width / 2, 100, "Game Over!\nYour high score: " + self.score + "\nName: " + self.nick, style);
+        self.gameOverText = game.add.text(game.world.centerX, 100, "Game Over!\nYour high score: " + self.score + "\nName: " + self.nick, globals.fonts.f2);
         self.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'å', 'ä', 'ö', '-', '_', '^', '`', '[', ']', '{', '}', '\\', ' ']
         game.input.keyboard.onDownCallback = function(event) {
             if(self.enterNick) {

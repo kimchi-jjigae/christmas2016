@@ -9,22 +9,10 @@
         self.multiplier = 1;
         //self.textMultiplier = 1;
         self.pointAnimations = [];
-        self.style = {
-            font: 'bold 32px Arial',
-            fill: '#ff9486',
-            boundsAlignH: 'center',
-            boundsAlignV: 'middle'
-        };
-        self.flashStyle = {
-            font: 'bold 32px Arial',
-            fill: '#ffffff',
-            boundsAlignH: 'center',
-            boundsAlignV: 'middle'
-        };
         self.scoreTextFlashDuration = 500;
         self.scoreTextFlashStart;
-        self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, self.style);
-        self.multiplierText = game.add.text(game.width - 250, 50, "multiplier: " + self.multiplier + "x", self.style);
+        self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, globals.fonts.f2);
+        self.multiplierText = game.add.text(game.width - 250, 50, "multiplier: " + self.multiplier + "x", globals.fonts.f2);
         self.childPoints = {
             normal: 1,
             headshot: 10
@@ -67,12 +55,12 @@
         },
         updateMultiplierText: function() {
             self.multiplierTextFlashStart = Date.now();
-            self.multiplierText.setStyle(self.flashStyle);
+            self.multiplierText.setStyle(globals.fonts.f2_flash);
             self.multiplierText.text = "multiplier: " + self.multiplier + "x";
         },
         updateScoreText: function(points) {
             self.scoreTextFlashStart = Date.now();
-            self.scoreText.setStyle(self.flashStyle);
+            self.scoreText.setStyle(globals.fonts.f2_flash);
             self.textScore += points;
             self.scoreText.text = "score: " + self.textScore;
         },
@@ -87,10 +75,10 @@
                 }
             });
             if((Date.now() - self.scoreTextFlashStart) >= self.scoreTextFlashDuration) {
-                self.scoreText.setStyle(self.style);
+                self.scoreText.setStyle(globals.fonts.f2);
             }
             if((Date.now() - self.multiplierTextFlashStart) >= self.scoreTextFlashDuration) {
-                self.multiplierText.setStyle(self.style);
+                self.multiplierText.setStyle(globals.fonts.f2);
             }
         },
     };
