@@ -3,7 +3,8 @@
 var Child = function(position, leftSide) {
     this.position = position;
     this.sprite = game.add.sprite(position.x, position.y, 'girl');
-    this.sprite.animations.add('runAnimation');
+    this.sprite.animations.add('runAnimation', [0, 1, 2, 3, 4, 5, 6, 7]);
+    this.sprite.animations.add('presentAnimation', [8, 9, 10, 11, 12, 13, 14, 15]);
     this.sprite.animations.play('runAnimation', 8, true); 
     game.physics.arcade.enable(this.sprite);
     this.sprite.anchor.setTo(0.5, 0.5);
@@ -27,6 +28,7 @@ var Child = function(position, leftSide) {
     this.from = false;
     this.jumping = false;
     this.ammo = Math.random() < 0.1 ? 1 : 0;
+    this.hasPresent = false;
 };
 
 Child.prototype = {
@@ -51,6 +53,12 @@ Child.prototype = {
             this.jumping = true;
             this.sprite.body.velocity.y = -600;
             this.sprite.body.gravity.y = 1000;
+        }
+
+        if(this.hasPresent == false && this.present != undefined) {
+            // change animation when a present is picked up
+            this.hasPresent = true;
+            this.sprite.animations.play('presentAnimation', 8, true);
         }
     },
     jump: function() {
