@@ -1,13 +1,7 @@
 'use strict';
 
 var PointAnimation = function(position, points, targetPosition) {
-    var style = {
-        font: 'bold 40px Arial',
-        fill: '#ff9486',
-        boundsAlignH: 'center',
-        boundsAlignV: 'middle'
-    };
-    this.text = game.add.text(position.x, position.y - 180, points, style);
+    this.text = game.add.text(position.x, position.y - 180, points, globals.fonts.f2);
     this.points = points;
     this.hovering = true;
     this.hoverTime = 2000;

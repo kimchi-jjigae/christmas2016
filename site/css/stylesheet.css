@@ -1,0 +1,11 @@
+@font-face
+{
+    font-family: monof;
+    src: url('../assets/fonts/monof55.ttf') format("truetype");
+}
+
+@font-face
+{
+    font-family: monoff;
+    src: url('../assets/fonts/monof56.ttf') format("truetype");
+}

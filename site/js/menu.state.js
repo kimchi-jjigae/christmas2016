@@ -61,24 +61,18 @@ MenuState.prototype = {
         var backButton =      game.add.button(game.world.centerX - 256, 600, 'button_back',       backCallback,      this, 2, 1, 0);
         backButton.visible = false;
 
-        var optionsText = game.add.text(200, 300, "Jk no options for you.\nSometimes you have to take what you're given in life!", {fill: 'white'});
-        var creditsText = game.add.text(100, 300, 'I am sooooooo talented I made EVERYTHING', {fill: 'white'});
-        var highscoreText = game.add.text(500, 300, '1. kim: 9999999999', {fill: 'white'});
-        var loadingText = game.add.text(500, 300, 'Fetching scores...', {fill: 'white'});
-        var failedLoadingText = game.add.text(500, 300, 'Could not retrieve scores.', {fill: 'white'});
+        var optionsText = game.add.text(200, 300, "Jk no options for you.\nSometimes you have to take what you're given in life!", globals.fonts.f2);
+        var creditsText = game.add.text(100, 300, 'I am sooooooo talented I made EVERYTHING', globals.fonts.f2);
+        var highscoreText = game.add.text(500, 300, '01. kim: 9999999999', globals.fonts.f2);
+        var loadingText = game.add.text(500, 300, 'Fetching scores...', globals.fonts.f2);
+        var failedLoadingText = game.add.text(500, 300, 'Could not retrieve scores.', globals.fonts.f2);
         optionsText.visible = false;
         creditsText.visible = false;
         highscoreText.visible = false;
         loadingText.visible = false;
         failedLoadingText.visible = false;
 
-        var style = {
-            font: 'bold 88px Arial',
-            fill: '#ee5555',
-            boundsAlignH: 'center',
-            boundsAlignV: 'middle'
-        };
-        game.add.text(100, 100, "super cool christmas game", style);
+        game.add.text(100, 100, "super cool christmas game", globals.fonts.f1);
     },
     update: function() {
     }

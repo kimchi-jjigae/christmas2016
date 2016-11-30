@@ -55,8 +55,8 @@ Child.prototype = {
             this.sprite.body.gravity.y = 1000;
         }
 
+        // change animation when a present is picked up
         if(this.hasPresent == false && this.present != undefined) {
-            // change animation when a present is picked up
             this.hasPresent = true;
             this.sprite.animations.play('presentAnimation', 8, true);
         }

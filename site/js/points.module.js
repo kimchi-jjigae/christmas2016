@@ -11,7 +11,7 @@
         self.pointAnimations = [];
         self.scoreTextFlashDuration = 500;
         self.scoreTextFlashStart;
-        self.scoreText = game.add.text(game.width - 200, 0, "score: " + self.totalScore, globals.fonts.f2);
+        self.scoreText = game.add.text(game.width - 200, 10, "score: " + self.totalScore, globals.fonts.f2);
         self.multiplierText = game.add.text(game.width - 250, 50, "multiplier: " + self.multiplier + "x", globals.fonts.f2);
         self.childPoints = {
             normal: 1,

@@ -7,19 +7,19 @@ var globals = {
     },
     fonts: {
         f1: {
-            font: 'bold 56px Arial',
+            font: '70px monof',
             fill: '#ff9486',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         },
         f2: {
-            font: 'bold 32px Arial',
+            font: '32px monof',
             fill: '#ff9486',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         },
         f2_flash: {
-            font: 'bold 32px Arial',
+            font: '34px monof',
             fill: '#ffffff',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
