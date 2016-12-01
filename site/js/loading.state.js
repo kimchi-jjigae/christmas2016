@@ -37,7 +37,7 @@ LoadingState.prototype = {
         game.load.image('button_credits',    'assets/sprites/button_credits.png');
         game.load.image('button_back',       'assets/sprites/button_back.png');
 
-        game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png', 250, 239, 16);
+        game.load.spritesheet('girl_death', 'assets/spritesheets/ss_girldeath.png', 250, 239, 24);
         game.load.spritesheet('girl',       'assets/spritesheets/ss_girl.png',      194, 264, 16);
         game.load.spritesheet('santa',      'assets/spritesheets/ss_santa.png',     175, 225, 10);
         game.load.spritesheet('santa_arm',  'assets/spritesheets/ss_santa_arm.png',  77,  39,  2);

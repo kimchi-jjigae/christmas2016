@@ -224,7 +224,7 @@
             if(!grenade) {
                 points.addChildPoints(child, headshot);
             }
-            deathAnimations.killChild(child, headshot);
+            deathAnimations.killChild(child, headshot, grenade);
             presents.dropPresent(child);
             self.dropGrenades(child);
             childManager.removeChild(child);
