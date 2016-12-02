@@ -10,6 +10,7 @@ var Child = function(position, leftSide) {
     this.sprite.anchor.setTo(0.5, 0.5);
     this.toVelocity  = util.randomFloat(-200, -260);
     this.fromVelocity = util.randomFloat( 240,  300);
+    this.leftSide = leftSide;
     if(leftSide) {
         this.toVelocity *= -1;
         this.fromVelocity *= -1;

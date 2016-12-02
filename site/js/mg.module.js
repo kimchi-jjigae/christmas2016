@@ -62,8 +62,8 @@
         self.drawnArrow.visible = false;
 
         self.active = false;
-        self.arrowAmountText   = game.add.text(20, 50, "arrows: ∞", globals.fonts.f2);
-        self.grenadeAmountText = game.add.text(20, 80, "grenades: " + self.grenadeAmount, globals.fonts.f2);
+        //self.arrowAmountText   = game.add.text(20, 50, "arrows: ∞", globals.fonts.f2);
+        self.grenadeAmountText = game.add.text(20, 50, "grenades: " + self.grenadeAmount, globals.fonts.f2);
     };
     MachineGun.prototype = {
         drawString: function(a, b, c) {

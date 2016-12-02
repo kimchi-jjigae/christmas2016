@@ -72,7 +72,8 @@ MenuState.prototype = {
         loadingText.visible = false;
         failedLoadingText.visible = false;
 
-        game.add.text(100, 100, "super cool christmas game", globals.fonts.f1);
+        var titleText = game.add.text(game.world.centerX, 150, "super cool christmas game", globals.fonts.f1);
+        globals.recentreText(titleText);
     },
     update: function() {
     }

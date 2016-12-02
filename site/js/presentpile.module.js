@@ -63,7 +63,8 @@
         takePresent: function(present, child) {
             self.presentGroup.remove(present);
             self.fromPresentGroup.add(present);
-            present.x = child.sprite.x;
+            var xOffset = child.leftSide ? -30 : 30;
+            present.x = child.sprite.x + xOffset;
             present.y = child.sprite.y - 40;
             present.child = child;
             child.present = present;
@@ -92,7 +93,8 @@
             var gameOverFlag;
             self.fromPresentGroup.forEach(function(fromPresent) {
                 // presents that the children are running away with
-                fromPresent.x = fromPresent.child.sprite.x;
+                var xOffset = fromPresent.child.leftSide ? -110 : 40;
+                fromPresent.x = fromPresent.child.sprite.x + xOffset;
                 fromPresent.y = fromPresent.child.sprite.y - 40;
                 if(fromPresent.x > 1500 || fromPresent.x < -100) {
                     self.fromPresentGroup.remove(fromPresent);

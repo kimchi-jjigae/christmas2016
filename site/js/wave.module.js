@@ -23,10 +23,11 @@
             self.number++;
             self.updateParameters();
             self.newWaveStart = Date.now();
-            self.newWaveText.x = game.world.centerX - 150;
-            self.newWaveText.y = game.world.centerY - 100;
+            self.newWaveText.x = game.world.centerX;
+            self.newWaveText.y = 70;
             self.newWaveText.text = "Wave " + self.number;
             self.newWaveText.setStyle(globals.fonts.f1);
+            globals.recentreText(self.newWaveText);
             self.active = false;
         },
         newWaveUpdate: function() {
